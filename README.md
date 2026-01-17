@@ -1,11 +1,167 @@
-🌱 SproutSprout is a lightweight, opinionated CLI tool designed to scaffold Spring Boot components (Repositories, Services, DTOs) directly from your JPA Entities. By parsing your source code AST, it automates the tedious boilerplate of a layered architecture.🚀 Key FeaturesAST Analysis: Uses JavaParser to analyze source code without requiring compiled classes or reflection.Dynamic Metadata: Automatically detects @Id types and maps entity fields into a structured context.Mustache Templating: Clean separation between generation logic and the generated code structure.Extensible Architecture: Built with a SproutGenerator strategy pattern to easily add new layers (Services, Controllers, etc.).🛠 Installation & SetupPrerequisitesJDK: 1.8 or higher.Build Tool: Maven 3.6.3+.Building the Executable# Clone the repository
-git clone [https://github.com/AmineSidki/Sprout.git](https://github.com/AmineSidki/Sprout.git)
+# 🌱 Sprout
+
+Sprout is a lightweight, opinionated **CLI tool** designed to scaffold **Spring Boot layers** (Repositories, Services, DTOs) directly from your **JPA entities**.
+
+By parsing your source code **AST**, Sprout automates the repetitive boilerplate required by a classic layered architecture — without relying on compiled classes or reflection.
+
+---
+
+## 🚀 Key Features
+
+- **AST Analysis**
+    
+    Uses **JavaParser** to analyze Java source code directly. No compilation step required.
+    
+- **Entity Metadata Extraction**
+    
+    Automatically detects `@Id` fields and infers identifier types for generated layers.
+    
+- **Mustache Templating**
+    
+    Clean separation between generation logic and code structure through Mustache templates.
+    
+- **Extensible Architecture**
+    
+    Built around pluggable `SproutGenerator`s, making it easy to add new layers (Services, Controllers, etc.).
+    
+
+---
+
+## 🛠 Installation & Setup
+
+### Prerequisites
+
+- **JDK**: 1.8 or higher
+- **Build Tool**: Maven 3.6.3+
+
+### Building the Executable
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/AmineSidki/Sprout.git
 cd Sprout
 
-# Build the shaded JAR
+```
+
+1. **Build the shaded JAR**
+
+```bash
 mvn clean package
-The standalone executable will be generated at target/Sprout-1.0.jar.💻 UsageSprout operates relative to a project root. Use the -d flag to point to your Spring Boot project.java -jar Sprout-1.0.jar -d "/path/to/my-spring-project"
-OptionsFlagNameDescriptionDefault-d--dirThe base directory containing your entity package..-v--versionPrint version information.--h--helpDisplay usage guide.-💡 Pro Tips for Software EngineersSince Sprout is designed for speed, it relies on specific conventions. Follow these to avoid "crash-first" scenarios:1. Package Naming ConventionSprout assumes your entities reside in a package ending with .entity. It will automatically strip this suffix and replace it with the target layer (e.g., .repository).Input: com.example.project.entityOutput: com.example.project.repository2. The Required @IdThe parser scans for the @Id annotation to determine the generic type for your JpaRepository. If an entity lacks this annotation, Sprout will skip the file and throw a descriptive error.3. Directory MappingFor now, Sprout expects a flat directory structure for generation. Ensure your output directory has write permissions.my-project/
+
+```
+
+The standalone executable will be generated at:
+
+```
+target/Sprout-1.0.jar
+
+```
+
+---
+
+## 💻 Usage
+
+Sprout operates **relative to a project root**.
+
+- Use the `d` flag to point to your Spring Boot project directory.
+
+```bash
+java -jar Sprout-1.0.jar -d "/path/to/my-spring-project"
+
+```
+
+---
+
+## ⚙️ CLI Options
+
+| Flag | Long Form | Description | Default |
+| --- | --- | --- | --- |
+| `-d` | `--dir` | Base directory containing the entity package | Required |
+| `-v` | `--version` | Print version information | — |
+| `-h` | `--help` | Display usage guide | — |
+
+---
+
+## 💡 Pro Tips (Read This Before Running)
+
+Sprout is designed for **speed and convention-over-configuration**. Following these rules avoids crash-first scenarios.
+
+### 1️⃣ Package Naming Convention
+
+Sprout assumes your entities are located in a package ending with **`.entity`**.
+
+It will automatically strip this suffix and replace it with the target layer name.
+
+**Example**:
+
+```
+Input : com.example.project.entity
+Output: com.example.project.repository
+
+```
+
+---
+
+### 2️⃣ Mandatory `@Id` Annotation
+
+Sprout scans for the `@Id` annotation to determine the generic type of `JpaRepository`.
+
+- ❌ If an entity **does not** declare an `@Id`, it will be **skipped**.
+- ✅ A clear, descriptive error message will be displayed.
+
+---
+
+### 3️⃣ Directory Mapping Assumptions
+
+Currently, Sprout expects a **flat directory structure** during generation.
+
+Example:
+
+```
+my-project/
 ├── entity/          <-- Source
-└── repository/      <-- Destination (Auto-created)
-🗺 Roadmap[x] Repository Layer: Full JPA interface generation.[ ] Service Layer: Scaffolding for CRUD business logic.[ ] DTO Generation: Intelligent mapping of fields to Request/Response objects.[ ] Multiplicity Support: Handling @OneToMany and @ManyToOne relationships.[ ] Path Resolution: Mapping packages to standard src/main/java directory trees.🤝 ContributingContributions are what make the open-source community an amazing place to learn and create.Fork the Project.Create your Feature Branch (git checkout -b feature/NewGenerator).Commit your Changes.Push to the Branch.Open a Pull Request.📄 LicenseDistributed under the MIT License. See LICENSE for details. README was written in vim btw :D
+└── repository/      <-- Destination (auto-created)
+
+```
+
+Make sure the destination directory is writable.
+
+---
+
+## 🗺 Roadmap
+
+- [x]  Repository Layer — Full JPA interface generation
+- [ ]  Service Layer — CRUD business logic scaffolding
+- [ ]  DTO Generation — Request / Response object mapping
+- [ ]  Multiplicity Support — `@OneToMany`, `@ManyToOne` handling
+- [ ]  Path Resolution — Mapping to `src/main/java` directory trees
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make open-source ecosystems thrive.
+
+1. Fork the project
+2. Create your feature branch
+    
+    ```bash
+    git checkout -b feature/NewGenerator
+    
+    ```
+    
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See `LICENSE` for details.
+
+---
+
+> README written in Vim btw :D
+>
