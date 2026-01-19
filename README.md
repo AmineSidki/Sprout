@@ -133,7 +133,8 @@ Make sure the destination directory is writable.
 
 - [x]  Repository Layer — Full JPA interface generation
 - [x]  Service Layer — CRUD business logic scaffolding
-- [ ]  DTO Generation — Request / Response object mapping
+- [x]  DTO Generation — Request / Response object mapping
+- [x]  Mappers Generation - DTO <--> Entity 
 - [ ]  Multiplicity Support — `@OneToMany`, `@ManyToOne` handling
 - [ ]  Path Resolution — Mapping to `src/main/java` directory trees
 

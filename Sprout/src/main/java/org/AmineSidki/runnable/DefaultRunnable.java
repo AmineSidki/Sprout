@@ -4,6 +4,8 @@ import com.github.javaparser.JavaParser;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import org.AmineSidki.generator.DtoGenerator;
+import org.AmineSidki.generator.MapperGenerator;
 import org.AmineSidki.generator.RepositoryGenerator;
 import org.AmineSidki.generator.ServiceGenerator;
 import org.AmineSidki.model.EntityMetadata;
@@ -35,12 +37,16 @@ public class DefaultRunnable implements Runnable{
 
         RepositoryGenerator repoGen = new RepositoryGenerator();
         ServiceGenerator serviceGen = new ServiceGenerator();
+        DtoGenerator dtoGen = new DtoGenerator();
+        MapperGenerator mapperGen = new MapperGenerator();
 
         //Compiling templates
         Mustache repoMustache = mf.compile("templates/RepositoryTemplate.mustache");
         Mustache serviceMustache = mf.compile("templates/ServiceTemplate.mustache");
+        Mustache dtoMustache = mf.compile("templates/DtoTemplate.mustache");
+        Mustache mapperMustache = mf.compile("templates/MapperTemplate.mustache");
 
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Started generating code .. |@ \n"));
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Generation service started : |@ \n"));
 
         for(File entity : files){
             if(!entity.isFile()){
@@ -54,6 +60,10 @@ public class DefaultRunnable implements Runnable{
                 //Generating
                 repoGen.generate(em , repoMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green -- Generated Repository for " + entity.getName() +" ! |@"));
+                dtoGen.generate(em , dtoMustache , defaultDir);
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green -- Generated DTOs for " + entity.getName() +" ! |@"));
+                mapperGen.generate(em , mapperMustache , defaultDir);
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green -- Generated Mappers for " + entity.getName() +" ! |@"));
                 serviceGen.generate(em , serviceMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green -- Generated Service for " + entity.getName() +" ! |@"));
 
@@ -65,5 +75,6 @@ public class DefaultRunnable implements Runnable{
             }
         }
 
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Generation service ended successfully ! |@ \n"));
     }
 }

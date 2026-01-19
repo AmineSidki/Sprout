@@ -3,11 +3,11 @@ package org.AmineSidki.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 public class EntityMetadata {
     final String packageName , className , idType;
-    final LinkedHashMap<String , String> fields;
+    final List<FieldMetadata> fields;
 }
