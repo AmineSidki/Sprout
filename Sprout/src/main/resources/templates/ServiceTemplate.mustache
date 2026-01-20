@@ -1,14 +1,16 @@
 package {{PackageName}}.service;
 
 import {{PackageName}}.entity.{{ClassName}};
-
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import {{PackageName}}.mapper.{{ClassName}}Mapper;
 import {{PackageName}}.repository.{{ClassName}}Repository;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -16,20 +18,30 @@ public class {{ClassName}}Service{
     private final {{ClassName}}Repository repo;
     private final {{ClassName}}Mapper mapper;
 
-    public {{ClassName}}DTO findById({{IdType}} id){
-        return mapper.toDto(repo.findById(id).orElseThrow(() -> new RuntimeException("Could not find {{ClassName}} with id " + id)));
+    public {{ClassName}}DTO findById({{IdType}} id) {
+        return repository.findById(id)
+                .map(mapper::toDto)
+                .orElseThrow(() -> new RuntimeException("{{ClassName}} not found with id: " + id));
     }
 
-    public List< {{ClassName}}DTO > findAll(){
-        return repo.findAll().stream().map(e -> mapper.toDto(e));
+    public List<{{ClassName}}DTO> findAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public {{ClassName}}DTO save({{ClassName}}DTO dto){
-        return mapper.toDto(repo.save(mapper.toEntity(dto)));
+    @Transactional
+    public {{ClassName}}DTO save({{ClassName}}DTO dto) {
+        {{ClassName}} entity = mapper.toEntity(dto);
+        return mapper.toDto(repository.save(entity));
     }
 
-    public void delete({{IdType}} id){
-        repo.deleteById(id);
+    @Transactional
+    public void delete({{IdType}} id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Cannot delete: {{ClassName}} not found with id: " + id);
+        }
+        repository.deleteById(id);
     }
 }
 
