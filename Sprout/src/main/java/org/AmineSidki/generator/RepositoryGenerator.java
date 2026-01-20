@@ -1,6 +1,7 @@
 package org.AmineSidki.generator;
 
 import com.github.mustachejava.Mustache;
+import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.model.EntityMetadata;
 
 import java.io.BufferedWriter;
@@ -11,17 +12,17 @@ import java.util.HashMap;
 
 public class RepositoryGenerator implements SproutGenerator{
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
         //Create the Repository package if it doesn't exist yet
         File repoPackage = new File(defDir + "/repository");
         if(!repoPackage.exists() && !repoPackage.mkdir()){
-            throw new RuntimeException("An error occurred whilst generating files.");
+            throw new FileSystemException("");
         }
 
         File repoFile = new File(defDir + "/repository/" + entityMetadata.getClassName() + "Repository.java");
 
         if(!repoFile.exists() && !repoFile.createNewFile()){
-            throw new RuntimeException("An error occurred whilst generating files.");
+            throw new FileSystemException("");
         }
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {

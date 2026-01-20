@@ -2,6 +2,7 @@ package org.AmineSidki.generator;
 
 import com.github.mustachejava.Mustache;
 import org.AmineSidki.enumeration.Association;
+import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
 
@@ -15,17 +16,17 @@ import java.util.stream.Collectors;
 
 public class MapperGenerator implements SproutGenerator{
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
         //Create the mapper package if it doesn't exist yet
         File mapperPackage = new File(defDir + "/mapper");
         if(!mapperPackage.exists() && !mapperPackage.mkdir()){
-            throw new RuntimeException("An error occurred whilst generating files.");
+            throw new FileSystemException("");
         }
 
         File mapperFile = new File(defDir + "/mapper/" + entityMetadata.getClassName() + "Mapper.java");
 
         if(!mapperFile.exists() && !mapperFile.createNewFile()){
-            throw new RuntimeException("An error occurred whilst generating files.");
+            throw new FileSystemException("");
         }
 
         List<FieldMetadata> fields = entityMetadata.getFields()

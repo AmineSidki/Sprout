@@ -4,6 +4,9 @@ import com.github.javaparser.JavaParser;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import org.AmineSidki.exception.FileSystemException;
+import org.AmineSidki.exception.NotAnEntityException;
+import org.AmineSidki.exception.ParsingException;
 import org.AmineSidki.generator.DtoGenerator;
 import org.AmineSidki.generator.MapperGenerator;
 import org.AmineSidki.generator.RepositoryGenerator;
@@ -60,8 +63,10 @@ public class DefaultRunnable implements Runnable{
                 EntityMetadata em = EntityParser.parse(parser , entity);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Parsing " + em.getClassName()));
                 eml.put( em.getClassName() , em);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("An error occurred whilst parsing files");
+            } catch (ParsingException | FileNotFoundException e){
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : Parsing failed for file " + entity.getName()));
+            } catch (NotAnEntityException e){
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARNING|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName() + ", skipping.."));
             }
         }
 
@@ -86,7 +91,9 @@ public class DefaultRunnable implements Runnable{
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.getClassName()));
 
             } catch (IOException e) {
-                throw new RuntimeException("An error occurred whilst reading files.");
+                throw new FileSystemException("");
+            } catch (FileSystemException fsE){
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : File generation failed for class " + em.getClassName()));
             }
         }
 

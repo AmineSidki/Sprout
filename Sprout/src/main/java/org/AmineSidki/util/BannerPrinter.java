@@ -13,7 +13,6 @@ public class BannerPrinter {
                     "        |_|                             ";
 
     public static void print() {
-        // Use picocli's Ansi.AUTO to detect if colors should be used
         String coloredBanner = Ansi.AUTO.string(
                 "@|bold,green " + SPROUT_BANNER + "|@\n" +
                         "@|cyan  :: Sprout Generator :: |@ @|yellow (v1.0-MVP)|@\n"

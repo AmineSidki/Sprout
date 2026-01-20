@@ -4,10 +4,14 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import org.AmineSidki.enumeration.Association;
+import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class ParserUtil {
     public static String getPackageName(String entityPackageName) {
@@ -50,5 +54,45 @@ public class ParserUtil {
 
     public static String extractCollectionGenericType(String collection){
         return collection.substring(collection.indexOf("<") + 1 , collection.lastIndexOf(">"));
+    }
+
+    //This does the parsing of the fields from regular fields with associations to, fields containing Collections instead
+    public static List<FieldMetadata> mapToDtoField(EntityMetadata em , Map<String , EntityMetadata> persistenceMap){
+        List<FieldMetadata> output = new ArrayList<>();
+
+        for(FieldMetadata fm : em.getFields()){
+            FieldMetadata f = fm;
+            if (!fm.getAssociation().equals(Association.DEFAULT)) {
+                String idType , fieldType;
+                switch (fm.getAssociation()) {
+                    case ONE_TO_MANY:
+                    case MANY_TO_MANY:
+                        idType = Optional
+                                .ofNullable(persistenceMap
+                                                .get(extractCollectionGenericType(fm.getType())))
+                                .orElse(new EntityMetadata("" , "" , "Unknown" , null)).getIdType();
+                        fieldType = "Set<" + idType + ">";
+                        break;
+
+                    case ONE_TO_ONE:
+                    case MANY_TO_ONE:
+                        idType = Optional
+                                .ofNullable(persistenceMap
+                                        .get(fm.getType()))
+                                .orElse(new EntityMetadata("" , "" , "Unknown" , null)).getIdType();
+                        fieldType = idType;
+                        break;
+
+                    default:
+                        fieldType = "Unknown";
+                }
+
+                f = new FieldMetadata(fieldType , fm.getName() , fm.getAssociation());
+            }
+
+            output.add(f);
+        }
+
+        return output;
     }
 }
