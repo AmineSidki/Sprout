@@ -1,8 +1,10 @@
-package org.AmineSidki.generator;
+package org.AmineSidki.generator.FileGenerator;
 
 import com.github.mustachejava.Mustache;
 import org.AmineSidki.enumeration.Association;
 import org.AmineSidki.exception.FileSystemException;
+import org.AmineSidki.generator.SourceGenerator.ImportGenerator;
+import org.AmineSidki.generator.SproutFileGenerator;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
 
@@ -14,9 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MapperGenerator implements SproutGenerator{
+public class MapperGenerator implements SproutFileGenerator {
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
+    public void generate(ImportGenerator importGenerator ,EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
         //Create the mapper package if it doesn't exist yet
         File mapperPackage = new File(defDir + "/mapper");
         if(!mapperPackage.exists() && !mapperPackage.mkdir()){
@@ -41,7 +43,7 @@ public class MapperGenerator implements SproutGenerator{
 
             mapperContext.put("PackageName", entityMetadata.getPackageName());
             mapperContext.put("ClassName", entityMetadata.getClassName());
-            mapperContext.put("IdType", entityMetadata.getIdType());
+            mapperContext.put("IdType", entityMetadata.getIdType().getClassName());
             mapperContext.put("Fields" , fields);
 
             mustache.execute(writer, mapperContext);

@@ -1,7 +1,9 @@
-package org.AmineSidki.generator;
+package org.AmineSidki.generator.FileGenerator;
 
 import com.github.mustachejava.Mustache;
 import org.AmineSidki.exception.FileSystemException;
+import org.AmineSidki.generator.SourceGenerator.ImportGenerator;
+import org.AmineSidki.generator.SproutFileGenerator;
 import org.AmineSidki.model.EntityMetadata;
 
 import java.io.BufferedWriter;
@@ -10,9 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class RepositoryGenerator implements SproutGenerator{
+public class RepositoryGenerator implements SproutFileGenerator {
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
+    public void generate(ImportGenerator importGenerator ,EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
         //Create the Repository package if it doesn't exist yet
         File repoPackage = new File(defDir + "/repository");
         if(!repoPackage.exists() && !repoPackage.mkdir()){
@@ -30,7 +32,7 @@ public class RepositoryGenerator implements SproutGenerator{
 
             repoContext.put("PackageName", entityMetadata.getPackageName());
             repoContext.put("ClassName", entityMetadata.getClassName());
-            repoContext.put("IdType", entityMetadata.getIdType());
+            repoContext.put("IdType", entityMetadata.getIdType().getClassName());
 
             mustache.execute(writer, repoContext);
         }

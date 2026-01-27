@@ -15,7 +15,7 @@ public class BannerPrinter {
     public static void print() {
         String coloredBanner = Ansi.AUTO.string(
                 "@|bold,green " + SPROUT_BANNER + "|@\n" +
-                        "@|cyan  :: Sprout Generator :: |@ @|yellow (v1.0-MVP)|@\n"
+                        "@|cyan  :: Sprout Generator :: |@ @|yellow (v1.1-MVP)|@\n"
         );
 
         System.out.println(coloredBanner);
