@@ -99,10 +99,12 @@ java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
 - [ ]  Dynamic dependency assigning
 - [ ]  Dynamic imports generation
 - [x]  Parsing parallelizations — Using multithreading to accelerate java parsing
+- [ ]  `@Incremental` for services to indicate if following code generations should create new implementations
+- [ ]  Make the generated service an interface with its implementation for more modularity
 - [ ]  `@DtoIgnore`, `@RecordDto` — Using annotations to further customize the DTO layer generation
 - [ ]  Accounting for `@JsonIgnore`
 - [ ]  Custom configuration — De-coupling the program from the pre-defined project structure
-- [ ]  Recursively course the entity package’s sub directories to get all the present classes
+- [ ]  Recursively course the entity package’s sub directories to get all the present classes (Still in discussion)
 - [ ]  Path resolution — Mapping to `src/main/java` directory trees
 
 ## 🤝 Contributing

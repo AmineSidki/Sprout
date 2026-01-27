@@ -70,7 +70,7 @@ public class ParserUtil {
                     case MANY_TO_MANY:
                         String typeName = extractCollectionGenericType(fm.getType());
                         if(persistenceMap.containsKey(typeName)){
-                            idType = persistenceMap.get(typeName).getIdType();
+                            idType = persistenceMap.get(typeName).getIdType().getClassName();
                         }else if(helperMap.containsKey(typeName)){
                             idType = helperMap.get(typeName).getClassName();
                         }else{
@@ -84,7 +84,7 @@ public class ParserUtil {
                     case ONE_TO_ONE:
                     case MANY_TO_ONE:
                         if(persistenceMap.containsKey(fm.getType())){
-                            idType = persistenceMap.get(fm.getType()).getIdType();
+                            idType = persistenceMap.get(fm.getType()).getIdType().getClassName();
                         }else if(helperMap.containsKey(fm.getType())){
                             idType = helperMap.get(fm.getType()).getClassName();
                         }else{

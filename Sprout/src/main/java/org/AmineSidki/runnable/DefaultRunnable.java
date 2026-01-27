@@ -2,17 +2,23 @@ package org.AmineSidki.runnable;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
-import org.AmineSidki.generator.DtoGenerator;
-import org.AmineSidki.generator.MapperGenerator;
-import org.AmineSidki.generator.RepositoryGenerator;
-import org.AmineSidki.generator.ServiceGenerator;
+import org.AmineSidki.generator.FileGenerator.DtoGenerator;
+import org.AmineSidki.generator.FileGenerator.MapperGenerator;
+import org.AmineSidki.generator.FileGenerator.RepositoryGenerator;
+import org.AmineSidki.generator.FileGenerator.ServiceGenerator;
+import org.AmineSidki.generator.SourceGenerator.ImportGenerator;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.HelperMetadata;
 import org.AmineSidki.parser.HelperParser;
@@ -42,7 +48,16 @@ public class DefaultRunnable implements Runnable{
             throw new RuntimeException("Couldn't resolve entity package directory !");
         }
 
-        ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(JavaParser::new);
+        //Type solver configuration for Java parser to actually recognize types
+        CombinedTypeSolver typeSolver = new CombinedTypeSolver();
+        typeSolver.add(new ReflectionTypeSolver());
+        typeSolver.add(new JavaParserTypeSolver(new File(defaultDir)));
+        JavaSymbolSolver symbolSolver = new JavaSymbolSolver(typeSolver);
+
+        ParserConfiguration parserConfig = new ParserConfiguration();
+        parserConfig.setSymbolResolver(symbolSolver);
+
+        ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(() -> new JavaParser(parserConfig));
         MustacheFactory mf = new DefaultMustacheFactory();
 
         //TODO: Change this into a generator list
@@ -79,7 +94,7 @@ public class DefaultRunnable implements Runnable{
                         EntityMetadata em = entityParser.get().parse(cu , entity.getName());
                         emm.put( em.getClassName() , em);
                     } catch (NotAnEntityException e){
-                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARNING|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName() + ", it will be accounted for as a helper class."));
+                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARNING|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
                         try{
                             HelperMetadata hm = helperParser.get().parse(cu , entity.getName());
                             hmm.put(hm.getClassName() , hm);
@@ -97,6 +112,8 @@ public class DefaultRunnable implements Runnable{
         DtoGenerator dtoGen = new DtoGenerator(emm, hmm);
         MapperGenerator mapperGen = new MapperGenerator();
 
+        ImportGenerator importGen = new ImportGenerator();
+
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 2/2 : Generating classes |@ \n"));
 
 
@@ -104,13 +121,13 @@ public class DefaultRunnable implements Runnable{
         for(EntityMetadata em : emm.values()){
 
             try {
-                repoGen.generate(em , repoMustache , defaultDir);
+                repoGen.generate(importGen ,em , repoMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Repository for " + em.getClassName()));
-                dtoGen.generate(em , dtoMustache , defaultDir);
+                dtoGen.generate(importGen, em , dtoMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for " + em.getClassName()));
-                mapperGen.generate(em , mapperMustache , defaultDir);
+                mapperGen.generate(importGen, em , mapperMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Mapper for " + em.getClassName()));
-                serviceGen.generate(em , serviceMustache , defaultDir);
+                serviceGen.generate(importGen ,em , serviceMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.getClassName()));
 
             } catch (IOException e) {

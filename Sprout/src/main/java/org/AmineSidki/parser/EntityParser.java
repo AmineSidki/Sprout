@@ -8,6 +8,7 @@ import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
+import org.AmineSidki.model.IdMetadata;
 import org.AmineSidki.util.ParserUtil;
 
 import java.io.FileNotFoundException;
@@ -29,7 +30,8 @@ public class EntityParser implements SproutParser<EntityMetadata>{
                 .findFirst()
                 .orElseThrow(() -> new NotAnEntityException(""));
 
-        String idType,packageName ;
+        String packageName ,idQualifiedName;
+        IdMetadata idType;
 
         List<FieldMetadata> fields = new ArrayList<>();
 
@@ -45,7 +47,14 @@ public class EntityParser implements SproutParser<EntityMetadata>{
                 .findFirst()
                 .orElseThrow(() -> new ParsingException("No @Id Annotation present in supposed entity "+ entity + "."));
 
-        idType = idFd.getElementType().toString();
+        idQualifiedName = idFd.getVariable(0).getType().resolve().asReferenceType().getQualifiedName();
+
+        // remove the package name if it belongs to java.lang.*
+        if(idQualifiedName.startsWith("java.lang") && idQualifiedName.split(Pattern.quote(".")).length == 3){
+            idQualifiedName = "";
+        }
+
+        idType = new IdMetadata(idFd.getElementType().toString() , idQualifiedName);
 
         fdList.forEach(f -> fields.addAll(ParserUtil.getFieldMetadata(f)));
 
