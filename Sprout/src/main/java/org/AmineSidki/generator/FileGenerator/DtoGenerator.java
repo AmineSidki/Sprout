@@ -17,12 +17,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class DtoGenerator implements SproutFileGenerator {
-    private final ConcurrentHashMap<String, EntityMetadata> persistenceMetadata;
-    private final ConcurrentHashMap <String, HelperMetadata> helperMetadata;
+    private final Map<String, EntityMetadata> persistenceMetadata;
+    private final Map <String, HelperMetadata> helperMetadata;
 
     public void generate(ImportGenerator importGenerator , EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
         //Create dto package if it doesn't exist yet
@@ -40,13 +40,13 @@ public class DtoGenerator implements SproutFileGenerator {
         List <FieldMetadata> fields = ParserUtil.mapToDtoField(entityMetadata , persistenceMetadata, helperMetadata);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(dtoFile))) {
-            HashMap <String,Object> dtoContext = new HashMap <> ();
+            HashMap <String,Object> dtoContext = new HashMap <>();
 
             HashSet<String> imports = importGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata , "dto");
 
             dtoContext.put("PackageName", entityMetadata.getPackageName());
             dtoContext.put("ClassName", entityMetadata.getClassName());
-            dtoContext.put("IdType", entityMetadata.getIdType().getClassName());
+            dtoContext.put("IdType", entityMetadata.getIdType().getRegularName());
             dtoContext.put("Fields", fields);
             dtoContext.put("Imports" , imports);
 

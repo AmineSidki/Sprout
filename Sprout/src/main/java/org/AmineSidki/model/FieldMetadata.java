@@ -7,6 +7,7 @@ import org.AmineSidki.enumeration.Association;
 @Getter
 @AllArgsConstructor
 public class FieldMetadata {
-    final String type,name;
+    final TypeMetadata type;
+    final String name;
     final Association association;
 }

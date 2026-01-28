@@ -1,14 +1,18 @@
 package org.AmineSidki.util;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.resolution.types.ResolvedType;
 import org.AmineSidki.enumeration.Association;
-import org.AmineSidki.model.EntityMetadata;
-import org.AmineSidki.model.FieldMetadata;
-import org.AmineSidki.model.HelperMetadata;
+import org.AmineSidki.model.*;
 
 import javax.swing.text.html.parser.Entity;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +50,21 @@ public class ParserUtil {
 
         List<FieldMetadata> lfm = new ArrayList<>();
 
+        ResolvedType resolvedType = fd.getVariable(0).getType().resolve();
+        String qualifierName, regularName;
+
+        if(!resolvedType.isReference()){
+            qualifierName = "";
+        }else{
+            qualifierName = resolvedType.asReferenceType().getQualifiedName();
+        }
+
+        regularName = fd.getVariable(0).getTypeAsString();
+
         for(VariableDeclarator v :  fd.getVariables()){
-            lfm.add(new FieldMetadata(v.getTypeAsString(), v.getNameAsString(), association));
+            lfm.add(new FieldMetadata(new TypeMetadata(regularName , qualifierName),
+                    v.getNameAsString(),
+                    association));
         }
 
         return lfm;
@@ -57,6 +74,41 @@ public class ParserUtil {
         return collection.substring(collection.indexOf("<") + 1 , collection.lastIndexOf(">"));
     }
 
+    public static File calculateProjectRootDirectory(File entity , JavaParser parser){
+        try{
+            ParseResult<CompilationUnit> result = parser.parse(entity);
+            if (result.getResult().isPresent()) {
+                CompilationUnit cu = result.getResult().get();
+                String packageName = cu.getPackageDeclaration()
+                        .map(NodeWithName::getNameAsString)
+                        .orElse("");
+
+                File root = entity.getAbsoluteFile().getParentFile();
+
+                if (!packageName.isEmpty()) {
+                    String[] parts = packageName.split("\\.");
+                    for (String part : parts) {
+                        root = root.getParentFile();
+                        if (root == null) {
+                            // Safety check: if we hit the file system root, abort and use default
+                            return new File(".");
+                        }
+                    }
+                    root = root.getParentFile();
+                    if (root == null) {
+                        // Safety check: if we hit the file system root, abort and use default
+                        return new File(".");
+                    }
+                }
+                System.out.println("Found root at :" + root.getAbsolutePath());
+                return root;
+            }
+            throw new RuntimeException("An error occurred whilst computing project root directory !");
+        }catch (Exception e){
+            throw new RuntimeException("An error occurred whilst computing project root directory !");
+        }
+    }
+
     //Adapts fields with associations into their Java counterpart
     public static List<FieldMetadata> mapToDtoField(EntityMetadata em , Map<String , EntityMetadata> persistenceMap , Map<String , HelperMetadata> helperMap){
         List<FieldMetadata> output = new ArrayList<>();
@@ -64,41 +116,46 @@ public class ParserUtil {
         for(FieldMetadata fm : em.getFields()){
             FieldMetadata f = fm;
             if (!fm.getAssociation().equals(Association.DEFAULT)) {
-                String idType , fieldType;
+                TypeMetadata idType ;
+                String fieldType = "";
+
                 switch (fm.getAssociation()) {
                     case ONE_TO_MANY:
                     case MANY_TO_MANY:
-                        String typeName = extractCollectionGenericType(fm.getType());
+                        String typeName = extractCollectionGenericType(fm.getType().getRegularName());
                         if(persistenceMap.containsKey(typeName)){
-                            idType = persistenceMap.get(typeName).getIdType().getClassName();
+                            idType = persistenceMap.get(typeName).getIdType();
                         }else if(helperMap.containsKey(typeName)){
-                            idType = helperMap.get(typeName).getClassName();
+                            idType = new TypeMetadata(helperMap.get(typeName).getClassName() ,
+                                    helperMap.get(typeName).getPackageName() + "." + helperMap.get(typeName).getClassName()) ;
                         }else{
-                            idType = "Object";
+                            idType = new TypeMetadata(typeName , "");
                         }
 
 
-                        fieldType = "Set<" + idType + ">";
+                        fieldType = "Set<" + idType.getRegularName() + ">";
                         break;
 
                     case ONE_TO_ONE:
                     case MANY_TO_ONE:
-                        if(persistenceMap.containsKey(fm.getType())){
-                            idType = persistenceMap.get(fm.getType()).getIdType().getClassName();
-                        }else if(helperMap.containsKey(fm.getType())){
-                            idType = helperMap.get(fm.getType()).getClassName();
+                        if(persistenceMap.containsKey(fm.getType().getRegularName())){
+                            idType = persistenceMap.get(fm.getType().getRegularName()).getIdType();
+                        }else if(helperMap.containsKey(fm.getType().getRegularName())){
+                            idType = new TypeMetadata(helperMap.get(fm.getType().getRegularName()).getClassName() ,
+                                    helperMap.get(fm.getType().getRegularName()).getPackageName() + "." + helperMap.get(fm.getType().getRegularName()).getClassName());
                         }else{
-                            idType = "Object";
+                            idType = fm.getType();
                         }
 
-                        fieldType = idType;
+                        fieldType = idType.getRegularName();
                         break;
 
                     default:
-                        fieldType = "Object";
+                        idType = fm.getType();
                 }
 
-                f = new FieldMetadata(fieldType , fm.getName() , fm.getAssociation());
+                f = new FieldMetadata(new TypeMetadata(fieldType , idType.getFullQualifiedName()) ,
+                        fm.getName() , fm.getAssociation());
             }
 
             output.add(f);

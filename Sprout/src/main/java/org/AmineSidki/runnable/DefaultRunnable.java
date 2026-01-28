@@ -24,6 +24,7 @@ import org.AmineSidki.model.HelperMetadata;
 import org.AmineSidki.parser.HelperParser;
 import org.AmineSidki.util.BannerPrinter;
 import org.AmineSidki.parser.EntityParser;
+import org.AmineSidki.util.ParserUtil;
 import picocli.CommandLine;
 
 import java.io.*;
@@ -48,16 +49,31 @@ public class DefaultRunnable implements Runnable{
             throw new RuntimeException("Couldn't resolve entity package directory !");
         }
 
+        //Takes the first file it finds and gets its package
+        File firstEntity = Arrays.stream(files)
+                .filter(File::isFile)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No entity files found to parse!"));
+
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/3 : Computing project root |@ \n"));
+        //Said package should reflect the arborescence of the project
+        File calculatedSourceRoot = ParserUtil.calculateProjectRootDirectory(firstEntity , new JavaParser());
+
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Successfully resolved directory :  |@ \n"));
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint,magenta " + calculatedSourceRoot.getAbsolutePath() + "  |@ \n"));
+
         //Type solver configuration for Java parser to actually recognize types
-        CombinedTypeSolver typeSolver = new CombinedTypeSolver();
-        typeSolver.add(new ReflectionTypeSolver());
-        typeSolver.add(new JavaParserTypeSolver(new File(defaultDir)));
-        JavaSymbolSolver symbolSolver = new JavaSymbolSolver(typeSolver);
+        ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(() -> {
+            CombinedTypeSolver typeSolver = new CombinedTypeSolver();
+            typeSolver.add(new ReflectionTypeSolver());
+            typeSolver.add(new JavaParserTypeSolver(calculatedSourceRoot));
 
-        ParserConfiguration parserConfig = new ParserConfiguration();
-        parserConfig.setSymbolResolver(symbolSolver);
+            JavaSymbolSolver symbolSolver = new JavaSymbolSolver(typeSolver);
 
-        ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(() -> new JavaParser(parserConfig));
+            ParserConfiguration parserConfig = new ParserConfiguration();
+            parserConfig.setSymbolResolver(symbolSolver);
+            return new JavaParser(parserConfig);
+        });
         MustacheFactory mf = new DefaultMustacheFactory();
 
         //TODO: Change this into a generator list
@@ -68,7 +84,7 @@ public class DefaultRunnable implements Runnable{
         Mustache dtoMustache = mf.compile("templates/DtoTemplate.mustache");
         Mustache mapperMustache = mf.compile("templates/MapperTemplate.mustache");
 
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/2 : Parsing Java |@ \n"));
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 2/3 : Parsing Java |@ \n"));
 
         ConcurrentHashMap<String , EntityMetadata> emm = new ConcurrentHashMap<>();
         ConcurrentHashMap<String , HelperMetadata> hmm = new ConcurrentHashMap<>();
@@ -93,8 +109,10 @@ public class DefaultRunnable implements Runnable{
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Parsing " + entity.getName()));
                         EntityMetadata em = entityParser.get().parse(cu , entity.getName());
                         emm.put( em.getClassName() , em);
+
+                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : @|bold,green Successfully parsed " + entity.getName() + "|@"));
                     } catch (NotAnEntityException e){
-                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARNING|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
+                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
                         try{
                             HelperMetadata hm = helperParser.get().parse(cu , entity.getName());
                             hmm.put(hm.getClassName() , hm);
@@ -114,7 +132,7 @@ public class DefaultRunnable implements Runnable{
 
         ImportGenerator importGen = new ImportGenerator();
 
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 2/2 : Generating classes |@ \n"));
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 3/3 : Generating classes |@ \n"));
 
 
         //Generating files

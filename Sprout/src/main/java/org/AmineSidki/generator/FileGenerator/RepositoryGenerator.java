@@ -32,7 +32,7 @@ public class RepositoryGenerator implements SproutFileGenerator {
 
             repoContext.put("PackageName", entityMetadata.getPackageName());
             repoContext.put("ClassName", entityMetadata.getClassName());
-            repoContext.put("IdType", entityMetadata.getIdType().getClassName());
+            repoContext.put("IdType", entityMetadata.getIdType().getRegularName());
 
             mustache.execute(writer, repoContext);
         }

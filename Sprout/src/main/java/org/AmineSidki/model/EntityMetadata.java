@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class EntityMetadata {
     final String packageName , className;
-    final IdMetadata idType ;
+    final TypeMetadata idType ;
     final List<FieldMetadata> fields;
 }

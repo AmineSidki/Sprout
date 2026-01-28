@@ -32,7 +32,7 @@ public class ServiceGenerator implements SproutFileGenerator {
 
             serviceContext.put("PackageName", entityMetadata.getPackageName());
             serviceContext.put("ClassName", entityMetadata.getClassName());
-            serviceContext.put("IdType", entityMetadata.getIdType().getClassName());
+            serviceContext.put("IdType", entityMetadata.getIdType().getRegularName());
 
             mustache.execute(writer, serviceContext);
         }

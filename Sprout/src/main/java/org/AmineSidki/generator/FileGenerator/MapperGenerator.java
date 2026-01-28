@@ -43,7 +43,7 @@ public class MapperGenerator implements SproutFileGenerator {
 
             mapperContext.put("PackageName", entityMetadata.getPackageName());
             mapperContext.put("ClassName", entityMetadata.getClassName());
-            mapperContext.put("IdType", entityMetadata.getIdType().getClassName());
+            mapperContext.put("IdType", entityMetadata.getIdType().getRegularName());
             mapperContext.put("Fields" , fields);
 
             mustache.execute(writer, mapperContext);
