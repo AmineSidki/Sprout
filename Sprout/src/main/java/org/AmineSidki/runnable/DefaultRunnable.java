@@ -117,13 +117,13 @@ public class DefaultRunnable implements Runnable{
                         //Parsing AST --> EntityMetadata
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Parsing " + entity.getName()));
                         EntityMetadata em = entityParser.get().parse(cu , entity.getName());
-                        emm.put( em.getClassName() , em);
+                        emm.put( em.className() , em);
 
                     } catch (NotAnEntityException e){
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
                         try{
                             HelperMetadata hm = helperParser.get().parse(cu , entity.getName());
-                            hmm.put(hm.getClassName() , hm);
+                            hmm.put(hm.className() , hm);
                         }catch(ParsingException | FileNotFoundException ee){
                             System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : Parsing failed for file " + entity.getName()));
                         }
@@ -153,18 +153,18 @@ public class DefaultRunnable implements Runnable{
 
             try {
                 repoGen.generate(repoImportGen ,em , repoMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Repository for " + em.getClassName()));
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Repository for " + em.className()));
                 dtoGen.generate(dtoImportGen, em , dtoMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for " + em.getClassName()));
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for " + em.className()));
                 mapperGen.generate(mapperImportGen, em , mapperMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Mapper for " + em.getClassName()));
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Mapper for " + em.className()));
                 serviceGen.generate(serviceImportGen ,em , serviceMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.getClassName()));
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.className()));
 
             } catch (IOException e) {
                 throw new FileSystemException("");
             } catch (FileSystemException fsE){
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : File generation failed for class " + em.getClassName()));
+                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : File generation failed for class " + em.className()));
             }
         }
 

@@ -21,7 +21,7 @@ public class RepositoryGenerator implements SproutFileGenerator {
             throw new FileSystemException("");
         }
 
-        File repoFile = new File(defDir + "/repository/" + entityMetadata.getClassName() + "Repository.java");
+        File repoFile = new File(defDir + "/repository/" + entityMetadata.className() + "Repository.java");
 
         if(!repoFile.exists() && !repoFile.createNewFile()){
             throw new FileSystemException("");
@@ -30,9 +30,9 @@ public class RepositoryGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {
             HashMap<String, Object> repoContext = new HashMap<>();
 
-            repoContext.put("PackageName", entityMetadata.getPackageName());
-            repoContext.put("ClassName", entityMetadata.getClassName());
-            repoContext.put("IdType", entityMetadata.getId().getType().getRegularName());
+            repoContext.put("PackageName", entityMetadata.packageName());
+            repoContext.put("ClassName", entityMetadata.className());
+            repoContext.put("IdType", entityMetadata.id().type().getRegularName());
             repoContext.put("Imports" , importsGenerator.generate(entityMetadata , null , null ));
 
             mustache.execute(writer, repoContext);

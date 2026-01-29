@@ -16,14 +16,14 @@ public class DtoImportGenerator implements SproutImportGenerator {
     public HashSet<String> generate(EntityMetadata entityMetadata, Map<String, EntityMetadata> pm, Map<String, HelperMetadata> hm) {
         HashSet<String> imports = new HashSet<>();
 
-        for( FieldMetadata fm : entityMetadata.getFields()){
-            TypeMetadata fieldType = fm.getType();
+        for( FieldMetadata fm : entityMetadata.fields()){
+            TypeMetadata fieldType = fm.type();
 
             if(fieldType.getFullQualifiedName().isEmpty()) continue;
 
-            if(!fm.getAssociation().equals(Association.DEFAULT) ){
+            if(!fm.association().equals(Association.DEFAULT) ){
                 // if it is one of these associations, then it is mandatory to import java.util.Set
-                if(fm.getAssociation().equals(Association.ONE_TO_MANY) || fm.getAssociation().equals(Association.MANY_TO_MANY)){
+                if(fm.association().equals(Association.ONE_TO_MANY) || fm.association().equals(Association.MANY_TO_MANY)){
                     imports.add("java.util.Set");
                     fieldType = new TypeMetadata(ParserUtil.extractCollectionGenericType(fieldType.getRegularName()) , fieldType.getFullQualifiedName());
                 }
@@ -31,9 +31,9 @@ public class DtoImportGenerator implements SproutImportGenerator {
                 EntityMetadata entity = pm.get(fieldType.getRegularName());
 
                 if(entity != null){
-                    if((!entity.getId().getType().getFullQualifiedName().startsWith("java.lang.")
-                            || entity.getId().getType().getFullQualifiedName().substring(10).contains("."))){
-                        imports.add(entity.getId().getType().getFullQualifiedName());
+                    if((!entity.id().type().getFullQualifiedName().startsWith("java.lang.")
+                            || entity.id().type().getFullQualifiedName().substring(10).contains("."))){
+                        imports.add(entity.id().type().getFullQualifiedName());
                     }
                 }else{
                     //if it isn't an entity then it must be a helper
@@ -42,7 +42,7 @@ public class DtoImportGenerator implements SproutImportGenerator {
                         imports.add(fieldType.getFullQualifiedName());
                         continue;
                     }
-                    imports.add(helper.getPackageName() + "." + helper.getClassName());
+                    imports.add(helper.packageName() + "." + helper.className());
                 }
             }else{
                 // check if their type needs to be imported

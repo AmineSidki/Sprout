@@ -34,13 +34,13 @@ public class {{ClassName}}Mapper {
         // Mapping association: {{field.name}}
         if (dto.get{{field.name}}() != null) {
             {{#multiple}}
-            entity.set{{field.name}}(ArrayList::new);
+            entity.set{{field.name}}(new ArrayList<>());
             for({{id.type.regularName}} id : dto.get{{field.name}}()) {
                 entity.get{{field.name}}().add({{field.type.regularName}}Repo.findById(id).orElse(null));
             }
             {{/multiple}}
             {{^multiple}}
-                entity.set{{field.name}}({{field.type.regularName}}Repo.findById(dto.get{{field.name}}()).orElse(null));
+            entity.set{{field.name}}({{field.type.regularName}}Repo.findById(dto.get{{field.name}}()).orElse(null));
             {{/multiple}}
         }
         {{/Associations}}
@@ -61,18 +61,15 @@ public class {{ClassName}}Mapper {
 
         {{#Associations}}
         if (entity.get{{field.name}}() != null) {
-            dto.set{{field.name}}(entity.get{{field.name}}().get{{id.name}}());
-
         {{#multiple}}
-            dto.set{{field.name}}(HashSet::new);
-            for({{id.type.regularName}} sub : entity.get{{field.name}}()) {
-                dto.get{{field.name}}().add(sub);
+            dto.set{{field.name}}(new HashSet<>());
+            for({{className}} sub : entity.get{{field.name}}()) {
+                dto.get{{field.name}}().add(sub.get{{id.name}}());
             }
         {{/multiple}}
         {{^multiple}}
-            entity.set{{field.name}}({{field.type.regularName}}Repo.findById(dto.get{{field.name}}()).orElse(null));
+            dto.set{{field.name}}(entity.get{{field.name}}().get{{id.name}}());
         {{/multiple}}
-
         }
         {{/Associations}}
 

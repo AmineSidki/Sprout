@@ -31,7 +31,7 @@ public class DtoGenerator implements SproutFileGenerator {
             throw new FileSystemException("");
         }
 
-        File dtoFile = new File(defDir + "/dto/" + entityMetadata.getClassName() + "DTO.java");
+        File dtoFile = new File(defDir + "/dto/" + entityMetadata.className() + "DTO.java");
 
         if ((!dtoFile.exists() && !dtoFile.createNewFile())) {
             throw new FileSystemException("");
@@ -44,9 +44,9 @@ public class DtoGenerator implements SproutFileGenerator {
 
             HashSet<String> imports = importsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
 
-            dtoContext.put("PackageName", entityMetadata.getPackageName());
-            dtoContext.put("ClassName", entityMetadata.getClassName());
-            dtoContext.put("IdType", entityMetadata.getId().getType().getRegularName());
+            dtoContext.put("PackageName", entityMetadata.packageName());
+            dtoContext.put("ClassName", entityMetadata.className());
+            dtoContext.put("IdType", entityMetadata.id().type().getRegularName());
             dtoContext.put("Fields", fields);
             dtoContext.put("Imports" , imports);
 

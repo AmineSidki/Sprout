@@ -117,21 +117,21 @@ public class ParserUtil {
     public static List<FieldMetadata> mapToDtoField(EntityMetadata em , Map<String , EntityMetadata> persistenceMap , Map<String , HelperMetadata> helperMap){
         List<FieldMetadata> output = new ArrayList<>();
 
-        for(FieldMetadata fm : em.getFields()){
+        for(FieldMetadata fm : em.fields()){
             FieldMetadata f = fm;
-            if (!fm.getAssociation().equals(Association.DEFAULT)) {
+            if (!fm.association().equals(Association.DEFAULT)) {
                 TypeMetadata idType ;
                 String fieldType = "";
 
-                switch (fm.getAssociation()) {
+                switch (fm.association()) {
                     case ONE_TO_MANY:
                     case MANY_TO_MANY:
-                        String typeName = extractCollectionGenericType(fm.getType().getRegularName());
+                        String typeName = extractCollectionGenericType(fm.type().getRegularName());
                         if(persistenceMap.containsKey(typeName)){
-                            idType = persistenceMap.get(typeName).getId().getType();
+                            idType = persistenceMap.get(typeName).id().type();
                         }else if(helperMap.containsKey(typeName)){
-                            idType = new TypeMetadata(helperMap.get(typeName).getClassName() ,
-                                    helperMap.get(typeName).getPackageName() + "." + helperMap.get(typeName).getClassName()) ;
+                            idType = new TypeMetadata(helperMap.get(typeName).className() ,
+                                    helperMap.get(typeName).packageName() + "." + helperMap.get(typeName).className()) ;
                         }else{
                             idType = new TypeMetadata(typeName , "");
                         }
@@ -142,24 +142,24 @@ public class ParserUtil {
 
                     case ONE_TO_ONE:
                     case MANY_TO_ONE:
-                        if(persistenceMap.containsKey(fm.getType().getRegularName())){
-                            idType = persistenceMap.get(fm.getType().getRegularName()).getId().getType();
-                        }else if(helperMap.containsKey(fm.getType().getRegularName())){
-                            idType = new TypeMetadata(helperMap.get(fm.getType().getRegularName()).getClassName() ,
-                                    helperMap.get(fm.getType().getRegularName()).getPackageName() + "." + helperMap.get(fm.getType().getRegularName()).getClassName());
+                        if(persistenceMap.containsKey(fm.type().getRegularName())){
+                            idType = persistenceMap.get(fm.type().getRegularName()).id().type();
+                        }else if(helperMap.containsKey(fm.type().getRegularName())){
+                            idType = new TypeMetadata(helperMap.get(fm.type().getRegularName()).className() ,
+                                    helperMap.get(fm.type().getRegularName()).packageName() + "." + helperMap.get(fm.type().getRegularName()).className());
                         }else{
-                            idType = fm.getType();
+                            idType = fm.type();
                         }
 
                         fieldType = idType.getRegularName();
                         break;
 
                     default:
-                        idType = fm.getType();
+                        idType = fm.type();
                 }
 
                 f = new FieldMetadata(new TypeMetadata(fieldType , idType.getFullQualifiedName()) ,
-                        fm.getName() , fm.getAssociation());
+                        fm.name() , fm.association());
             }
 
             output.add(f);

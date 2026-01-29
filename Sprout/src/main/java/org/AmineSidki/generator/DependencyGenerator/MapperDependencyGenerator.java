@@ -9,7 +9,7 @@ import java.util.Set;
 public class MapperDependencyGenerator {
     public HashSet<String> generate(EntityMetadata entity, Set<String> imports){
         HashSet<String> dependencies = new HashSet<>();
-        String repoPackage = ParserUtil.getPackageName(entity.getPackageName()) + ".repository.";
+        String repoPackage = ParserUtil.getPackageName(entity.packageName()) + ".repository.";
 
         for (String s : imports) {
             if (s.startsWith(repoPackage)) {

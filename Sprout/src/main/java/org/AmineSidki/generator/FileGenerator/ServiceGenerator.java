@@ -21,7 +21,7 @@ public class ServiceGenerator implements SproutFileGenerator {
             throw new FileSystemException("");
         }
 
-        File serviceFile = new File(defDir + "/service/" + entityMetadata.getClassName() + "Service.java");
+        File serviceFile = new File(defDir + "/service/" + entityMetadata.className() + "Service.java");
 
         if(!serviceFile.exists() && !serviceFile.createNewFile()){
             throw new FileSystemException("");
@@ -30,9 +30,9 @@ public class ServiceGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(serviceFile))) {
             HashMap<String, Object> serviceContext = new HashMap<>();
 
-            serviceContext.put("PackageName", entityMetadata.getPackageName());
-            serviceContext.put("ClassName", entityMetadata.getClassName());
-            serviceContext.put("IdType", entityMetadata.getId().getType().getRegularName());
+            serviceContext.put("PackageName", entityMetadata.packageName());
+            serviceContext.put("ClassName", entityMetadata.className());
+            serviceContext.put("IdType", entityMetadata.id().type().getRegularName());
             serviceContext.put("Imports" , importsGenerator.generate(entityMetadata , null , null));
 
             mustache.execute(writer, serviceContext);
