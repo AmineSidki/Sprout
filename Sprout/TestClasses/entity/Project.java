@@ -1,4 +1,4 @@
-package org.AmineSidki.demo.entity;
+package org.AmineSidki.demo.admin.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

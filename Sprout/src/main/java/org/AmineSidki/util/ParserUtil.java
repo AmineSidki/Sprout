@@ -7,16 +7,15 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
 import org.AmineSidki.enumeration.Association;
 import org.AmineSidki.model.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class ParserUtil {
     public static String getPackageName(String entityPackageName) {
@@ -50,14 +49,20 @@ public class ParserUtil {
 
         List<FieldMetadata> lfm = new ArrayList<>();
 
-        ResolvedType resolvedType = fd.getVariable(0).getType().resolve();
         String qualifierName, regularName;
+        try{
+            ResolvedType resolvedType = fd.getVariable(0).getType().resolve();
 
-        if(!resolvedType.isReference()){
+            if(!resolvedType.isReference()){
+                qualifierName = "";
+            }else{
+                qualifierName = resolvedType.asReferenceType().getQualifiedName();
+            }
+
+        }catch(UnsolvedSymbolException e){
             qualifierName = "";
-        }else{
-            qualifierName = resolvedType.asReferenceType().getQualifiedName();
         }
+
 
         regularName = fd.getVariable(0).getTypeAsString();
 
@@ -100,7 +105,6 @@ public class ParserUtil {
                         return new File(".");
                     }
                 }
-                System.out.println("Found root at :" + root.getAbsolutePath());
                 return root;
             }
             throw new RuntimeException("An error occurred whilst computing project root directory !");
@@ -124,7 +128,7 @@ public class ParserUtil {
                     case MANY_TO_MANY:
                         String typeName = extractCollectionGenericType(fm.getType().getRegularName());
                         if(persistenceMap.containsKey(typeName)){
-                            idType = persistenceMap.get(typeName).getIdType();
+                            idType = persistenceMap.get(typeName).getId().getType();
                         }else if(helperMap.containsKey(typeName)){
                             idType = new TypeMetadata(helperMap.get(typeName).getClassName() ,
                                     helperMap.get(typeName).getPackageName() + "." + helperMap.get(typeName).getClassName()) ;
@@ -139,7 +143,7 @@ public class ParserUtil {
                     case ONE_TO_ONE:
                     case MANY_TO_ONE:
                         if(persistenceMap.containsKey(fm.getType().getRegularName())){
-                            idType = persistenceMap.get(fm.getType().getRegularName()).getIdType();
+                            idType = persistenceMap.get(fm.getType().getRegularName()).getId().getType();
                         }else if(helperMap.containsKey(fm.getType().getRegularName())){
                             idType = new TypeMetadata(helperMap.get(fm.getType().getRegularName()).getClassName() ,
                                     helperMap.get(fm.getType().getRegularName()).getPackageName() + "." + helperMap.get(fm.getType().getRegularName()).getClassName());

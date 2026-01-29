@@ -11,11 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
+
+{{#Imports}}
+import {{.}};
+{{/Imports}}
 
 @RequiredArgsConstructor
 @Service
 public class {{ClassName}}Service{
-    private final {{ClassName}}Repository repo;
+    private final {{ClassName}}Repository repository;
     private final {{ClassName}}Mapper mapper;
 
     public {{ClassName}}DTO findById({{IdType}} id) {

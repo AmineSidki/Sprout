@@ -3,12 +3,22 @@ package {{PackageName}}.mapper;
 import {{PackageName}}.entity.{{ClassName}};
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+
+{{#Imports}}
+import {{.}};
+{{/Imports}}
 
 /**
 * Mapper for {@link {{PackageName}}.entity.{{ClassName}} }
 */
 @Component
+@RequiredArgsConstructor
 public class {{ClassName}}Mapper {
+    {{#Dependencies}}
+    private final {{type}} {{name}};
+    {{/Dependencies}}
+
     public {{ClassName}} toEntity({{ClassName}}DTO dto) {
         if (dto == null) {
             return null;
@@ -17,8 +27,23 @@ public class {{ClassName}}Mapper {
         {{ClassName}} entity = new {{ClassName}}();
 
         {{#Fields}}
-            entity.set{{name}}(dto.get{{name}}());
+        entity.set{{name}}(dto.get{{name}}());
         {{/Fields}}
+
+        {{#Associations}}
+        // Mapping association: {{field.name}}
+        if (dto.get{{field.name}}() != null) {
+            {{#multiple}}
+            entity.set{{field.name}}(ArrayList::new);
+            for({{id.type.regularName}} id : dto.get{{field.name}}()) {
+                entity.get{{field.name}}().add({{field.type.regularName}}Repo.findById(id).orElse(null));
+            }
+            {{/multiple}}
+            {{^multiple}}
+                entity.set{{field.name}}({{field.type.regularName}}Repo.findById(dto.get{{field.name}}()).orElse(null));
+            {{/multiple}}
+        }
+        {{/Associations}}
 
         return entity;
     }
@@ -28,11 +53,28 @@ public class {{ClassName}}Mapper {
             return null;
         }
 
-            {{ClassName}}DTO dto = new {{ClassName}}DTO();
+        {{ClassName}}DTO dto = new {{ClassName}}DTO();
 
         {{#Fields}}
-            dto.set{{name}}(entity.get{{name}}());
+        dto.set{{name}}(entity.get{{name}}());
         {{/Fields}}
+
+        {{#Associations}}
+        if (entity.get{{field.name}}() != null) {
+            dto.set{{field.name}}(entity.get{{field.name}}().get{{id.name}}());
+
+        {{#multiple}}
+            dto.set{{field.name}}(HashSet::new);
+            for({{id.type.regularName}} sub : entity.get{{field.name}}()) {
+                dto.get{{field.name}}().add(sub);
+            }
+        {{/multiple}}
+        {{^multiple}}
+            entity.set{{field.name}}({{field.type.regularName}}Repo.findById(dto.get{{field.name}}()).orElse(null));
+        {{/multiple}}
+
+        }
+        {{/Associations}}
 
         return dto;
     }

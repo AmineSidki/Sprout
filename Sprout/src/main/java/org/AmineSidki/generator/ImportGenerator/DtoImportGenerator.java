@@ -1,8 +1,7 @@
-package org.AmineSidki.generator.SourceGenerator;
+package org.AmineSidki.generator.ImportGenerator;
 
 import org.AmineSidki.enumeration.Association;
-import org.AmineSidki.exception.ParsingException;
-import org.AmineSidki.generator.SproutSourceGenerator;
+import org.AmineSidki.generator.SproutImportGenerator;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
 import org.AmineSidki.model.HelperMetadata;
@@ -10,30 +9,14 @@ import org.AmineSidki.model.TypeMetadata;
 import org.AmineSidki.util.ParserUtil;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
-public class ImportGenerator implements SproutSourceGenerator {
+public class DtoImportGenerator implements SproutImportGenerator {
     @Override
-    public HashSet<String> generate(EntityMetadata entityMetadata, Map<String, EntityMetadata> persistenceMap , Map<String, HelperMetadata> helperMap, String type){
-        switch(type){
-            case "dto":
-                return getDtoImports(entityMetadata.getFields() , persistenceMap , helperMap);
-
-            case "mapper":
-            case "repository":
-            case "service":
-                return null;
-
-            default:
-                throw new ParsingException("");
-        }
-    }
-
-    public HashSet<String> getDtoImports(List<FieldMetadata> fields , Map<String , EntityMetadata> pm , Map<String, HelperMetadata> hm){
+    public HashSet<String> generate(EntityMetadata entityMetadata, Map<String, EntityMetadata> pm, Map<String, HelperMetadata> hm) {
         HashSet<String> imports = new HashSet<>();
 
-        for( FieldMetadata fm : fields){
+        for( FieldMetadata fm : entityMetadata.getFields()){
             TypeMetadata fieldType = fm.getType();
 
             if(fieldType.getFullQualifiedName().isEmpty()) continue;
@@ -48,13 +31,16 @@ public class ImportGenerator implements SproutSourceGenerator {
                 EntityMetadata entity = pm.get(fieldType.getRegularName());
 
                 if(entity != null){
-                    imports.add(entity.getIdType().getFullQualifiedName());
+                    if((!entity.getId().getType().getFullQualifiedName().startsWith("java.lang.")
+                            || entity.getId().getType().getFullQualifiedName().substring(10).contains("."))){
+                        imports.add(entity.getId().getType().getFullQualifiedName());
+                    }
                 }else{
                     //if it isn't an entity then it must be a helper
                     HelperMetadata helper = hm.get(fieldType.getRegularName());
                     if(helper == null){
-                        //if it isn't an entity or a helper, it could be outside the current package, this isn't currently supported
-                        throw new ParsingException("");
+                        imports.add(fieldType.getFullQualifiedName());
+                        continue;
                     }
                     imports.add(helper.getPackageName() + "." + helper.getClassName());
                 }
@@ -72,13 +58,4 @@ public class ImportGenerator implements SproutSourceGenerator {
 
         return imports;
     }
-
-    //TODO
-    //public HashSet<String> getMapperImports();
-
-    //TODO
-    //public HashSet<String> getRepositoryImports();
-
-    //TODO
-    //public HashSet<String> getServiceImports();
 }

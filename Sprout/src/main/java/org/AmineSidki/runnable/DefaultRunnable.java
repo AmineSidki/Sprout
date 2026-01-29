@@ -14,11 +14,15 @@ import com.github.mustachejava.MustacheFactory;
 import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
+import org.AmineSidki.generator.DependencyGenerator.MapperDependencyGenerator;
 import org.AmineSidki.generator.FileGenerator.DtoGenerator;
 import org.AmineSidki.generator.FileGenerator.MapperGenerator;
 import org.AmineSidki.generator.FileGenerator.RepositoryGenerator;
 import org.AmineSidki.generator.FileGenerator.ServiceGenerator;
-import org.AmineSidki.generator.SourceGenerator.ImportGenerator;
+import org.AmineSidki.generator.ImportGenerator.DtoImportGenerator;
+import org.AmineSidki.generator.ImportGenerator.MapperImportGenerator;
+import org.AmineSidki.generator.ImportGenerator.RepositoryImportGenerator;
+import org.AmineSidki.generator.ImportGenerator.ServiceImportGenerator;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.HelperMetadata;
 import org.AmineSidki.parser.HelperParser;
@@ -55,12 +59,17 @@ public class DefaultRunnable implements Runnable{
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No entity files found to parse!"));
 
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/3 : Computing project root |@ \n"));
-        //Said package should reflect the arborescence of the project
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/3 : Computing project root |@\n"));
+
         File calculatedSourceRoot = ParserUtil.calculateProjectRootDirectory(firstEntity , new JavaParser());
 
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Successfully resolved directory :  |@ \n"));
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint,magenta " + calculatedSourceRoot.getAbsolutePath() + "  |@ \n"));
+        System.out.println(CommandLine.Help.Ansi.AUTO.string(
+                "@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Successfully resolved directory"
+        ));
+
+        System.out.println(CommandLine.Help.Ansi.AUTO.string(
+                "@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : @|faint " + calculatedSourceRoot.getAbsolutePath() + "|@\n"
+        ));
 
         //Type solver configuration for Java parser to actually recognize types
         ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(() -> {
@@ -110,7 +119,6 @@ public class DefaultRunnable implements Runnable{
                         EntityMetadata em = entityParser.get().parse(cu , entity.getName());
                         emm.put( em.getClassName() , em);
 
-                        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : @|bold,green Successfully parsed " + entity.getName() + "|@"));
                     } catch (NotAnEntityException e){
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
                         try{
@@ -125,12 +133,17 @@ public class DefaultRunnable implements Runnable{
                 }
         );
 
+        MapperDependencyGenerator mapperDependencyGen = new MapperDependencyGenerator();
+
         RepositoryGenerator repoGen = new RepositoryGenerator();
         ServiceGenerator serviceGen = new ServiceGenerator();
         DtoGenerator dtoGen = new DtoGenerator(emm, hmm);
-        MapperGenerator mapperGen = new MapperGenerator();
+        MapperGenerator mapperGen = new MapperGenerator(emm, hmm , mapperDependencyGen);
 
-        ImportGenerator importGen = new ImportGenerator();
+        DtoImportGenerator dtoImportGen = new DtoImportGenerator();
+        MapperImportGenerator mapperImportGen = new MapperImportGenerator();
+        RepositoryImportGenerator repoImportGen = new RepositoryImportGenerator();
+        ServiceImportGenerator serviceImportGen = new ServiceImportGenerator();
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 3/3 : Generating classes |@ \n"));
 
@@ -139,13 +152,13 @@ public class DefaultRunnable implements Runnable{
         for(EntityMetadata em : emm.values()){
 
             try {
-                repoGen.generate(importGen ,em , repoMustache , defaultDir);
+                repoGen.generate(repoImportGen ,em , repoMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Repository for " + em.getClassName()));
-                dtoGen.generate(importGen, em , dtoMustache , defaultDir);
+                dtoGen.generate(dtoImportGen, em , dtoMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for " + em.getClassName()));
-                mapperGen.generate(importGen, em , mapperMustache , defaultDir);
+                mapperGen.generate(mapperImportGen, em , mapperMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Mapper for " + em.getClassName()));
-                serviceGen.generate(importGen ,em , serviceMustache , defaultDir);
+                serviceGen.generate(serviceImportGen ,em , serviceMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.getClassName()));
 
             } catch (IOException e) {

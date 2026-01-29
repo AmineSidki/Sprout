@@ -2,8 +2,8 @@ package org.AmineSidki.generator.FileGenerator;
 
 import com.github.mustachejava.Mustache;
 import org.AmineSidki.exception.FileSystemException;
-import org.AmineSidki.generator.SourceGenerator.ImportGenerator;
 import org.AmineSidki.generator.SproutFileGenerator;
+import org.AmineSidki.generator.SproutImportGenerator;
 import org.AmineSidki.model.EntityMetadata;
 
 import java.io.BufferedWriter;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class ServiceGenerator implements SproutFileGenerator {
 
-    public void generate(ImportGenerator importGenerator ,EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException ,  FileSystemException {
+    public void generate(SproutImportGenerator importsGenerator, EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException ,  FileSystemException {
         //Create the Service package if it doesn't exist yet
         File servicePackage = new File(defDir + "/service");
         if(!servicePackage.exists() && !servicePackage.mkdir()){
@@ -32,7 +32,8 @@ public class ServiceGenerator implements SproutFileGenerator {
 
             serviceContext.put("PackageName", entityMetadata.getPackageName());
             serviceContext.put("ClassName", entityMetadata.getClassName());
-            serviceContext.put("IdType", entityMetadata.getIdType().getRegularName());
+            serviceContext.put("IdType", entityMetadata.getId().getType().getRegularName());
+            serviceContext.put("Imports" , importsGenerator.generate(entityMetadata , null , null));
 
             mustache.execute(writer, serviceContext);
         }

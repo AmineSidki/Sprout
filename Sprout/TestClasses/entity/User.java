@@ -14,6 +14,8 @@ public class User {
     private Helper helper;
     private String email;
 
+    private Map<String,List<String>> test;
+
     @OneToMany(mappedBy = "owner")
     private List<Project> projects;
 }

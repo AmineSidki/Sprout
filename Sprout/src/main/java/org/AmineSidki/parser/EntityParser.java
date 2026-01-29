@@ -4,7 +4,9 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
+import org.AmineSidki.enumeration.Association;
 import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
 import org.AmineSidki.model.EntityMetadata;
@@ -48,23 +50,28 @@ public class EntityParser implements SproutParser<EntityMetadata>{
                 .findFirst()
                 .orElseThrow(() -> new ParsingException("No @Id Annotation present in supposed entity "+ entity + "."));
 
-        ResolvedType idResolved = idFd.getVariable(0).getType().resolve();
-        if(idResolved.isReference()){
-            idQualifiedName = idResolved.asReferenceType().getQualifiedName();
-        }else{
-            idQualifiedName = "";
-        }
+        try{
+            ResolvedType idResolved = idFd.getVariable(0).getType().resolve();
+            if(idResolved.isReference()){
+                idQualifiedName = idResolved.asReferenceType().getQualifiedName();
+            }else{
+                idQualifiedName = "";
+            }
 
-        // remove the package name if it belongs to java.lang.*
-        if(idQualifiedName.startsWith("java.lang.") && idQualifiedName.substring(10).contains(".")){
+            // remove the package name if it belongs to java.lang.*
+            if(idQualifiedName.startsWith("java.lang.") && idQualifiedName.substring(10).contains(".")){
+                idQualifiedName = "";
+            }
+        }catch(UnsolvedSymbolException e){
             idQualifiedName = "";
         }
 
         idType = new TypeMetadata(idFd.getElementType().toString() , idQualifiedName);
+        FieldMetadata idField = new FieldMetadata(idType , idFd.getVariable(0).getNameAsString() , Association.DEFAULT);
 
         fdList.forEach(f -> fields.addAll(ParserUtil.getFieldMetadata(f)));
 
         String className = entity.replaceAll(Pattern.quote(".java") , "");
-        return new EntityMetadata(packageName , className , idType , fields);
+        return new EntityMetadata(packageName , className , idField , fields);
     }
 }

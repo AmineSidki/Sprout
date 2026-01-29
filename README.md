@@ -96,8 +96,8 @@ java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
 - [x]  DTO generation — Request / Response object mapping
 - [x]  Multiplicity support — `@OneToMany`, `@ManyToOne` handling
 - [x]  Context gathering — Making sure all classes in the project know of the others
-- [ ]  Dynamic dependency assigning
-- [ ]  Dynamic imports generation
+- [x]  Dynamic dependency assigning
+- [x]  Dynamic imports generation
 - [x]  Parsing parallelizations — Using multithreading to accelerate java parsing
 - [ ]  `@Incremental` for services to indicate if following code generations should create new implementations
 - [ ]  Make the generated service an interface with its implementation for more modularity
@@ -105,7 +105,7 @@ java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
 - [ ]  Accounting for `@JsonIgnore`
 - [ ]  Custom configuration — De-coupling the program from the pre-defined project structure
 - [ ]  Recursively course the entity package’s sub directories to get all the present classes (Still in discussion)
-- [ ]  Path resolution — Mapping to `src/main/java` directory trees
+- [x]  Path resolution — Mapping to `src/main/java` directory trees
 
 ## 🤝 Contributing
 

@@ -5,8 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/ImportGenerator/RepositoryImportGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/ImportGenerator/ServiceImportGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SourceGenerator/ImportGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SourceGenerator/ImportGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestClasses/entity/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/TestClasses/entity/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestClasses/entity/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/TestClasses/entity/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestClasses/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/TestClasses/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/DtoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/MapperGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/RepositoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SourceGenerator/ImportGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutFileGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutFileGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutSourceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutImportGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/EntityMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/EntityMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/runnable/DefaultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/runnable/DefaultRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParserUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/MapperTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/MapperTemplate.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/RepositoryTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/RepositoryTemplate.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +124,7 @@
       <workItem from="1768995776975" duration="4365000" />
       <workItem from="1769161865486" duration="694000" />
       <workItem from="1769248341734" duration="9520000" />
-      <workItem from="1769513582527" duration="20674000" />
+      <workItem from="1769513582527" duration="51565000" />
     </task>
     <servers />
   </component>
