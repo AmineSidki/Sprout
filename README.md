@@ -94,7 +94,7 @@ java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
 - [ ]  Controller layer — Exposing routes
 - [ ]  Exception handling — generating custom exceptions
 - [x]  DTO generation — Request / Response object mapping
-- [x]  Multiplicity support — `@OneToMany`, `@ManyToOne` handling
+- [x]  Multiplicity support — `@OneToMany`, `@ManyToOne`, `@OneToOne`, `@ManyToMany` handling
 - [x]  Context gathering — Making sure all classes in the project know of the others
 - [x]  Dynamic dependency assigning
 - [x]  Dynamic imports generation
@@ -104,7 +104,6 @@ java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
 - [ ]  `@DtoIgnore`, `@RecordDto` — Using annotations to further customize the DTO layer generation
 - [ ]  Accounting for `@JsonIgnore`
 - [ ]  Custom configuration — De-coupling the program from the pre-defined project structure
-- [ ]  Recursively course the entity package’s sub directories to get all the present classes (Still in discussion)
 - [x]  Path resolution — Mapping to `src/main/java` directory trees
 
 ## 🤝 Contributing
