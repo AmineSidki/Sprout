@@ -29,7 +29,7 @@ public class ControllerGenerator implements SproutFileGenerator {
             throw new FileSystemException("");
         }
 
-        File controllerFile = new File(defDir + "/repository/" + entityMetadata.className() + "Repository.java");
+        File controllerFile = new File(defDir + "/controller/" + entityMetadata.className() + "Controller.java");
 
         if(!controllerFile.exists() && !controllerFile.createNewFile()){
             throw new FileSystemException("");
@@ -41,6 +41,7 @@ public class ControllerGenerator implements SproutFileGenerator {
             controllerContext.put("Imports", genericImportsGenerator.generate(entityMetadata, em, hm));
             controllerContext.put("PackageName", entityMetadata.packageName());
             controllerContext.put("ClassName", entityMetadata.className());
+            controllerContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));
             controllerContext.put("IdType", entityMetadata.id().type().getRegularName());
 
             mustache.execute(writer, controllerContext);

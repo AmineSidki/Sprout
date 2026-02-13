@@ -88,6 +88,7 @@ public class DefaultRunnable implements Runnable{
         Mustache serviceMustache = mf.compile("templates/ServiceTemplate.mustache");
         Mustache dtoMustache = mf.compile("templates/DtoTemplate.mustache");
         Mustache mapperMustache = mf.compile("templates/MapperTemplate.mustache");
+        Mustache controllerMustache = mf.compile("templates/ControllerTemplate.mustache");
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 2/3 : Parsing Java |@ \n"));
 
@@ -160,7 +161,7 @@ public class DefaultRunnable implements Runnable{
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Mapper for " + em.className()));
                 serviceGen.generate(em , serviceMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Service for " + em.className()));
-                controllerGen.generate(em , serviceMustache , defaultDir);
+                controllerGen.generate(em , controllerMustache , defaultDir);
                 System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating Controller for " + em.className()));
 
             } catch (IOException e) {
