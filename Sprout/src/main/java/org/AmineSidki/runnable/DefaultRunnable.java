@@ -11,11 +11,11 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
 import org.AmineSidki.generator.DependencyGenerator.MapperDependencyGenerator;
 import org.AmineSidki.generator.FileGenerator.*;
+import org.AmineSidki.generator.GenerationScheduler;
 import org.AmineSidki.generator.ImportsGenerator.DtoImportsGenerator;
 import org.AmineSidki.generator.ImportsGenerator.GenericImportsGenerator;
 import org.AmineSidki.generator.ImportsGenerator.MapperImportsGenerator;
@@ -32,11 +32,29 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-@CommandLine.Command(name="default" , version = "0.1" , description = "Default Sprout workflow")
+@CommandLine.Command(name="default" , version = "1.4" , description = "Sprout scaffolding engine")
 public class DefaultRunnable implements Runnable{
 
-    @CommandLine.Option(names = "-d , --dir")
+    @CommandLine.Spec
+    CommandLine.Model.CommandSpec spec;
+
+    @CommandLine.Option(names = "--dir")
     private String defaultDir = ".";
+
+    static class DependentFlags {
+        @CommandLine.Option(names = {"-p" , "--partial"}, required = true, description = "Partial generation")
+        boolean pFlag;
+
+        @CommandLine.Option(names = {"-r" , "--repository"}) boolean rFlag;
+        @CommandLine.Option(names = {"-d" , "--dto"}) boolean dFlag;
+        @CommandLine.Option(names = {"-s" , "--service"}) boolean sFlag;
+        @CommandLine.Option(names = {"-m" , "--mapper"}) boolean mFlag;
+        @CommandLine.Option(names = {"-c" , "--controller"}) boolean cFlag;
+        @CommandLine.Option(names = {"-e" , "--exception"}) boolean eFlag;
+    }
+
+    @CommandLine.ArgGroup(exclusive = false)
+    DependentFlags pGroup;
 
     @Override
     public void run() {
@@ -81,15 +99,25 @@ public class DefaultRunnable implements Runnable{
         });
         MustacheFactory mf = new DefaultMustacheFactory();
 
-        //TODO: Change this into a generator list
-
         //Compiling templates
-        Mustache repoMustache = mf.compile("templates/RepositoryTemplate.mustache");
-        Mustache serviceMustache = mf.compile("templates/ServiceTemplate.mustache");
-        Mustache dtoMustache = mf.compile("templates/DtoTemplate.mustache");
-        Mustache mapperMustache = mf.compile("templates/MapperTemplate.mustache");
-        Mustache controllerMustache = mf.compile("templates/ControllerTemplate.mustache");
-        Mustache exceptionMustache = mf.compile("templates/ExceptionTemplate.mustache");
+        Mustache repoMustache =
+                pGroup == null || pGroup.rFlag ?
+                        mf.compile("templates/RepositoryTemplate.mustache") : null;
+        Mustache serviceMustache =
+                pGroup == null || pGroup.sFlag ?
+                        mf.compile("templates/ServiceTemplate.mustache") : null;
+        Mustache dtoMustache =
+                pGroup == null || pGroup.dFlag ?
+                        mf.compile("templates/DtoTemplate.mustache") : null;
+        Mustache mapperMustache =
+                pGroup == null || pGroup.mFlag ?
+                        mf.compile("templates/MapperTemplate.mustache") : null;
+        Mustache controllerMustache =
+                pGroup == null || pGroup.cFlag ?
+                        mf.compile("templates/ControllerTemplate.mustache") : null;
+        Mustache exceptionMustache =
+                pGroup == null || pGroup.eFlag ?
+                        mf.compile("templates/ExceptionTemplate.mustache") : null;
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 2/3 : Parsing Java |@ \n"));
 
@@ -135,45 +163,51 @@ public class DefaultRunnable implements Runnable{
                 }
         );
 
-        GenericImportsGenerator genericImportsGenerator = new GenericImportsGenerator();
-        DtoImportsGenerator dtoImportsGen = new DtoImportsGenerator();
-        MapperImportsGenerator mapperImportGen = new MapperImportsGenerator();
-
-        MapperDependencyGenerator mapperDependencyGen = new MapperDependencyGenerator();
-
-        RepositoryGenerator repoGen = new RepositoryGenerator(genericImportsGenerator, emm, hmm);
-        DtoGenerator dtoGen = new DtoGenerator(dtoImportsGen, emm , hmm);
-        MapperGenerator mapperGen = new MapperGenerator(mapperImportGen , mapperDependencyGen, emm, hmm);
-        ServiceGenerator serviceGen = new ServiceGenerator(genericImportsGenerator, emm, hmm);
-        ControllerGenerator controllerGen = new ControllerGenerator(genericImportsGenerator, emm, hmm);
-        ExceptionGenerator exceptionGen = new ExceptionGenerator();
-
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 3/3 : Generating classes |@ \n"));
+        GenerationScheduler scheduler = new GenerationScheduler(defaultDir , emm);
 
+        //I hate this, but it seems like the only option for now :(
+        if(pGroup == null || pGroup.cFlag || pGroup.rFlag || pGroup.sFlag){
 
-        //Generation
-        for(EntityMetadata em : emm.values()){
+            GenericImportsGenerator genericImportsGenerator = new GenericImportsGenerator();
 
-            try {
-                repoGen.generate(em , repoMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating repository for " + em.className()));
-                dtoGen.generate(em , dtoMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for " + em.className()));
-                mapperGen.generate(em , mapperMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating mapper for " + em.className()));
-                serviceGen.generate(em , serviceMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating service for " + em.className()));
-                controllerGen.generate(em , controllerMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating controller for " + em.className()));
-                exceptionGen.generate(em , exceptionMustache , defaultDir);
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating custom exception for " + em.className()));
-
-            } catch (IOException e) {
-                throw new FileSystemException("");
-            } catch (FileSystemException fsE){
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : File generation failed for class " + em.className()));
+            if(pGroup == null || pGroup.rFlag){
+                scheduler.add(new RepositoryGenerator(genericImportsGenerator, emm, hmm),
+                        repoMustache,
+                        CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating repository for "));
+            }
+            if(pGroup == null || pGroup.sFlag){
+                scheduler.add(new ServiceGenerator(genericImportsGenerator, emm, hmm),
+                        serviceMustache,
+                        CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating service for "));
+            }
+            if(pGroup == null || pGroup.cFlag){
+                scheduler.add(new ControllerGenerator(genericImportsGenerator, emm, hmm),
+                        controllerMustache,
+                        CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating controller for "));
             }
         }
+        if(pGroup == null || pGroup.mFlag){
+            MapperImportsGenerator mapperImportGen = new MapperImportsGenerator();
+            MapperDependencyGenerator mapperDependencyGen = new MapperDependencyGenerator();
+           scheduler.add( new MapperGenerator(mapperImportGen , mapperDependencyGen, emm, hmm),
+                   mapperMustache,
+                   CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating mapper for "));
+        }
+        if(pGroup == null || pGroup.dFlag){
+            DtoImportsGenerator dtoImportGen = new DtoImportsGenerator();
+            scheduler.add(new DtoGenerator(dtoImportGen, emm, hmm),
+                    dtoMustache,
+                    CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating DTO for "));
+        }
+        if(pGroup == null || pGroup.eFlag){
+            scheduler.add(new ExceptionGenerator(),
+                    exceptionMustache,
+                    CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Generating exception for "));
+        }
+
+        //Generation
+        scheduler.generate();
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nGeneration service ended successfully, shutting down ! |@ \n"));
     }
