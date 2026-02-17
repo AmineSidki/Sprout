@@ -6,16 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ControllerGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ControllerGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/DtoGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ExceptionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ExceptionGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/MapperGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/RepositoryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ServiceGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParserUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParsingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParsingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/MapperTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/MapperTemplate.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +117,7 @@
       <workItem from="1769717147596" duration="4944000" />
       <workItem from="1770919604621" duration="9939000" />
       <workItem from="1770930937118" duration="22766000" />
-      <workItem from="1771273279701" duration="9939000" />
+      <workItem from="1771273279701" duration="10969000" />
     </task>
     <servers />
   </component>
