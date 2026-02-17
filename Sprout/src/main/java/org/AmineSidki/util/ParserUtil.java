@@ -11,14 +11,12 @@ import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
 import org.AmineSidki.enumeration.Association;
+import org.AmineSidki.exception.FileSystemException;
 import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.model.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ParserUtil {
     public static boolean isEntity(CompilationUnit cu , String entity){
@@ -98,16 +96,22 @@ public class ParserUtil {
         return collection.substring(collection.indexOf("<") + 1 , collection.lastIndexOf(">"));
     }
 
-    public static File calculateProjectRootDirectory(File entity , JavaParser parser){
+    public static File calculateProjectRootDirectory(File[] files , JavaParser parser){
         try{
-            ParseResult<CompilationUnit> result = parser.parse(entity);
+            //Takes the first file it finds and gets its package
+            File firstEntity = Arrays.stream(files)
+                    .filter(File::isFile)
+                    .findFirst()
+                    .orElseThrow(() -> new FileSystemException("No entity files found to parse!"));
+
+            ParseResult<CompilationUnit> result = parser.parse(firstEntity);
             if (result.getResult().isPresent()) {
                 CompilationUnit cu = result.getResult().get();
                 String packageName = cu.getPackageDeclaration()
                         .map(NodeWithName::getNameAsString)
                         .orElse("");
 
-                File root = entity.getAbsoluteFile().getParentFile();
+                File root = firstEntity.getAbsoluteFile().getParentFile();
 
                 if (!packageName.isEmpty()) {
                     String[] parts = packageName.split("\\.");
