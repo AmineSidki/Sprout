@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-@CommandLine.Command(name="default" , version = "1.4" , description = "Sprout scaffolding engine")
+@CommandLine.Command(name="default" , version = "1.4.5" , description = "Sprout scaffolding engine")
 public class DefaultRunnable implements Runnable{
 
     @CommandLine.Spec
