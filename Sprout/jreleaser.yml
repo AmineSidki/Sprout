@@ -8,11 +8,8 @@ project:
   license: MIT
   java:
     version: 17
-
-# This is the critical fix: It tells JReleaser to look "up" for the .git folder
-environment:
-  properties:
-    jreleaser.git.root.search: true
+  # Safety net to ensure it finds the .git folder
+  gitRootSearch: true
 
 release:
   github:
@@ -24,11 +21,12 @@ distributions:
   sprout:
     type: JLINK
     artifacts:
-      - path: artifacts/sprout-linux-x86_64.tar.gz
+      # We now point INTO the Sprout folder where the artifacts are downloaded
+      - path: Sprout/artifacts/sprout-linux-x86_64.tar.gz
         platform: linux-x86_64
-      - path: artifacts/sprout-osx-x86_64.zip
+      - path: Sprout/artifacts/sprout-osx-x86_64.zip
         platform: osx-x86_64
-      - path: artifacts/sprout-windows-x86_64.zip
+      - path: Sprout/artifacts/sprout-windows-x86_64.zip
         platform: windows-x86_64
 
 packagers:
