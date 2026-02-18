@@ -78,7 +78,7 @@ jobs:
           merge-multiple: true # Dumps all 3 artifacts into the same folder
 
       - name: Run JReleaser
-        uses: jreleaser/release-action@v3
+        uses: jreleaser/release-action@v2
         with:
           arguments: full-release
           setup-java: true
