@@ -1,7 +1,7 @@
 project:
   name: sprout
   # We use a variable so JReleaser pulls the version from your Git Tag automatically
-  version: "{{tagName}}" 
+  version: JRELEASER_PROJECT_VERSION 
   description: Sprout CLI scaffolding tool
   longDescription: Sprout is a CLI tool for rapid project scaffolding.
   links:
