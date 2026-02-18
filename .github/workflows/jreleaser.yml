@@ -3,7 +3,7 @@ project:
   description: Sprout CLI scaffolding tool
   website: https://github.com/AmineSidki/sprout-releases
   authors:
-    - Your Name
+    - AmineSidki
   license: MIT
   java:
     version: 17
