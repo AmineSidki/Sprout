@@ -39,6 +39,7 @@ jobs:
       # Rename artifacts so JReleaser knows which is which
       - name: Rename Linux/macOS Artifact
         if: matrix.os != 'windows-latest'
+        run: ls -a
         run: mv Sprout/target/*.${{ matrix.ext }} Sprout/target/${{ matrix.artifact_name }}
 
       - name: Rename Windows Artifact
