@@ -91,3 +91,4 @@ jobs:
           setup-java: true 
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          JRELEASER_PROJECT_VERSION: ${{ github.ref_name }}
