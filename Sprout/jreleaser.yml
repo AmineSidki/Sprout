@@ -1,21 +1,25 @@
 project:
   name: sprout
   description: Sprout CLI scaffolding tool
-  website: https://github.com/AmineSidki/sprout-releases
+  links:
+    homepage: https://github.com/AmineSidki/sprout-releases
   authors:
-    - AmineSidki
+    - Amine Sidki
   license: MIT
   java:
     version: 17
 
-# 1. Where do the actual .zip and .tar.gz files go?
+# This is the critical fix: It tells JReleaser to look "up" for the .git folder
+environment:
+  properties:
+    jreleaser.git.root.search: true
+
 release:
   github:
     owner: AmineSidki
     name: sprout-releases
     overwrite: true
 
-# 2. What files did our matrix build give us?
 distributions:
   sprout:
     type: JLINK
@@ -27,15 +31,14 @@ distributions:
       - path: artifacts/sprout-windows-x86_64.zip
         platform: windows-x86_64
 
-# 3. Where do the package manager manifests go?
 packagers:
   brew:
     active: ALWAYS
-    tap:
+    repository:
       owner: AmineSidki
       name: homebrew-sprout
   scoop:
     active: ALWAYS
-    bucket:
+    repository:
       owner: AmineSidki
       name: scoop-sprout
