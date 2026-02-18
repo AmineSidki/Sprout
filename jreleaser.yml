@@ -8,8 +8,6 @@ project:
   license: MIT
   java:
     version: 17
-  # Safety net to ensure it finds the .git folder
-  gitRootSearch: true
 
 release:
   github:
@@ -21,7 +19,6 @@ distributions:
   sprout:
     type: JLINK
     artifacts:
-      # We now point INTO the Sprout folder where the artifacts are downloaded
       - path: Sprout/artifacts/sprout-linux-x86_64.tar.gz
         platform: linux-x86_64
       - path: Sprout/artifacts/sprout-osx-x86_64.zip
