@@ -56,12 +56,14 @@ jobs:
           # The upload action ignores the working-directory default, so we must explicitly tell it where to look
           path: Sprout/target/${{ matrix.artifact_name }} 
           retention-days: 1
-
   publish:
     name: Publish with JReleaser
     needs: build-and-package
     runs-on: ubuntu-latest
-    # REMOVED defaults/run/working-directory here to keep us at the root
+    # This override ensures we are NOT in the Sprout subfolder
+    defaults:
+      run:
+        working-directory: . 
         
     steps:
       - name: Checkout Code
@@ -69,19 +71,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Debugging step: This will print the files in the log 
+      # so we can verify jreleaser.yml is actually there.
+      - name: Verify Workspace
+        run: ls -R
+
       - name: Download Matrix Artifacts
         uses: actions/download-artifact@v4
         with:
-          # We download them into Sprout/artifacts so they match the jreleaser.yml paths
           path: Sprout/artifacts
           merge-multiple: true
 
       - name: Run JReleaser
         uses: jreleaser/release-action@v2
         with:
-          arguments: full-release
+          # We explicitly tell JReleaser where the config is (-c) 
+          # and tell it to search for the git root (-grs)
+          arguments: full-release -c jreleaser.yml -grs
           version: '1.13.1'
-          # REMOVED working-directory here to let it find the .git folder automatically
           setup-java: true 
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
