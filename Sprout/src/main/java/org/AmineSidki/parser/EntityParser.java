@@ -6,7 +6,6 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
 import org.AmineSidki.enumeration.Association;
-import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.exception.ParsingException;
 import org.AmineSidki.model.EntityMetadata;
 import org.AmineSidki.model.FieldMetadata;
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
 public class EntityParser implements SproutParser<EntityMetadata>{
 
     @Override
-    public EntityMetadata parse(CompilationUnit cu , String entity) throws FileNotFoundException , ParsingException , NotAnEntityException {
+    public EntityMetadata parse(CompilationUnit cu , String entity) throws FileNotFoundException , ParsingException{
 
         String packageName ,idQualifiedName;
         TypeMetadata idType;

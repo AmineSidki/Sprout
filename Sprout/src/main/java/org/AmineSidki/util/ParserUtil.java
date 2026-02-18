@@ -12,7 +12,6 @@ import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
 import org.AmineSidki.enumeration.Association;
 import org.AmineSidki.exception.FileSystemException;
-import org.AmineSidki.exception.NotAnEntityException;
 import org.AmineSidki.model.*;
 
 import java.io.File;

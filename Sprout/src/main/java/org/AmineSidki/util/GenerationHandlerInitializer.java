@@ -22,7 +22,7 @@ public class GenerationHandlerInitializer {
     private final Map<String , HelperMetadata> hmm;
     private final PartialGenerationFlags pGroup;
     private final GenerationHandler handler;
-    private final InitializationResources resources;
+    private final InitializationResources resources = new InitializationResourcesMapper().map(pGroup);
 
     public void initialize(){
         //I hate this, but it seems like the only option for now :(
