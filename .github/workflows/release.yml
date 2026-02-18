@@ -3,12 +3,17 @@ name: Release Sprout
 on:
   push:
     tags:
-      - 'v*' # Strictly limits runs to tags like v1.0.0, v1.1.2
+      - 'v*'
 
 jobs:
   build-and-package:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    # THIS IS THE MAGIC BULLET: Force all 'run' commands to execute inside the Sprout folder
+    defaults:
+      run:
+        working-directory: ./Sprout 
+        
     strategy:
       matrix:
         include:
@@ -29,32 +34,25 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # Matches your local environment for compress=2
+          java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
 
       - name: Build and jlink via Maven
-        run: mvn clean package --file Sprout/pom.xml -DskipTests
+        run: mvn clean package -DskipTests
 
-        # Debug: Print the contents of target/ so we can see exactly what Maven built
-      - name: List Target Directory
-        shell: bash
-        run: ls -la target/
-
-      # Safely find and rename the Linux/macOS artifact
       - name: Rename Linux/macOS Artifact
         if: matrix.os != 'windows-latest'
         run: find target -maxdepth 1 -type f -name "*.${{ matrix.ext }}" -exec mv {} target/${{ matrix.artifact_name }} \;
 
-      # Safely find and rename the Windows artifact
       - name: Rename Windows Artifact
         if: matrix.os == 'windows-latest'
         run: Get-ChildItem -Path target -Filter "*.zip" | Rename-Item -NewName "${{ matrix.artifact_name }}"
 
-      # Upload the safely renamed artifacts
       - name: Upload OS Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: target/${{ matrix.artifact_name }}
+          # The upload action ignores the working-directory default, so we must explicitly tell it where to look
+          path: Sprout/target/${{ matrix.artifact_name }} 
           retention-days: 1
