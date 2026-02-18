@@ -36,20 +36,22 @@ jobs:
       - name: Build and jlink via Maven
         run: mvn clean package --file Sprout/pom.xml -DskipTests
 
-      - name: Check dir
-        if:
-        run: ls -a
+        # Debug: Print the contents of target/ so we can see exactly what Maven built
+      - name: List Target Directory
+        shell: bash
+        run: ls -la target/
 
-      # Rename artifacts so JReleaser knows which is which
+      # Safely find and rename the Linux/macOS artifact
       - name: Rename Linux/macOS Artifact
         if: matrix.os != 'windows-latest'
-        run: mv Sprout/target/*.${{ matrix.ext }} Sprout/target/${{ matrix.artifact_name }}
+        run: find target -maxdepth 1 -type f -name "*.${{ matrix.ext }}" -exec mv {} target/${{ matrix.artifact_name }} \;
 
+      # Safely find and rename the Windows artifact
       - name: Rename Windows Artifact
         if: matrix.os == 'windows-latest'
-        run: Rename-Item -Path "Sprout\target\*.zip" -NewName "${{ matrix.artifact_name }}"
+        run: Get-ChildItem -Path target -Filter "*.zip" | Rename-Item -NewName "${{ matrix.artifact_name }}"
 
-      # Temporarily store the compiled binaries in GitHub Actions
+      # Upload the safely renamed artifacts
       - name: Upload OS Artifact
         uses: actions/upload-artifact@v4
         with:
