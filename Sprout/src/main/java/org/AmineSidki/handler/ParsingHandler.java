@@ -30,7 +30,6 @@ public class ParsingHandler {
     private final File calculatedSourceRoot;
 
     public void parse(File[] files){
-
         //Resource initialization
         final ThreadLocal<EntityParser> entityParser = ThreadLocal.withInitial(EntityParser::new);
         final ThreadLocal<HelperParser> helperParser = ThreadLocal.withInitial(HelperParser::new);
@@ -46,19 +45,16 @@ public class ParsingHandler {
             return new JavaParser(parserConfig);
         });
 
-
         Arrays.stream(files).parallel().forEach(
                 entity -> {
-                    if(!entity.isFile()){
+                    if(!entity.isFile() || !entity.getName().endsWith(".java")){
                         return;
                     }
 
                     try {
-                        CompilationUnit cu ;
-
                         //Parsing java --> AST
                         ParseResult<CompilationUnit> pr = parser.get().parse(entity);
-                        cu = pr.getResult().orElseThrow(() -> new ParsingException("Java Parsing failed for file :" + entity.getName()));
+                        CompilationUnit cu = pr.getResult().orElseThrow(() -> new ParsingException("Java Parsing failed for file :" + entity.getName()));
 
                         //Parsing AST --> EntityMetadata
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Parsing " + entity.getName()));

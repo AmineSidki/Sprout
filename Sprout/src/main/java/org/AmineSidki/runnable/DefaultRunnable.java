@@ -30,26 +30,17 @@ public class DefaultRunnable implements Runnable{
     @Override
     public void run() {
         BannerPrinter.print();
+        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/3 : Computing project root |@\n"));
 
-        File entityPackage = new File(defaultDir + "/entity");
+        File entityPackage = new File(defaultDir + File.separator + "entity");
         File[] files = entityPackage.listFiles();
 
         if(files == null){
             throw new RuntimeException("Couldn't resolve entity package directory !");
         }
 
-        //Takes the first file it finds and gets its package
-        File firstEntity = Arrays.stream(files)
-                .filter(File::isFile)
-                .findFirst()
-                .orElseThrow(() -> new FileSystemException("No entity files found to parse!"));
-
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 1/3 : Computing project root |@\n"));
-
-        File calculatedSourceRoot = ParserUtil.calculateProjectRootDirectory(firstEntity , new JavaParser());
-
+        File calculatedSourceRoot = ParserUtil.calculateProjectRootDirectory(files , new JavaParser());
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Successfully resolved directory"));
-        System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : @|faint " + calculatedSourceRoot.getAbsolutePath() + "|@\n"));
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold Pass 2/3 : Parsing Java |@ \n"));
 
         ConcurrentHashMap<String , EntityMetadata> emm = new ConcurrentHashMap<>();
@@ -63,9 +54,7 @@ public class DefaultRunnable implements Runnable{
 
         //Generation pre-processing
         GenerationHandler generationHandler = new GenerationHandler(defaultDir , emm);
-        GenerationHandlerInitializer initializer = new GenerationHandlerInitializer(emm, hmm, pGroup, generationHandler,
-                new InitializationResourcesMapper().map(pGroup));
-
+        GenerationHandlerInitializer initializer = new GenerationHandlerInitializer(emm, hmm, pGroup, generationHandler);
 
         //Generation
         initializer.initialize();
