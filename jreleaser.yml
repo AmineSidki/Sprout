@@ -29,8 +29,8 @@ distributions:
         platform: windows-x86_64
 
 packagers:
-  multiPlatform: true
   brew:
+    multiPlatform: true
     active: ALWAYS
     repository:
       owner: AmineSidki
