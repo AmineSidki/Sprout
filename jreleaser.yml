@@ -1,5 +1,10 @@
 project:
   name: sprout
+  
+  # 🟢 ADD THIS BLOCK 🟢
+  java:
+    version: 17
+    
   description: Sprout CLI scaffolding tool
   longDescription: Sprout is a CLI tool for rapid project scaffolding.
   links:
@@ -8,7 +13,6 @@ project:
     - Amine Sidki
   license: MIT
   copyright: "2026 Amine Sidki"
-
 release:
   github:
     owner: AmineSidki
