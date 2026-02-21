@@ -4,7 +4,7 @@
   <groupId>org.AmineSidki</groupId>
   <artifactId>Sprout</artifactId>
   <name>Sprout</name>
-  <version>1.5</version>
+  <version>1.7</version>
   <url>https://maven.apache.org</url>
   <build>
     <resources>
@@ -16,15 +16,15 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.11.0</version>
         <configuration>
-          <source>16</source>
-          <target>16</target>
+          <source>17</source>
+          <target>17</target>
           <annotationProcessorPaths>
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
-              <version>1.18.42</version>
+              <version>1.18.30</version>
             </path>
           </annotationProcessorPaths>
         </configuration>
@@ -50,30 +50,24 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.1</version>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>2.1.0</version>
         <executions>
           <execution>
-            <id>generate-custom-jre</id>
             <phase>package</phase>
             <goals>
-              <goal>exec</goal>
+              <goal>assemble</goal>
             </goals>
-            <configuration>
-              <executable>${java.home}/bin/jlink</executable>
-              <arguments>
-                <argument>--add-modules</argument>
-                <argument>java.base,java.logging,java.xml,java.desktop</argument>
-                <argument>--strip-debug</argument>
-                <argument>--no-man-pages</argument>
-                <argument>--no-header-files</argument>
-                <argument>--compress=2</argument>
-                <argument>--output</argument>
-                <argument>${project.build.directory}/sprout-jre</argument>
-              </arguments>
-            </configuration>
           </execution>
         </executions>
+        <configuration>
+          <programs>
+            <program>
+              <mainClass>org.AmineSidki.App</mainClass>
+              <id>sprout</id>
+            </program>
+          </programs>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -85,14 +79,15 @@
             <goals>
               <goal>single</goal>
             </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>src/assembly/distribution.xml</descriptor>
-              </descriptors>
-              <appendAssemblyId>false</appendAssemblyId>
-            </configuration>
           </execution>
         </executions>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>bin</descriptorRef>
+          </descriptorRefs>
+          <finalName>sprout-${project.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
       </plugin>
     </plugins>
   </build>
