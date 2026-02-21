@@ -36,5 +36,5 @@ jobs:
           arguments: full-release -c jreleaser.yml --git-root-search
           version: '1.13.1'
         env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           JRELEASER_PROJECT_VERSION: ${{ github.ref_name }}
