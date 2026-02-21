@@ -4,7 +4,7 @@
 
   <groupId>org.AmineSidki</groupId>
   <artifactId>Sprout</artifactId>
-  <version>1.6.5</version>
+  <version>1.6.6</version>
   <packaging>jar</packaging>
 
   <name>Sprout</name>
@@ -72,7 +72,6 @@
               <arguments>
                 <argument>--add-modules</argument>
                 <argument>java.base,java.logging,java.xml,java.desktop</argument>
-                <argument>--strip-debug</argument>
                 <argument>--no-man-pages</argument>
                 <argument>--no-header-files</argument>
                 <argument>--compress=2</argument> <argument>--output</argument>
