@@ -29,6 +29,7 @@ distributions:
         platform: windows-x86_64
 
 packagers:
+  multiPlatform: true
   brew:
     active: ALWAYS
     repository:
