@@ -20,8 +20,13 @@ jobs:
           - os: ubuntu-latest
             artifact_name: sprout-linux-x86_64.tar.gz
             ext: tar.gz
-          - os: macos-latest
+            #Intel mac
+          - os: macos-13
             artifact_name: sprout-osx-x86_64.zip
+            ext: zip
+            #Arm mac
+          - os: macos-latest
+            artifact_name: sprout-osx-aarch_64.zip
             ext: zip
           - os: windows-latest
             artifact_name: sprout-windows-x86_64.zip
