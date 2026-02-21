@@ -1,7 +1,7 @@
 project:
   name: sprout
   
-  # ADD THIS BLOCK: Tells Homebrew exactly which OpenJDK version to fetch
+  # 🟢 ADD THIS BLOCK 🟢
   java:
     version: 17
     
@@ -13,7 +13,6 @@ project:
     - Amine Sidki
   license: MIT
   copyright: "2026 Amine Sidki"
-
 release:
   github:
     owner: AmineSidki
