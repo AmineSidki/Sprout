@@ -4,7 +4,7 @@
 
   <groupId>org.AmineSidki</groupId>
   <artifactId>Sprout</artifactId>
-  <version>1.7</version>
+  <version>1.7.1</version>
   <packaging>jar</packaging>
 
   <name>Sprout</name>
