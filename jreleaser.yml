@@ -1,9 +1,11 @@
 project:
   name: sprout
   
-  # 🟢 ADD THIS BLOCK 🟢
+  # UPDATE THIS BLOCK
   java:
     version: 17
+    groupId: com.yourdomain.sprout # <-- Put your actual Maven groupId here
+    artifactId: sprout
     
   description: Sprout CLI scaffolding tool
   longDescription: Sprout is a CLI tool for rapid project scaffolding.
