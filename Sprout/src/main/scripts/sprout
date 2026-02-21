@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# 1. Resolve symlinks (Crucial for Homebrew)
 PRG="$0"
 while [ -h "$PRG" ]; do
   ls=`ls -ld "$PRG"`
@@ -12,8 +11,6 @@ while [ -h "$PRG" ]; do
   fi
 done
 
-# 2. Get the actual directory of this script (the 'bin' folder in the Cellar)
 DIR=$(dirname "$PRG")
 
-# 3. Execute the Jar using your custom JRE
 exec "$DIR/../jre/bin/java" -jar "$DIR/../lib/sprout.jar" "$@"
