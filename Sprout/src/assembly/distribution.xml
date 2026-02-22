@@ -2,32 +2,25 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
     <id>distribution</id>
-
     <formats>
         <format>zip</format>
-        <format>tar.gz</format>
     </formats>
-
     <includeBaseDirectory>true</includeBaseDirectory>
-
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/sprout-jre</directory>
-            <outputDirectory>jre</outputDirectory>
-        </fileSet>
-
-        <fileSet>
-            <directory>src/main/scripts</directory>
+            <directory>${project.build.directory}/appassembler/bin</directory>
             <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
             <fileMode>0755</fileMode>
         </fileSet>
-    </fileSets>
-
-    <files>
-        <file>
-            <source>${project.build.directory}/${project.build.finalName}.jar</source>
+        <fileSet>
+            <directory>${project.build.directory}/appassembler/lib</directory>
             <outputDirectory>lib</outputDirectory>
-            <destName>sprout.jar</destName>
-        </file>
-    </files>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 </assembly>
