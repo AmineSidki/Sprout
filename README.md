@@ -1,127 +1,159 @@
-# 🌱 Sprout
+# Sprout
 
-Sprout is a lightweight, opinionated **CLI tool** designed to scaffold **Spring Boot layers** (Repositories, Services, DTOs, Mappers, Controllers) directly from your **JPA entities**.
+**Sprout** is a small, focused CLI tool that generates the boring parts of a Spring Boot app from your JPA `@Entity` classes. Point it at your `entity` package and it will produce repositories, services, DTOs (as records), MapStruct mappers, controllers and convenient NotFound exceptions — so you can spend time on business logic, not boilerplate.
 
-By parsing your source code **AST**, Sprout automates the repetitive boilerplate required by a classic layered architecture — without relying on compiled classes or reflection.
+---
 
-## Key Features
+## Quick highlights
 
-- Project directory and package resolution
-- Java code parsing (source → AST)
-- Context gathering and type resolving
-- Templating (Using mustache)
-- Extensibility (**`SproutParser`** , **`SproutFileGenerator`** , **`SproutImportsGenerator`** , **`SproutDependencyGenerator`**)
+- Parses your Java source with **JavaParser** (symbol resolution included).
+- Produces type-safe DTO records and MapStruct mappers with automatic dependency wiring.
+- Supports partial generation (generate only DTOs + mappers, or any subset you want).
+- Distributed as a zero-config binary (wrapper scripts + embedded JRE) via Homebrew and Scoop.
+- Built with Picocli, Mustache.java templates and packaged with JReleaser.
 
-## 🛠 Installation & Setup
+---
 
-### Prerequisites
+## Install
 
-- **JDK**: 1.8 or higher *(JDK 17+ recommended)*
-- **Build Tool**: Maven 3.6.3+
-
-### Building the Executable
-
-1. **Clone the repository**
+### macOS / Linux (Homebrew)
 
 ```bash
-git clone https://github.com/AmineSidki/Sprout.git
-cd Sprout
+brew tap AmineSidki/homebrew-sprout
+brew install sprout
 ```
 
-1. **Build the shaded JAR**
+### Windows (Scoop)
+
+```powershell
+scoop bucket add sprout https://github.com/AmineSidki/scoop-sprout.git
+scoop install sprout
+```
+
+### From source
 
 ```bash
+git clone <your-repo>
 mvn clean package
 ```
 
-The standalone executable will be generated at:
+---
 
-```
-target/Sprout-*.*.jar
-```
+## Quick start
 
-## Usage
-
-Sprout operates **relative to a project root**.
-
-- Use the `d` flag to point to your Spring Boot project directory.
+Run Sprout in the root of your project (or pass `--dir` to point it elsewhere):
 
 ```bash
-java -jar Sprout-*.*.jar -d "/path/to/my-spring-project"
+# generate everything
+sprout
 ```
 
-## ⚠️ Read before running
+Partial generation example — only DTOs and mappers:
 
-- **Package Naming Convention**
-    
-    Sprout assumes your entities are located in a package ending with **`.entity`**.
-    
-    It will automatically strip this suffix and replace it with the target layer name.
-    
-    **Example**:
-    
-    ```
-    Input : com.example.project.entity
-    Output: com.example.project.repository
-    ```
-    
-- **Mandatory `@Id` Annotation for entities**
-    
-    Sprout scans for the `@Id` annotation to determine the generic type of `JpaRepository`.
-    
-    - If an entity **does not** declare an `@Id`, it will be accounted for as a _Helper Class_.
-    - if a class figures in the package and isn’t annotated with `@Entity` it will be accounted for as a helper class
-    - A warning message will be displayed.
-- **Directory Mapping Assumptions**
-    
-    Currently, Sprout expects a **flat directory structure** during generation.
-    
-    Example:
-    
-    ```
-    my-project/
-    ├── entity/          <-- Source
-    └── repository/      <-- Destination (generated)
-    ```
-    
-    Make sure the destination directory is writable.
-    
+```bash
+sprout -p -d -m
+```
 
-## Roadmap
+---
 
-- [x]  Repository layer — Full JPA interface generation
-- [x]  Service layer — CRUD business logic scaffolding
-- [x]  Controller layer — Exposing routes
-- [x]  Exception handling — generating custom exceptions
-- [x]  DTO generation — Request / Response object mapping
-- [x]  Multiplicity support — `@OneToMany`, `@ManyToOne`, `@OneToOne`, `@ManyToMany` handling
-- [x]  Context gathering — Making sure all classes in the project know of the others
-- [x]  Dynamic dependency assigning
-- [x]  Dynamic imports generation
-- [x]  Parsing parallelizations — Using multithreading to accelerate java parsing
-- [ ]  Make the generated service an interface with its implementation for more modularity
-- [ ]  Accounting for `@JsonIgnore` and `FetchType.LAZY`
-- [x]  Path resolution — Mapping to `src/main/java` directory trees
+## CLI options
 
-## 🤝 Contributing
+| Flag | Short | What it does |
+| --- | --- | --- |
+| `--dir` |  | Target directory (defaults to `.`) |
+| `--partial` | `-p` | Enable partial generation mode |
+| `--repository` | `-r` | Generate repositories |
+| `--service` | `-s` | Generate services |
+| `--dto` | `-d` | Generate DTOs (Java records) |
+| `--mapper` | `-m` | Generate MapStruct mappers |
+| `--controller` | `-c` | Generate REST controllers |
+| `--exception` | `-e` | Generate NotFoundException classes |
+| `--version` |  | Show version |
 
-- **Rules :**
-    - If the contribution regards an **unreported** issue, open an issue, then if you are willing to propose a solution for it put it in regards the aforementioned issue.
-    - The PRs that will be prioritized are those about **application-breaking bugs** rather than additional features.
-    - Opened issues may concern :
-        - Bugs
-        - New Features
-        - README improvements
-        - Discussions regarding current/planned features
-    - When issuing a PR, refer to the **concerned issue**, and provide details on the way the issue’s solution was implemented.
-- **Issuing a pull request :**
-    1. Fork the project
-    2. Create your feature branch
-        
-        ```bash
-        git checkout -b feature/NewGenerator
-        ```
-        
-    3. Commit your changes
-    4. Push to the branch
-    5. Open a Pull Request
+---
+
+## How it works (high level)
+
+Sprout runs like a tiny compiler across five stages:
+
+1. **Resolution** — finds your `/entity` package and computes the base package for generated code.
+2. **AST Analysis** — parses `.java` files with JavaParser; builds `EntityMetadata` objects (fields, ID, associations).
+3. **Metadata Mapping** — resolves Java types and maps Hibernate associations to internal enums for generation logic.
+4. **Template Orchestration** — picks which layers to generate, wires import/dependency generators into file generators.
+5. **Emission** — executes Mustache templates and writes the generated `.java` files into `dto/`, `service/`, `repository/`, etc.
+
+This pipeline is intentionally modular so you can add more generators or tweak templates without touching parsing logic.
+
+---
+
+## Project layout (templates)
+
+Templates live under `src/main/resources/templates/` and include:
+
+- `RepositoryTemplate.mustache`
+- `ServiceTemplate.mustache`
+- `DtoTemplate.mustache`
+- `MapperTemplate.mustache`
+- `ControllerTemplate.mustache`
+- `ExceptionTemplate.mustache`
+
+The templates expect metadata records (e.g. `EntityMetadata`, `FieldMetadata`, `TypeMetadata`) produced by the parser.
+
+---
+
+## Design notes & features
+
+- **Smart imports** — generators add `java.util.List/Set` or primary key types only when needed.
+- **Mapper dependency injection** — mapper generators scan imports and automatically add `@Autowired` repository fields for MapStruct mappers.
+- **Strict ID resolution** — an `@Id` annotated field is required to determine the repository’s primary key type.
+- **Zero-config distribution** — wrapper scripts (`sprout`, `sprout.bat`) include an embedded JRE, so users don’t need to set the classpath.
+
+---
+
+## Examples
+
+Generate repository + service only:
+
+```bash
+sprout -r -s
+```
+
+Generate controller and custom exceptions:
+
+```bash
+sprout -c -e
+```
+
+Target a specific directory:
+
+```bash
+sprout --dir /path/to/my/project
+```
+
+---
+
+## Templates & customization
+
+If you want different code style or method signatures, edit the Mustache templates under `src/main/resources/templates/`. Because templates receive the same metadata records the generators use, changes there let you reshape the output without touching parsing or generator code.
+
+---
+
+## Contributing
+
+- Fork, make a branch, open a pull request.
+- Keep changes modular: prefer adding a new generator or template over modifying core parsing behavior.
+- Update or add tests that cover parsing/generation outcomes.
+
+If you want help integrating a new feature (new template layer, an alternative mapper strategy, etc.) tell me which pipeline step you want to change and I’ll outline the implementation.
+
+---
+
+## Changelog & Releases
+
+Releases are handled by JReleaser (GitHub Actions); artifacts include a ZIP with `bin/` (scripts), `lib/` (jar), and `jre/` (embedded runtime). Use the GitHub Releases tab to check what's new.
+
+---
+
+## License
+
+This project is licensed under the MIT License — see the `LICENSE` file.
