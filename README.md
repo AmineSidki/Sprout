@@ -1,8 +1,11 @@
+![Coverage](https://img.shields.io/codecov/c/github/AmineSidki/sprout)
+![Java Version](https://img.shields.io/badge/Java-17%2B-blue)
+
+
 # Sprout
 
 **Sprout** is a small, focused CLI tool that generates the boring parts of a Spring Boot app from your JPA `@Entity` classes. Point it at your `entity` package and it will produce repositories, services, DTOs (as records), MapStruct mappers, controllers and convenient NotFound exceptions — so you can spend time on business logic, not boilerplate.
 
----
 
 ## Quick highlights
 
@@ -12,7 +15,15 @@
 - Distributed as a zero-config binary (wrapper scripts + embedded JRE) via Homebrew and Scoop.
 - Built with Picocli, Mustache.java templates and packaged with JReleaser.
 
----
+
+## Table of Contents
+- [Install](#install)
+- [Quick Start](#quick-start)
+- [How it works](#how-it-works)
+- [FAQ](#faq)
+- [Contributing](#contributing)
+- [License](#license)
+
 
 ## Install
 
@@ -37,7 +48,7 @@ git clone <your-repo>
 mvn clean package
 ```
 
----
+
 
 ## Quick start
 
@@ -54,9 +65,7 @@ Partial generation example — only DTOs and mappers:
 sprout -p -d -m
 ```
 
----
 
-## CLI options
 
 | Flag | Short | What it does |
 | --- | --- | --- |
@@ -70,9 +79,9 @@ sprout -p -d -m
 | `--exception` | `-e` | Generate NotFoundException classes |
 | `--version` |  | Show version |
 
----
 
-## How it works (high level)
+
+## How it works
 
 Sprout runs like a tiny compiler across five stages:
 
@@ -84,7 +93,14 @@ Sprout runs like a tiny compiler across five stages:
 
 This pipeline is intentionally modular so you can add more generators or tweak templates without touching parsing logic.
 
----
+```mermaid
+flowchart LR
+    A[Entity Source Code] --> B[AST Parsing]
+    B --> C[Metadata Mapping]
+    C --> D[Template Engine]
+    D --> E[Generated Layers]
+```
+
 
 ## Project layout (templates)
 
@@ -99,7 +115,7 @@ Templates live under `src/main/resources/templates/` and include:
 
 The templates expect metadata records (e.g. `EntityMetadata`, `FieldMetadata`, `TypeMetadata`) produced by the parser.
 
----
+
 
 ## Design notes & features
 
@@ -108,7 +124,7 @@ The templates expect metadata records (e.g. `EntityMetadata`, `FieldMetadata`, `
 - **Strict ID resolution** — an `@Id` annotated field is required to determine the repository’s primary key type.
 - **Zero-config distribution** — wrapper scripts (`sprout`, `sprout.bat`) include an embedded JRE, so users don’t need to set the classpath.
 
----
+
 
 ## Examples
 
@@ -130,13 +146,53 @@ Target a specific directory:
 sprout --dir /path/to/my/project
 ```
 
----
+
 
 ## Templates & customization
 
 If you want different code style or method signatures, edit the Mustache templates under `src/main/resources/templates/`. Because templates receive the same metadata records the generators use, changes there let you reshape the output without touching parsing or generator code.
 
----
+## FAQ
+- _Why AST instead of reflection ?_
+>Sprout analyzes your actual Java source files using JavaParser, not compiled bytecode and not reflection.
+>That decision is intentional.
+>
+>- No need to compile first.
+>
+>- No classpath gymnastics.
+>
+>- No runtime surprises.
+
+>By working directly on the AST, Sprout understands structure, annotations, associations, and types exactly as they are written, before the JVM ever gets involved.
+>
+>_This keeps generation deterministic and transparent_
+- Why compile-time generation instead of runtime-magic ?
+>Sprout generates real, explicit Java code.
+>It does not introduce proxies, dynamic behavior, or hidden wiring.
+>
+>Once generation is complete, what you see is what you own.
+>
+>There is:
+>
+>- No runtime dependency on Sprout.
+>
+>- No hidden reflection.
+>
+>- No framework lock-in.
+
+- _Why MapStruct ?_
+>Mapstruct handles the takes the concept of Lombok annotations, and applies it to mappers, giving intelligent mappers that won't break easily and that support multiple DTO formats without the heavy lifting of classical mappers.
+>Unlike reflection-based mappers, MapStruct generates plain Java classes.
+>
+>There is:
+>
+>- No reflection
+>
+>- No dynamic proxies
+>
+>- No runtime performance penalty
+
+>The generated mapper code is as fast as hand-written mapping logic.
 
 ## Contributing
 
@@ -146,13 +202,13 @@ If you want different code style or method signatures, edit the Mustache templat
 
 If you want help integrating a new feature (new template layer, an alternative mapper strategy, etc.) tell me which pipeline step you want to change and I’ll outline the implementation.
 
----
+
 
 ## Changelog & Releases
 
 Releases are handled by JReleaser (GitHub Actions); artifacts include a ZIP with `bin/` (scripts), `lib/` (jar), and `jre/` (embedded runtime). Use the GitHub Releases tab to check what's new.
 
----
+
 
 ## License
 
