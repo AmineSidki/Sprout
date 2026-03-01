@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +78,7 @@
       <recent name="$PROJECT_DIR$/target" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.AmineSidki.runnable" />
       <recent name="org.AmineSidki.generator.FileGenerator" />
       <recent name="org.AmineSidki.generator" />
     </key>
@@ -128,6 +131,7 @@
       <workItem from="1771674052320" duration="12179000" />
       <workItem from="1771724714692" duration="528000" />
       <workItem from="1771726593585" duration="123000" />
+      <workItem from="1772324761820" duration="7017000" />
     </task>
     <servers />
   </component>

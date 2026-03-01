@@ -54,7 +54,7 @@ public class EntityParser implements SproutParser<EntityMetadata>{
 
         //Check for @SproutLDF : Sprout Large data field, excludes annotated fields from generation in the LightDTO
         Set<FieldDeclaration> lightFieldsDeclaration = fdList.stream()
-                .filter(f -> (!f.isAnnotationPresent("SproutLDF")))
+                .filter(f -> !f.isAnnotationPresent("SproutLDF"))
                 .collect(Collectors.toSet());;
 
         try{
@@ -85,6 +85,6 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         });
 
         String className = entity.replaceAll(Pattern.quote(".java") , "");
-        return new EntityMetadata(packageName , className , idField , lightDTO , paginated , ignored , lightFields , fields);
+        return new EntityMetadata(packageName , className , idField , lightDTO , paginated , ignored , fields , lightFields);
     }
 }
