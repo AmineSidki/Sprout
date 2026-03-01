@@ -1,6 +1,9 @@
 package {{PackageName}}.service;
 
 import {{PackageName}}.entity.{{ClassName}};
+{{#hasLightDTO}}
+import {{PackageName}}.dto.Light{{ClassName}}DTO;
+{{/hasLightDTO}}
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import {{PackageName}}.exception.{{ClassName}}NotFoundException;
 import {{PackageName}}.mapper.{{ClassName}}Mapper;
@@ -24,9 +27,9 @@ public class {{ClassName}}Service{
     private final {{ClassName}}Mapper {{className}}Mapper;
 
     @Transactional(readOnly = true)
-    public List<{{ClassName}}DTO> findAll() {
+    public List<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> findAll() {
         return {{className}}Repository.findAll().stream()
-                .map({{className}}Mapper::toDTO)
+                .map({{className}}Mapper::to{{#hasLightDTO}}Light{{/hasLightDTO}}DTO)
                 .collect(Collectors.toList());
     }
 
