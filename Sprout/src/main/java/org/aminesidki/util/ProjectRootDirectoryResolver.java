@@ -46,7 +46,7 @@ public class ProjectRootDirectoryResolver {
             }
             throw new RuntimeException("An error occurred whilst computing project root directory !");
         }catch (Exception e){
-            throw new RuntimeException("An error occurred whilst computing project root directory !");
+            throw new RuntimeException(e.getMessage() + "\n" + e);
         }
     }
 }
