@@ -1,9 +1,9 @@
-package org.aminesidki.generator.FileGenerator;
+package org.aminesidki.generator.filegenerator;
 
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import org.aminesidki.exception.FileSystemException;
-import org.aminesidki.generator.ImportsGenerator.GenericImportsGenerator;
+import org.aminesidki.generator.importsgenerator.GenericImportsGenerator;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;

@@ -1,4 +1,4 @@
-package org.aminesidki.generator.FileGenerator;
+package org.aminesidki.generator.filegenerator;
 
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;

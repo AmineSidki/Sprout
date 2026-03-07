@@ -1,4 +1,4 @@
-package org.aminesidki.generator.DependencyGenerator;
+package org.aminesidki.generator.dependencygenerator;
 
 import org.aminesidki.generator.SproutDependencyGenerator;
 import org.aminesidki.model.EntityMetadata;

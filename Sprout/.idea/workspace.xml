@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/PartialGenerationFlags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/PartialGenerationFlags.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/DependencyGenerator/MapperDependencyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/dependencygenerator/MapperDependencyGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ControllerGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ControllerGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/DtoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ExceptionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ExceptionGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/MapperGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/RepositoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/DtoImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/importsgenerator/DtoImportsGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/GenericImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/importsgenerator/GenericImportsGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/MapperImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/importsgenerator/MapperImportsGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/GenerationHandlerInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/GenerationHandlerInitializer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +152,7 @@
       <workItem from="1771726593585" duration="123000" />
       <workItem from="1772324761820" duration="7329000" />
       <workItem from="1772755219406" duration="4897000" />
-      <workItem from="1772901299182" duration="8031000" />
+      <workItem from="1772901299182" duration="8440000" />
     </task>
     <servers />
   </component>

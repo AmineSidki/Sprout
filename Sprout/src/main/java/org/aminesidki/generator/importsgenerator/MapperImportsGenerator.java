@@ -1,4 +1,4 @@
-package org.aminesidki.generator.ImportsGenerator;
+package org.aminesidki.generator.importsgenerator;
 
 import org.aminesidki.enumeration.Association;
 import org.aminesidki.generator.SproutImportsGenerator;

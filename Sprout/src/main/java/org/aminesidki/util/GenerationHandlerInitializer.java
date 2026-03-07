@@ -1,11 +1,11 @@
 package org.aminesidki.util;
 
 import lombok.RequiredArgsConstructor;
-import org.aminesidki.generator.DependencyGenerator.MapperDependencyGenerator;
-import org.aminesidki.generator.FileGenerator.*;
-import org.aminesidki.generator.ImportsGenerator.DtoImportsGenerator;
-import org.aminesidki.generator.ImportsGenerator.GenericImportsGenerator;
-import org.aminesidki.generator.ImportsGenerator.MapperImportsGenerator;
+import org.aminesidki.generator.dependencygenerator.MapperDependencyGenerator;
+import org.aminesidki.generator.filegenerator.*;
+import org.aminesidki.generator.importsgenerator.DtoImportsGenerator;
+import org.aminesidki.generator.importsgenerator.GenericImportsGenerator;
+import org.aminesidki.generator.importsgenerator.MapperImportsGenerator;
 import org.aminesidki.handler.GenerationHandler;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;

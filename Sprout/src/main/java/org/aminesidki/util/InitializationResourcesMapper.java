@@ -12,22 +12,22 @@ public class InitializationResourcesMapper {
 
         //Compiling templates
         Mustache repoMustache =
-                pGroup == null || pGroup.rFlag ?
+                pGroup.rFlag ?
                         mf.compile("templates/RepositoryTemplate.mustache") : null;
         Mustache serviceMustache =
-                pGroup == null || pGroup.sFlag ?
+                pGroup.sFlag ?
                         mf.compile("templates/ServiceTemplate.mustache") : null;
         Mustache dtoMustache =
-                pGroup == null || pGroup.dFlag ?
+                pGroup.dFlag ?
                         mf.compile("templates/DtoTemplate.mustache") : null;
         Mustache mapperMustache =
-                pGroup == null || pGroup.mFlag ?
+                pGroup.mFlag ?
                         mf.compile("templates/MapperTemplate.mustache") : null;
         Mustache controllerMustache =
-                pGroup == null || pGroup.cFlag ?
+                pGroup.cFlag ?
                         mf.compile("templates/ControllerTemplate.mustache") : null;
         Mustache exceptionMustache =
-                pGroup == null || pGroup.eFlag ?
+                pGroup.eFlag ?
                         mf.compile("templates/ExceptionTemplate.mustache") : null;
 
         return new InitializationResources(repoMustache, dtoMustache, mapperMustache,

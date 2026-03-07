@@ -1,12 +1,12 @@
-package org.aminesidki.generator.FileGenerator;
+package org.aminesidki.generator.filegenerator;
 
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import org.aminesidki.enumeration.Association;
 import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.exception.ParsingException;
-import org.aminesidki.generator.DependencyGenerator.MapperDependencyGenerator;
-import org.aminesidki.generator.ImportsGenerator.MapperImportsGenerator;
+import org.aminesidki.generator.dependencygenerator.MapperDependencyGenerator;
+import org.aminesidki.generator.importsgenerator.MapperImportsGenerator;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.FieldMetadata;
