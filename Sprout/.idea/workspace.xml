@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/provider/JavaParserProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/provider/SproutProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/ParsingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/ParsingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Doctor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/MedicalRecord.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Patient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ControllerGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ControllerGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/DtoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ExceptionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ExceptionGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/MapperGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/RepositoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/GenericImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/GenericImportsGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/TypeMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/TypeMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ServiceTemplate.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +151,7 @@
       <workItem from="1771726593585" duration="123000" />
       <workItem from="1772324761820" duration="7329000" />
       <workItem from="1772755219406" duration="4897000" />
-      <workItem from="1772901299182" duration="3166000" />
+      <workItem from="1772901299182" duration="4852000" />
     </task>
     <servers />
   </component>

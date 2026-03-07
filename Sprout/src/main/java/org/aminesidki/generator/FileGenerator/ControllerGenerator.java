@@ -26,13 +26,13 @@ public class ControllerGenerator implements SproutFileGenerator {
         //Create the Repository package if it doesn't exist yet
         File controllerPackage = new File(defDir + File.separator +"controller");
         if(!controllerPackage.exists() && !controllerPackage.mkdir()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate controller for " + entityMetadata.className());
         }
 
         File controllerFile = new File(defDir + File.separator + "controller" + File.separator + entityMetadata.className() + "Controller.java");
 
         if(!controllerFile.exists() && !controllerFile.createNewFile()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate controller for " + entityMetadata.className());
         }
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {

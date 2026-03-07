@@ -25,13 +25,13 @@ public class ServiceGenerator implements SproutFileGenerator {
         //Create the Service package if it doesn't exist yet
         File servicePackage = new File(defDir + File.separator +"service");
         if(!servicePackage.exists() && !servicePackage.mkdir()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate service for " + entityMetadata.className());
         }
 
         File serviceFile = new File(defDir + File.separator +"service"+ File.separator + entityMetadata.className() + "Service.java");
 
         if(!serviceFile.exists() && !serviceFile.createNewFile()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate service for " + entityMetadata.className());
         }
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(serviceFile))) {

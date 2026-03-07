@@ -49,7 +49,7 @@ public class {{ClassName}}Service{
     @Transactional
     public {{ClassName}}DTO update({{ClassName}}DTO dto) {
         if (!{{className}}Repository.existsById(dto.{{Id}}())) {
-            throw new {{ClassName}}NotFoundException("Cannot delete: {{ClassName}} not found with id: " + dto.{{Id}}());
+            throw new {{ClassName}}NotFoundException("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
         }
 
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);

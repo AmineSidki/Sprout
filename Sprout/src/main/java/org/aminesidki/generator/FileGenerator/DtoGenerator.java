@@ -32,20 +32,20 @@ public class DtoGenerator implements SproutFileGenerator {
         //Create dto package if it doesn't exist yet
         File dtoPackage = new File(defDir + File.separator +"dto");
         if (!dtoPackage.exists() && !dtoPackage.mkdir()) {
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate dto for " + entityMetadata.className());
         }
 
         File lightDtoFile = null;
         File dtoFile = new File(defDir + File.separator +"dto"+ File.separator + entityMetadata.className() + "DTO.java");
 
         if ((!dtoFile.exists() && !dtoFile.createNewFile())) {
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate dto for " + entityMetadata.className());
         }
 
         if(entityMetadata.hasLightDTO()){
             lightDtoFile = new File(defDir + File.separator +"dto"+ File.separator + "Light" + entityMetadata.className() + "DTO.java");
             if(!lightDtoFile.exists() && !lightDtoFile.createNewFile()){
-                throw new FileSystemException("");
+                throw new FileSystemException("Failed to generate light dto for " + entityMetadata.className());
             }
         }
 

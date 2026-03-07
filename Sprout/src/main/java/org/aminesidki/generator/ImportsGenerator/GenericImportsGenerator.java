@@ -12,7 +12,7 @@ public class GenericImportsGenerator implements SproutImportsGenerator {
 
     @Override
     public HashSet<String> generate(EntityMetadata entityMetadata, Map<String, EntityMetadata> persistenceMap, Map<String, HelperMetadata> helperMap) {
-        if((!entityMetadata.id().type().isImportNeeded())) {
+        if((entityMetadata.id().type().isImportNeeded())) {
             return new HashSet<>(Collections.singleton(entityMetadata.id().type().fullQualifiedName()));
         }
         return new HashSet<>();

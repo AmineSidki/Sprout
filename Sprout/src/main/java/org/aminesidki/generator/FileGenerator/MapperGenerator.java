@@ -35,13 +35,13 @@ public class MapperGenerator implements SproutFileGenerator {
         //Create the mapper package if it doesn't exist yet
         File mapperPackage = new File(defDir + File.separator +"mapper");
         if(!mapperPackage.exists() && !mapperPackage.mkdir()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate mapper for " + entityMetadata.className());
         }
 
         File mapperFile = new File(defDir + File.separator +"mapper"+ File.separator + entityMetadata.className() + "Mapper.java");
 
         if(!mapperFile.exists() && !mapperFile.createNewFile()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate mapper for " + entityMetadata.className());
         }
 
         List<FieldMetadata> fields = entityMetadata.fields().stream()

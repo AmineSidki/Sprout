@@ -26,13 +26,13 @@ public class RepositoryGenerator implements SproutFileGenerator {
         //Create the Repository package if it doesn't exist yet
         File repoPackage = new File(defDir + File.separator +"repository");
         if(!repoPackage.exists() && !repoPackage.mkdir()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate repository for " + entityMetadata.className());
         }
 
         File repoFile = new File(defDir + File.separator +"repository"+ File.separator + entityMetadata.className() + "Repository.java");
 
         if(!repoFile.exists() && !repoFile.createNewFile()){
-            throw new FileSystemException("");
+            throw new FileSystemException("Failed to generate repository for " + entityMetadata.className());
         }
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {

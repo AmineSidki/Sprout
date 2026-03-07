@@ -18,24 +18,24 @@ public class ExceptionGenerator implements SproutFileGenerator {
     @Override
     public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
         //Create the Repository package if it doesn't exist yet
-        File controllerPackage = new File(defDir + File.separator + "exception");
-        if(!controllerPackage.exists() && !controllerPackage.mkdir()){
-            throw new FileSystemException("");
+        File exceptionPackage = new File(defDir + File.separator + "exception");
+        if(!exceptionPackage.exists() && !exceptionPackage.mkdir()){
+            throw new FileSystemException("Failed to generate exception for " + entityMetadata.className());
         }
 
-        File controllerFile = new File(defDir + File.separator + "exception"+ File.separator + entityMetadata.className() + "NotFoundException.java");
+        File exceptionFile = new File(defDir + File.separator + "exception"+ File.separator + entityMetadata.className() + "NotFoundException.java");
 
-        if(!controllerFile.exists() && !controllerFile.createNewFile()){
-            throw new FileSystemException("");
+        if(!exceptionFile.exists() && !exceptionFile.createNewFile()){
+            throw new FileSystemException("Failed to generate exception for " + entityMetadata.className());
         }
 
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {
-            HashMap<String, Object> controllerContext = new HashMap<>();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {
+            HashMap<String, Object> exceptionContext = new HashMap<>();
 
-            controllerContext.put("PackageName", entityMetadata.packageName());
-            controllerContext.put("ClassName", entityMetadata.className());
+            exceptionContext.put("PackageName", entityMetadata.packageName());
+            exceptionContext.put("ClassName", entityMetadata.className());
 
-            mustache.execute(writer, controllerContext);
+            mustache.execute(writer, exceptionContext);
         }
     }
 }
