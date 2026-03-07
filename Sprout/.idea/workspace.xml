@@ -5,49 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/provider/JavaParserProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/provider/SproutProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/enumeration/Association.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/enumeration/Association.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/exception/FileSystemException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/exception/FileSystemException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/exception/ParsingException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/exception/ParsingException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/DependencyGenerator/MapperDependencyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/DependencyGenerator/MapperDependencyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ControllerGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ControllerGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/DtoGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ExceptionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ExceptionGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/MapperGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/RepositoryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/FileGenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/FileGenerator/ServiceGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/ImportsGenerator/DtoImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/DtoImportsGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/ImportsGenerator/GenericImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/GenericImportsGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/ImportsGenerator/MapperImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/ImportsGenerator/MapperImportsGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutDependencyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/SproutDependencyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutFileGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/SproutFileGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/generator/SproutImportsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/SproutImportsGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/handler/GenerationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/GenerationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/handler/ParsingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/ParsingHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/EntityMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/EntityMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/FieldMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/FieldMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/HelperMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/HelperMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/InitializationResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/InitializationResources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/PartialGenerationFlags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/PartialGenerationFlags.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/model/TypeMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/TypeMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/EntityParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/parser/EntityParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/HelperParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/parser/HelperParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/parser/SproutParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/parser/SproutParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/runnable/DefaultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/runnable/HelpRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/HelpRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/runnable/VersionRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/VersionRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/BannerPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/BannerPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/GenerationHandlerInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/GenerationHandlerInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/InitializationResourcesMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/InitializationResourcesMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/ParserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/ParserUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/AmineSidki/util/VersionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/VersionUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Doctor.java" beforeDir="false" afterPath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Doctor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/MedicalRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/MedicalRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/ParsingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/ParsingHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/DefaultRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Department.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Doctor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/MedicalRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity/Patient.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,9 +23,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -78,29 +44,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Sprout [package].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/aminesidki/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck&quot;,
-    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;amine/dev&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/aminesidki/Sprout/Sprout/target&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.App.executor": "Run",
+    "JUnit.EntityParserTest.executor": "Run",
+    "JUnit.EntityParserTest.parse_department_sproutLFDFieldsExcludedFromLightFields.executor": "Run",
+    "JUnit.HelperParserTest.executor": "Run",
+    "JUnit.HelperParserTest.parse_department_returnsCorrectPackageName.executor": "Run",
+    "Maven.Sprout [package].executor": "Run",
+    "Maven.Sprout [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHELLCHECK.PATH": "/Users/aminesidki/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "git-widget-placeholder": "amine/dev",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/aminesidki/Sprout/Sprout/target",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.AmineSidki.generator.ImportsGenerator" />
@@ -111,12 +82,14 @@
       <recent name="$PROJECT_DIR$/test-entities" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/test" />
       <recent name="$PROJECT_DIR$/src/assembly" />
       <recent name="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity" />
       <recent name="$PROJECT_DIR$/target/tpack" />
       <recent name="$PROJECT_DIR$/target" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.aminesidki.parser" />
       <recent name="org.AmineSidki.runnable" />
       <recent name="org.AmineSidki.generator.FileGenerator" />
       <recent name="org.AmineSidki.generator" />
@@ -176,7 +149,8 @@
       <workItem from="1771724714692" duration="528000" />
       <workItem from="1771726593585" duration="123000" />
       <workItem from="1772324761820" duration="7329000" />
-      <workItem from="1772755219406" duration="2983000" />
+      <workItem from="1772755219406" duration="4897000" />
+      <workItem from="1772901299182" duration="3166000" />
     </task>
     <servers />
   </component>

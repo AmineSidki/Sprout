@@ -3,6 +3,7 @@ package org.aminesidki.runnable;
 import com.github.javaparser.JavaParser;
 import org.aminesidki.handler.GenerationHandler;
 import org.aminesidki.handler.ParsingHandler;
+import org.aminesidki.provider.JavaParserProvider;
 import org.aminesidki.util.*;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
@@ -58,7 +59,8 @@ public class DefaultRunnable implements Runnable{
         ConcurrentHashMap<String , HelperMetadata> hmm = new ConcurrentHashMap<>();
 
         //Parsing
-        ParsingHandler parsingHandler = new ParsingHandler(emm, hmm, calculatedSourceRoot);
+        JavaParserProvider javaParserProvider = new JavaParserProvider(calculatedSourceRoot);
+        ParsingHandler parsingHandler = new ParsingHandler(emm, hmm, javaParserProvider);
         parsingHandler.parse(files);
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|bold \nPass 3/3 : Generating classes |@ \n"));

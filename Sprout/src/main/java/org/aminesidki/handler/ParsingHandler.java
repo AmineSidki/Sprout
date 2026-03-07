@@ -14,6 +14,7 @@ import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.parser.EntityParser;
 import org.aminesidki.parser.HelperParser;
+import org.aminesidki.provider.JavaParserProvider;
 import org.aminesidki.util.ParserUtil;
 import picocli.CommandLine;
 
@@ -27,23 +28,13 @@ import java.util.Map;
 public class ParsingHandler {
     private final Map<String, EntityMetadata> emm;
     private final Map<String, HelperMetadata> hmm;
-    private final File calculatedSourceRoot;
+    private final JavaParserProvider javaParserProvider;
 
     public void parse(File[] files){
         //Resource initialization
         final ThreadLocal<EntityParser> entityParser = ThreadLocal.withInitial(EntityParser::new);
         final ThreadLocal<HelperParser> helperParser = ThreadLocal.withInitial(HelperParser::new);
-        final ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(() -> {
-            CombinedTypeSolver typeSolver = new CombinedTypeSolver();
-            typeSolver.add(new ReflectionTypeSolver());
-            typeSolver.add(new JavaParserTypeSolver(calculatedSourceRoot));
-
-            JavaSymbolSolver symbolSolver = new JavaSymbolSolver(typeSolver);
-
-            ParserConfiguration parserConfig = new ParserConfiguration();
-            parserConfig.setSymbolResolver(symbolSolver);
-            return new JavaParser(parserConfig);
-        });
+        final ThreadLocal<JavaParser> parser = ThreadLocal.withInitial(javaParserProvider::provide);
 
         Arrays.stream(files).parallel().forEach(
                 entity -> {

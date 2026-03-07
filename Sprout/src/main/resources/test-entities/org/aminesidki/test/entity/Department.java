@@ -13,8 +13,8 @@ public class Department {
     private Long id;
 
     private String name;
-    @SproutLFD
+    @SproutLDF
     private String building;
-    @SproutLFD
+    @SproutLDF
     private LocalDate establishedDate;
 }
