@@ -25,7 +25,7 @@ public abstract class {{ClassName}}Mapper {
     //Map to DTO
     public abstract {{ClassName}}DTO toDTO({{ClassName}} entity);
 {{#hasLightDTO}}
-    public abstract Light{{ClassName}}DTO toLightDTO({{ClassName}} entity)
+    public abstract Light{{ClassName}}DTO toLightDTO({{ClassName}} entity);
 {{/hasLightDTO}}
     //Map to Entity
     public abstract {{ClassName}} toEntity({{ClassName}}DTO dto);
