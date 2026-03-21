@@ -41,6 +41,7 @@ public class ServiceGenerator implements SproutFileGenerator {
             HashMap<String, Object> serviceContext = new HashMap<>();
 
             serviceContext.put("Imports" , genericImportsGenerator.generate(entityMetadata, em, hm));
+            serviceContext.put("Paginated" , entityMetadata.isPaginated());
             serviceContext.put("PackageName", entityMetadata.packageName());
             serviceContext.put("ClassName", entityMetadata.className());
             serviceContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));

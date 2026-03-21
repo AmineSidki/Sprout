@@ -47,7 +47,7 @@ public class EntityParserTest {
     }
 
     // -------------------------------------------------------------------------
-    // Department.java — @SproutLightDTO, @SproutLDF fields, Long id
+    // Department.java — @SproutLightDTO, @SproutLargeDataField fields, Long id
     // -------------------------------------------------------------------------
 
     @Test
@@ -94,8 +94,8 @@ public class EntityParserTest {
         boolean dateInLight = meta.lightFields().stream()
                 .anyMatch(f -> f.name().equals("establishedDate"));
 
-        assertFalse("@SproutLDF field 'building' should be excluded from lightFields", buildingInLight);
-        assertFalse("@SproutLDF field 'establishedDate' should be excluded from lightFields", dateInLight);
+        assertFalse("@SproutLargeDataField field 'building' should be excluded from lightFields", buildingInLight);
+        assertFalse("@SproutLargeDataField field 'establishedDate' should be excluded from lightFields", dateInLight);
     }
 
     @Test

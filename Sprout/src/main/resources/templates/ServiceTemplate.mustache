@@ -12,6 +12,10 @@ import {{PackageName}}.repository.{{ClassName}}Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+{{#Paginated}}
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+{{/Paginated}}
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +25,7 @@ import {{.}};
 {{/Imports}}
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class {{ClassName}}Service{
     private final {{ClassName}}Repository {{className}}Repository;
@@ -40,13 +45,19 @@ public class {{ClassName}}Service{
                 .orElseThrow(() -> new {{ClassName}}NotFoundException("{{ClassName}} not found with id: " + id));
     }
 
-    @Transactional
+    {{#Paginated}}
+    @Transactional(readOnly = true)
+    public Page<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> findAllPaginated(Pageable pageable){
+        return {{className}}Repository.findAll(pageable)
+                .map({{className}}Mapper::to{{#hasLightDTO}}Light{{/hasLightDTO}}DTO);
+    }
+    {{/Paginated}}
+
     public {{ClassName}}DTO save({{ClassName}}DTO dto) {
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
         return {{className}}Mapper.toDTO({{className}}Repository.save(entity));
     }
 
-    @Transactional
     public {{ClassName}}DTO update({{ClassName}}DTO dto) {
         if (!{{className}}Repository.existsById(dto.{{Id}}())) {
             throw new {{ClassName}}NotFoundException("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
@@ -56,7 +67,6 @@ public class {{ClassName}}Service{
         return {{className}}Mapper.toDTO({{className}}Repository.save(entity));
     }
 
-    @Transactional
     public void delete({{IdType}} id) {
         if (!{{className}}Repository.existsById(id)) {
             throw new {{ClassName}}NotFoundException("Cannot delete: {{ClassName}} not found with id: " + id);

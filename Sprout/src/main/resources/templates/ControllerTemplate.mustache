@@ -8,6 +8,10 @@ import {{PackageName}}.service.{{ClassName}}Service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+{{#Paginated}}
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+{{/Paginated}}
 
 import java.util.List;
 {{#Imports}}
@@ -29,6 +33,13 @@ public class {{ClassName}}Controller{
     public {{ClassName}}DTO getById(@PathVariable {{IdType}} id) {
         return {{className}}Service.findById(id);
     }
+
+    {{#Paginated}}
+    @GetMapping("/p")
+    public Page<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> getAllPaginated(Pageable pageable){
+        return {{className}}Service.findAllPaginated(pageable);
+    }
+    {{/Paginated}}
 
     @PostMapping
     public {{ClassName}}DTO save(@Valid @RequestBody {{ClassName}}DTO dto) {

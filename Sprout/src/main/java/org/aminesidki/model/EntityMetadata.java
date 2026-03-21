@@ -18,6 +18,7 @@ public record EntityMetadata(String packageName,
                              boolean hasLightDTO,
                              boolean isPaginated,
                              boolean isIgnored,
+                             boolean isCached,
                              List<FieldMetadata> fields,
                              List<FieldMetadata> lightFields) {
 }

@@ -45,6 +45,9 @@ public class EntityParser implements SproutParser<EntityMetadata>{
                 .findFirst()
                 .orElseThrow(() -> new ParsingException("No @Id Annotation present in supposed entity "+ entity + "."));
 
+        //Check for @SproutCached
+        boolean cached = ParserUtil.hasAnnotation(cu, entity, "SproutCached");
+
         //Check for @SproutLightDTO
         boolean lightDTO = ParserUtil.hasAnnotation(cu, entity, "SproutLightDTO");
 
@@ -55,9 +58,9 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         //Check for @SproutIgnore : Parses and accounts for entity in the Context, but doesn't generate any code for it. it basically acts as a Helper with additional data
         boolean ignored = ParserUtil.hasAnnotation(cu, entity, "SproutIgnore");
 
-        //Check for @SproutLDF : Sprout Large data field, excludes annotated fields from generation in the LightDTO
+        //Check for @SproutLargeDataField : Sprout Large data field, excludes annotated fields from generation in the LightDTO
         Set<FieldDeclaration> lightFieldsDeclaration = fdList.stream()
-                .filter(f -> !f.isAnnotationPresent("SproutLDF"))
+                .filter(f -> !f.isAnnotationPresent("SproutLargeDataField"))
                 .collect(Collectors.toSet());;
 
         try{
@@ -88,6 +91,6 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         });
 
         String className = entity.replaceAll(Pattern.quote(".java") , "");
-        return new EntityMetadata(packageName , className , idField , lightDTO , paginated , ignored , fields , lightFields);
+        return new EntityMetadata(packageName , className , idField , lightDTO , paginated , ignored , cached , fields , lightFields);
     }
 }
