@@ -4,13 +4,13 @@
 
 # Sprout
 
-**Sprout** is a small, focused CLI tool that generates the boring parts of a Spring Boot app from your JPA `@Entity` classes. Point it at your `entity` package and it will produce repositories, services, DTOs (as records), MapStruct mappers, controllers and convenient NotFound exceptions — so you can spend time on business logic, not boilerplate.
+**Sprout** is a small, focused CLI tool that generates the boring parts of a Spring Boot app from your JPA `@Entity` classes. Point it at your `entity` package and it will produce repositories, services, DTOs (as records), projections, MapStruct mappers, controllers and convenient NotFound exceptions — so you can spend time on business logic, not boilerplate.
 
 
 ## Quick highlights
 
 - Parses your Java source with **JavaParser** (symbol resolution included).
-- Produces type-safe DTO records and MapStruct mappers with automatic dependency wiring.
+- Produces type-safe DTO records, projections, and MapStruct mappers with automatic constructor-based dependency wiring.
 - Supports partial generation (generate only DTOs + mappers, or any subset you want).
 - Distributed as a zero-config binary (wrapper scripts + embedded JRE) via Homebrew and Scoop.
 - Built with Picocli, Mustache.java templates and packaged with JReleaser.
@@ -19,6 +19,7 @@
 ## Table of Contents
 - [Install](#install)
 - [Quick Start](#quick-start)
+- [Annotations](#annotations)
 - [How it works](#how-it-works)
 - [FAQ](#faq)
 - [Contributing](#contributing)
@@ -68,8 +69,8 @@ sprout -p -d -m
 
 
 | Flag | Short | What it does |
-| --- | --- | --- |
-| `--dir` |  | Target directory (defaults to `.`) |
+| :--- | :---- | :----------- |
+| `--dir` | | Target directory (defaults to `.`) |
 | `--partial` | `-p` | Enable partial generation mode |
 | `--repository` | `-r` | Generate repositories |
 | `--service` | `-s` | Generate services |
@@ -77,7 +78,23 @@ sprout -p -d -m
 | `--mapper` | `-m` | Generate MapStruct mappers |
 | `--controller` | `-c` | Generate REST controllers |
 | `--exception` | `-e` | Generate NotFoundException classes |
-| `--version` |  | Show version |
+| `--version` | `-v` | Show version |
+
+
+
+## Annotations
+
+Sprout reads a set of marker annotations directly from your entity source to drive generation. None of them require a runtime dependency — they are stripped after generation.
+
+**`@SproutProjection`** — Tells Sprout to generate a separate `{Entity}Projection` record alongside the standard DTO. The projection is placed in its own `projection/` package and the mapper gains a `toProjection()` method. The service and controller `findAll` endpoints return the projection type instead of the full DTO, which is useful when you want a leaner read model without exposing every field.
+
+**`@SproutLargeDataField`** — Marks a field that should be excluded from the projection. Use this on fields like `byte[]` blobs or long text columns that you never want in a list view.
+
+**`@SproutPaginated`** — Generates paginated `findAll` variants in the service and controller in addition to the standard list endpoint.
+
+**`@SproutCached`** — Signals that the generated service should include caching hints. The exact strategy depends on the template — edit `ServiceTemplate.mustache` to match your cache setup.
+
+**`@SproutIgnore`** — Tells Sprout to skip this entity entirely. Entities marked with this annotation are filtered out before generation begins, so they don't produce any output even in full-generation mode.
 
 
 
@@ -86,10 +103,10 @@ sprout -p -d -m
 Sprout runs like a tiny compiler across five stages:
 
 1. **Resolution** — finds your `/entity` package and computes the base package for generated code.
-2. **AST Analysis** — parses `.java` files with JavaParser; builds `EntityMetadata` objects (fields, ID, associations).
+2. **AST Analysis** — parses `.java` files with JavaParser; builds `EntityMetadata` objects (fields, ID, associations, annotation flags).
 3. **Metadata Mapping** — resolves Java types and maps Hibernate associations to internal enums for generation logic.
-4. **Template Orchestration** — picks which layers to generate, wires import/dependency generators into file generators.
-5. **Emission** — executes Mustache templates and writes the generated `.java` files into `dto/`, `service/`, `repository/`, etc.
+4. **Template Orchestration** — picks which layers to generate, wires import and dependency generators into file generators.
+5. **Emission** — executes Mustache templates through `FileCreator` and writes the generated `.java` files into `dto/`, `projection/`, `service/`, `repository/`, etc.
 
 This pipeline is intentionally modular so you can add more generators or tweak templates without touching parsing logic.
 
@@ -113,16 +130,17 @@ Templates live under `src/main/resources/templates/` and include:
 - `ControllerTemplate.mustache`
 - `ExceptionTemplate.mustache`
 
-The templates expect metadata records (e.g. `EntityMetadata`, `FieldMetadata`, `TypeMetadata`) produced by the parser.
+The templates expect the metadata records produced by the parser (`EntityMetadata`, `FieldMetadata`, `TypeMetadata` and so on). The DTO template doubles as the projection template — the `isLight` flag switches the package, class name suffix and Javadoc header accordingly.
 
 
 
 ## Design notes & features
 
 - **Smart imports** — generators add `java.util.List/Set` or primary key types only when needed.
-- **Mapper dependency injection** — mapper generators scan imports and automatically add `@Autowired` repository fields for MapStruct mappers.
-- **Strict ID resolution** — an `@Id` annotated field is required to determine the repository’s primary key type.
-- **Zero-config distribution** — wrapper scripts (`sprout`, `sprout.bat`) include an embedded JRE, so users don’t need to set the classpath.
+- **Constructor injection in mappers** — mapper generators scan associations and wire repository dependencies through a generated constructor rather than field injection, which keeps the mapper compatible with abstract class semantics and avoids Spring proxy edge cases.
+- **Strict ID resolution** — an `@Id` annotated field is required to determine the repository's primary key type.
+- **Ignored entities are filtered early** — `@SproutIgnore` entities are dropped before generation starts, so no generator ever sees them.
+- **Zero-config distribution** — wrapper scripts (`sprout`, `sprout.bat`) include an embedded JRE, so users don't need to set the classpath.
 
 
 
@@ -166,6 +184,7 @@ If you want different code style or method signatures, edit the Mustache templat
 >By working directly on the AST, Sprout understands structure, annotations, associations, and types exactly as they are written, before the JVM ever gets involved.
 >
 >_This keeps generation deterministic and transparent_
+
 - Why compile-time generation instead of runtime-magic ?
 >Sprout generates real, explicit Java code.
 >It does not introduce proxies, dynamic behavior, or hidden wiring.
@@ -181,7 +200,7 @@ If you want different code style or method signatures, edit the Mustache templat
 >- No framework lock-in.
 
 - _Why MapStruct ?_
->Mapstruct handles the takes the concept of Lombok annotations, and applies it to mappers, giving intelligent mappers that won't break easily and that support multiple DTO formats without the heavy lifting of classical mappers.
+>MapStruct takes the concept of Lombok annotations and applies it to mappers, giving you intelligent mapping code that won't break easily and that supports multiple output formats — full DTO, projection, entity — without the heavy lifting of classical mappers.
 >Unlike reflection-based mappers, MapStruct generates plain Java classes.
 >
 >There is:
@@ -198,9 +217,9 @@ If you want different code style or method signatures, edit the Mustache templat
 
 - Fork, make a branch, open a pull request.
 - Keep changes modular: prefer adding a new generator or template over modifying core parsing behavior.
-- Update or add tests that cover parsing/generation outcomes.
+- Update or add tests that cover parsing and generation outcomes.
 
-If you want help integrating a new feature (new template layer, an alternative mapper strategy, etc.) tell me which pipeline step you want to change and I’ll outline the implementation.
+If you want help integrating a new feature (new template layer, an alternative mapper strategy, etc.) open an issue describing which pipeline step you want to change.
 
 
 
