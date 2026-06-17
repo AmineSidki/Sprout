@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
-@SproutLightDTO
+@SproutProjection
 @Entity
 @Getter @Setter
 public class Department {

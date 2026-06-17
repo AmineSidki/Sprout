@@ -1,7 +1,7 @@
 package {{PackageName}}.controller;
-{{#hasLightDTO}}
+{{#hasProjection}}
 import {{PackageName}}.dto.Light{{ClassName}}DTO;
-{{/hasLightDTO}}
+{{/hasProjection}}
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import {{PackageName}}.service.{{ClassName}}Service;
 
@@ -25,7 +25,7 @@ public class {{ClassName}}Controller{
     private final {{ClassName}}Service {{className}}Service;
 
     @GetMapping
-    public List<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> getAll() {
+    public List<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> getAll() {
         return {{className}}Service.findAll();
     }
 
@@ -36,7 +36,7 @@ public class {{ClassName}}Controller{
 
     {{#Paginated}}
     @GetMapping("/p")
-    public Page<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> getAllPaginated(Pageable pageable){
+    public Page<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> getAllPaginated(Pageable pageable){
         return {{className}}Service.findAllPaginated(pageable);
     }
     {{/Paginated}}

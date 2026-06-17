@@ -9,6 +9,7 @@ import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.FieldMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.util.DtoFieldMapper;
+import org.aminesidki.util.FileCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,25 +31,12 @@ public class DtoGenerator implements SproutFileGenerator {
 
     private record RecordFieldView(FieldMetadata field , boolean last){} ;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
-        //Create dto package if it doesn't exist yet
-        File dtoPackage = new File(defDir + File.separator +"dto");
-        if (!dtoPackage.exists() && !dtoPackage.mkdir()) {
-            throw new FileSystemException("Failed to generate dto for " + entityMetadata.className());
-        }
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+        File dtoFile = fileCreator.createFile(entityMetadata.className(), "Dto", defDir);
 
-        File lightDtoFile = null;
-        File dtoFile = new File(defDir + File.separator +"dto"+ File.separator + entityMetadata.className() + "DTO.java");
-
-        if ((!dtoFile.exists() && !dtoFile.createNewFile())) {
-            throw new FileSystemException("Failed to generate dto for " + entityMetadata.className());
-        }
-
-        if(entityMetadata.hasLightDTO()){
-            lightDtoFile = new File(defDir + File.separator +"dto"+ File.separator + "Light" + entityMetadata.className() + "DTO.java");
-            if(!lightDtoFile.exists() && !lightDtoFile.createNewFile()){
-                throw new FileSystemException("Failed to generate light dto for " + entityMetadata.className());
-            }
+        File projectionFile = null;
+        if(entityMetadata.hasProjection()){
+            projectionFile = fileCreator.createFile(entityMetadata.className(), "Projection", defDir);
         }
 
         List <FieldMetadata> fields = DtoFieldMapper.mapToDtoField(entityMetadata.fields() , persistenceMetadata, helperMetadata);
@@ -71,11 +59,11 @@ public class DtoGenerator implements SproutFileGenerator {
             mustache.execute(writer, dtoContext);
         }
 
-        //In case of light DTO, generate light DTO too
-        if(entityMetadata.hasLightDTO()){
+        //In case of projection, generate projection too
+        if(entityMetadata.hasProjection()){
             List<FieldMetadata> lightFields = DtoFieldMapper.mapToDtoField(entityMetadata.lightFields(), persistenceMetadata, helperMetadata);
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(lightDtoFile))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(projectionFile))) {
                 HashMap <String,Object> dtoContext = new HashMap <>();
 
                 HashSet<String> imports = dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);

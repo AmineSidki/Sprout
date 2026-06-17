@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
+import org.aminesidki.util.FileCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,18 +20,8 @@ import java.util.HashMap;
 public class ExceptionGenerator implements SproutFileGenerator {
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
-        //Create the Repository package if it doesn't exist yet
-        File exceptionPackage = new File(defDir + File.separator + "exception");
-        if(!exceptionPackage.exists() && !exceptionPackage.mkdir()){
-            throw new FileSystemException("Failed to generate exception for " + entityMetadata.className());
-        }
-
-        File exceptionFile = new File(defDir + File.separator + "exception"+ File.separator + entityMetadata.className() + "NotFoundException.java");
-
-        if(!exceptionFile.exists() && !exceptionFile.createNewFile()){
-            throw new FileSystemException("Failed to generate exception for " + entityMetadata.className());
-        }
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+        File exceptionFile = fileCreator.createFile(entityMetadata.className(), "Exception", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {
             HashMap<String, Object> exceptionContext = new HashMap<>();

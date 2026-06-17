@@ -1,9 +1,9 @@
 package {{PackageName}}.mapper;
 
 import {{PackageName}}.entity.{{ClassName}};
-{{#hasLightDTO}}
+{{#hasProjection}}
 import {{PackageName}}.dto.Light{{ClassName}}DTO;
-{{/hasLightDTO}}
+{{/hasProjection}}
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import org.mapstruct.Mapper;
 
@@ -16,17 +16,24 @@ import {{.}};
 */
 @Mapper(componentModel = "spring")
 public abstract class {{ClassName}}Mapper {
-    {{#Dependencies}}
+    public {{ClassName}}Mapper({{#Dependencies}}{{type}} {{name}}, {{/Dependencies}}{{#LastDependency}}{{type}} {{name}}{{/LastDependency}}){
+        {{#Dependencies}}
+        this.{{name}} = {{name}};
+        {{/Dependencies}}
+        {{#LastDependency}}
+        this.{{name}} = {{name}};
+        {{/LastDependency}}
+    }
 
-    @Autowired
+    {{#Dependencies}}
     private {{type}} {{name}} ;
     {{/Dependencies}}
 
     //Map to DTO
     public abstract {{ClassName}}DTO toDTO({{ClassName}} entity);
-{{#hasLightDTO}}
+{{#hasProjection}}
     public abstract Light{{ClassName}}DTO toLightDTO({{ClassName}} entity);
-{{/hasLightDTO}}
+{{/hasProjection}}
     //Map to Entity
     public abstract {{ClassName}} toEntity({{ClassName}}DTO dto);
 
@@ -35,7 +42,7 @@ public abstract class {{ClassName}}Mapper {
         if(id{{#multiple}}s{{/multiple}} == null){
             return null;
         }
-            return {{field.type.regularName}}Repo.find{{#multiple}}All{{/multiple}}ById(id{{#multiple}}s{{/multiple}}){{^multiple}}.orElse(null){{/multiple}};
+        return {{field.type.regularName}}Repo.find{{#multiple}}All{{/multiple}}ById(id{{#multiple}}s{{/multiple}}){{^multiple}}.orElse(null){{/multiple}};
     }
 
     public {{#multiple}}List<{{/multiple}}{{id.type.regularName}}{{#multiple}}>{{/multiple}} map{{className}}{{#multiple}}s{{/multiple}}ToId{{#multiple}}s{{/multiple}}({{#multiple}}List<{{/multiple}}{{className}}{{#multiple}}>{{/multiple}} entit{{^multiple}}y{{/multiple}}{{#multiple}}ies{{/multiple}}){

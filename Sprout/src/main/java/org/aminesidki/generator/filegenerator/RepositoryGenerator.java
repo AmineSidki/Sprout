@@ -7,6 +7,7 @@ import org.aminesidki.generator.importsgenerator.GenericImportsGenerator;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
+import org.aminesidki.util.FileCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,18 +26,8 @@ public class RepositoryGenerator implements SproutFileGenerator {
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
-        //Create the Repository package if it doesn't exist yet
-        File repoPackage = new File(defDir + File.separator +"repository");
-        if(!repoPackage.exists() && !repoPackage.mkdir()){
-            throw new FileSystemException("Failed to generate repository for " + entityMetadata.className());
-        }
-
-        File repoFile = new File(defDir + File.separator +"repository"+ File.separator + entityMetadata.className() + "Repository.java");
-
-        if(!repoFile.exists() && !repoFile.createNewFile()){
-            throw new FileSystemException("Failed to generate repository for " + entityMetadata.className());
-        }
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException , FileSystemException{
+        File repoFile = fileCreator.createFile(entityMetadata.className(), "Repository", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {
             HashMap<String, Object> repoContext = new HashMap<>();

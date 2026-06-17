@@ -1,9 +1,9 @@
 package {{PackageName}}.service;
 
 import {{PackageName}}.entity.{{ClassName}};
-{{#hasLightDTO}}
+{{#hasProjection}}
 import {{PackageName}}.dto.Light{{ClassName}}DTO;
-{{/hasLightDTO}}
+{{/hasProjection}}
 import {{PackageName}}.dto.{{ClassName}}DTO;
 import {{PackageName}}.exception.{{ClassName}}NotFoundException;
 import {{PackageName}}.mapper.{{ClassName}}Mapper;
@@ -32,9 +32,9 @@ public class {{ClassName}}Service{
     private final {{ClassName}}Mapper {{className}}Mapper;
 
     @Transactional(readOnly = true)
-    public List<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> findAll() {
+    public List<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> findAll() {
         return {{className}}Repository.findAll().stream()
-                .map({{className}}Mapper::to{{#hasLightDTO}}Light{{/hasLightDTO}}DTO)
+                .map({{className}}Mapper::to{{#hasProjection}}Light{{/hasProjection}}DTO)
                 .collect(Collectors.toList());
     }
 
@@ -47,9 +47,9 @@ public class {{ClassName}}Service{
 
     {{#Paginated}}
     @Transactional(readOnly = true)
-    public Page<{{#hasLightDTO}}Light{{/hasLightDTO}}{{ClassName}}DTO> findAllPaginated(Pageable pageable){
+    public Page<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> findAllPaginated(Pageable pageable){
         return {{className}}Repository.findAll(pageable)
-                .map({{className}}Mapper::to{{#hasLightDTO}}Light{{/hasLightDTO}}DTO);
+                .map({{className}}Mapper::to{{#hasProjection}}Light{{/hasProjection}}DTO);
     }
     {{/Paginated}}
 

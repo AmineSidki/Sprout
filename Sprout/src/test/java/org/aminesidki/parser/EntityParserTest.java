@@ -47,7 +47,7 @@ public class EntityParserTest {
     }
 
     // -------------------------------------------------------------------------
-    // Department.java — @SproutLightDTO, @SproutLargeDataField fields, Long id
+    // Department.java — @SproutProjection, @SproutLargeDataField fields, Long id
     // -------------------------------------------------------------------------
 
     @Test
@@ -65,10 +65,10 @@ public class EntityParserTest {
     }
 
     @Test
-    public void parse_department_hasLightDTOIsTrue() throws Exception {
+    public void parse_department_hasSproutProjectionIsTrue() throws Exception {
         EntityMetadata meta = parser.parse(parseFile("Department.java"), "Department.java");
 
-        assertTrue(meta.hasLightDTO());
+        assertTrue(meta.hasProjection());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class EntityParserTest {
     public void parse_doctor_hasLightDTOIsFalse() throws Exception {
         EntityMetadata meta = parser.parse(parseFile("Doctor.java"), "Doctor.java");
 
-        assertFalse(meta.hasLightDTO());
+        assertFalse(meta.hasProjection());
     }
 
     @Test

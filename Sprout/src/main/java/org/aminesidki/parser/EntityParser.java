@@ -48,8 +48,8 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         //Check for @SproutCached
         boolean cached = ParserUtil.hasAnnotation(cu, entity, "SproutCached");
 
-        //Check for @SproutLightDTO
-        boolean lightDTO = ParserUtil.hasAnnotation(cu, entity, "SproutLightDTO");
+        //Check for @SproutProjection
+        boolean projection = ParserUtil.hasAnnotation(cu, entity, "SproutProjection");
 
         //Check for @SproutPaginated
         boolean paginated = ParserUtil.hasAnnotation(cu, entity, "SproutPaginated");
@@ -61,7 +61,7 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         //Check for @SproutLargeDataField : Sprout Large data field, excludes annotated fields from generation in the LightDTO
         Set<FieldDeclaration> lightFieldsDeclaration = fdList.stream()
                 .filter(f -> !f.isAnnotationPresent("SproutLargeDataField"))
-                .collect(Collectors.toSet());;
+                .collect(Collectors.toSet());
 
         try{
             ResolvedType idResolved = idFd.getVariable(0).getType().resolve();
@@ -91,6 +91,6 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         });
 
         String className = entity.replaceAll(Pattern.quote(".java") , "");
-        return new EntityMetadata(packageName , className , idField , lightDTO , paginated , ignored , cached , fields , lightFields);
+        return new EntityMetadata(packageName , className , idField , projection , paginated , ignored , cached , fields , lightFields);
     }
 }

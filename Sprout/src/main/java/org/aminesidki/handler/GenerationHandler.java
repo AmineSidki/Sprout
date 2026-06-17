@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
+import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Logger;
 import picocli.CommandLine;
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.Map;
 public class GenerationHandler {
     private final String defaultDir;
     private final Map<String, EntityMetadata> emm;
+    private final FileCreator fileCreator;
 
     private record GeneratorView (SproutFileGenerator generator , Mustache mustache , String generationMessage){};
     private final List<GeneratorView> generatorList = new ArrayList<>();
@@ -27,15 +30,16 @@ public class GenerationHandler {
 
     public void generate(){
         for(EntityMetadata em : emm.values()){
+            if(em.isIgnored()) continue;
             try {
                 for(GeneratorView gen : generatorList){
-                    gen.generator().generate(em , gen.mustache(), defaultDir);
+                    gen.generator().generate(em , gen.mustache(), defaultDir, fileCreator);
                     System.out.println(gen.generationMessage() + em.className());
                 }
             } catch (IOException e) {
                 throw new FileSystemException("Failure in class " + em.className() + "\n" + e);
             } catch (FileSystemException fsE){
-                System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : File generation failed for class " + em.className()));
+                System.out.println(Logger.getInstance().errorMessage("File generation failed for class " + em.className()));
                 fsE.printStackTrace();
             }
         }

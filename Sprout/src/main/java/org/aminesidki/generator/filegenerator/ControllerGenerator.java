@@ -7,6 +7,7 @@ import org.aminesidki.generator.importsgenerator.GenericImportsGenerator;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
+import org.aminesidki.util.FileCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,18 +26,8 @@ public class ControllerGenerator implements SproutFileGenerator {
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
-        //Create the Repository package if it doesn't exist yet
-        File controllerPackage = new File(defDir + File.separator +"controller");
-        if(!controllerPackage.exists() && !controllerPackage.mkdir()){
-            throw new FileSystemException("Failed to generate controller for " + entityMetadata.className());
-        }
-
-        File controllerFile = new File(defDir + File.separator + "controller" + File.separator + entityMetadata.className() + "Controller.java");
-
-        if(!controllerFile.exists() && !controllerFile.createNewFile()){
-            throw new FileSystemException("Failed to generate controller for " + entityMetadata.className());
-        }
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+        File controllerFile = fileCreator.createFile(entityMetadata.className(), "Controller", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {
             HashMap<String, Object> controllerContext = new HashMap<>();
@@ -46,7 +37,7 @@ public class ControllerGenerator implements SproutFileGenerator {
             controllerContext.put("PackageName", entityMetadata.packageName());
             controllerContext.put("ClassName", entityMetadata.className());
             controllerContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));
-            controllerContext.put("hasLightDTO" , entityMetadata.hasLightDTO());
+            controllerContext.put("hasProjection" , entityMetadata.hasProjection());
             controllerContext.put("IdType", entityMetadata.id().type().regularName());
 
             mustache.execute(writer, controllerContext);
