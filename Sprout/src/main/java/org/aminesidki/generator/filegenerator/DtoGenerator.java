@@ -68,11 +68,11 @@ public class DtoGenerator implements SproutFileGenerator {
 
                 HashSet<String> imports = dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
 
-                dtoContext.put("Imports" , imports);
-                dtoContext.put("isLight" , true);
-                dtoContext.put("PackageName", entityMetadata.packageName());
                 dtoContext.put("ClassName", entityMetadata.className());
+                dtoContext.put("PackageName", entityMetadata.packageName());
                 dtoContext.put("IdType", entityMetadata.id().type().regularName());
+                dtoContext.put("Imports" , imports);
+                dtoContext.put("isProjection" , true);
                 dtoContext.put("Fields", lightFields.stream()
                         .map(f -> new RecordFieldView(f, f == lightFields.get(lightFields.size() - 1)))
                         .toList());

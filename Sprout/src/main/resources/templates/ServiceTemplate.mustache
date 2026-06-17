@@ -2,9 +2,9 @@ package {{PackageName}}.service;
 
 import {{PackageName}}.entity.{{ClassName}};
 {{#hasProjection}}
-import {{PackageName}}.dto.Light{{ClassName}}DTO;
+import {{PackageName}}.projection.{{ClassName}}Projection;
 {{/hasProjection}}
-import {{PackageName}}.dto.{{ClassName}}DTO;
+import {{PackageName}}.dto.{{ClassName}}Dto;
 import {{PackageName}}.exception.{{ClassName}}NotFoundException;
 import {{PackageName}}.mapper.{{ClassName}}Mapper;
 import {{PackageName}}.repository.{{ClassName}}Repository;
@@ -32,39 +32,39 @@ public class {{ClassName}}Service{
     private final {{ClassName}}Mapper {{className}}Mapper;
 
     @Transactional(readOnly = true)
-    public List<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> findAll() {
+    public List<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> findAll() {
         return {{className}}Repository.findAll().stream()
-                .map({{className}}Mapper::to{{#hasProjection}}Light{{/hasProjection}}DTO)
+                .map({{className}}Mapper::to{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}})
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public {{ClassName}}DTO findById({{IdType}} id) {
+    public {{ClassName}}Dto findById({{IdType}} id) {
         return {{className}}Repository.findById(id)
-                .map({{className}}Mapper::toDTO)
+                .map({{className}}Mapper::toDto)
                 .orElseThrow(() -> new {{ClassName}}NotFoundException("{{ClassName}} not found with id: " + id));
     }
 
     {{#Paginated}}
     @Transactional(readOnly = true)
-    public Page<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> findAllPaginated(Pageable pageable){
+    public Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> findAllPaginated(Pageable pageable){
         return {{className}}Repository.findAll(pageable)
-                .map({{className}}Mapper::to{{#hasProjection}}Light{{/hasProjection}}DTO);
+                .map({{className}}Mapper::to{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}});
     }
     {{/Paginated}}
 
-    public {{ClassName}}DTO save({{ClassName}}DTO dto) {
+    public {{ClassName}}Dto save({{ClassName}}Dto dto) {
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
-        return {{className}}Mapper.toDTO({{className}}Repository.save(entity));
+        return {{className}}Mapper.toDto({{className}}Repository.save(entity));
     }
 
-    public {{ClassName}}DTO update({{ClassName}}DTO dto) {
+    public {{ClassName}}Dto update({{ClassName}}Dto dto) {
         if (!{{className}}Repository.existsById(dto.{{Id}}())) {
             throw new {{ClassName}}NotFoundException("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
         }
 
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
-        return {{className}}Mapper.toDTO({{className}}Repository.save(entity));
+        return {{className}}Mapper.toDto({{className}}Repository.save(entity));
     }
 
     public void delete({{IdType}} id) {

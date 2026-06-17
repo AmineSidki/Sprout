@@ -32,10 +32,10 @@ public class ControllerGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {
             HashMap<String, Object> controllerContext = new HashMap<>();
 
+            controllerContext.put("ClassName", entityMetadata.className());
+            controllerContext.put("PackageName", entityMetadata.packageName());
             controllerContext.put("Imports", genericImportsGenerator.generate(entityMetadata, em, hm));
             controllerContext.put("Paginated" , entityMetadata.isPaginated());
-            controllerContext.put("PackageName", entityMetadata.packageName());
-            controllerContext.put("ClassName", entityMetadata.className());
             controllerContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));
             controllerContext.put("hasProjection" , entityMetadata.hasProjection());
             controllerContext.put("IdType", entityMetadata.id().type().regularName());

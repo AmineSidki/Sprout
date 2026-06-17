@@ -26,8 +26,8 @@ public class ExceptionGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {
             HashMap<String, Object> exceptionContext = new HashMap<>();
 
-            exceptionContext.put("PackageName", entityMetadata.packageName());
             exceptionContext.put("ClassName", entityMetadata.className());
+            exceptionContext.put("PackageName", entityMetadata.packageName());
 
             mustache.execute(writer, exceptionContext);
         }

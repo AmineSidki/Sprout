@@ -1,8 +1,8 @@
 package {{PackageName}}.controller;
 {{#hasProjection}}
-import {{PackageName}}.dto.Light{{ClassName}}DTO;
+import {{PackageName}}.projection.{{ClassName}}Projection;
 {{/hasProjection}}
-import {{PackageName}}.dto.{{ClassName}}DTO;
+import {{PackageName}}.dto.{{ClassName}}Dto;
 import {{PackageName}}.service.{{ClassName}}Service;
 
 import jakarta.validation.Valid;
@@ -25,29 +25,29 @@ public class {{ClassName}}Controller{
     private final {{ClassName}}Service {{className}}Service;
 
     @GetMapping
-    public List<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> getAll() {
+    public List<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> getAll() {
         return {{className}}Service.findAll();
     }
 
     @GetMapping("/{id}")
-    public {{ClassName}}DTO getById(@PathVariable {{IdType}} id) {
+    public {{ClassName}}Dto getById(@PathVariable {{IdType}} id) {
         return {{className}}Service.findById(id);
     }
 
     {{#Paginated}}
     @GetMapping("/p")
-    public Page<{{#hasProjection}}Light{{/hasProjection}}{{ClassName}}DTO> getAllPaginated(Pageable pageable){
+    public Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> getAllPaginated(Pageable pageable){
         return {{className}}Service.findAllPaginated(pageable);
     }
     {{/Paginated}}
 
     @PostMapping
-    public {{ClassName}}DTO save(@Valid @RequestBody {{ClassName}}DTO dto) {
+    public {{ClassName}}Dto save(@Valid @RequestBody {{ClassName}}Dto dto) {
         return {{className}}Service.save(dto);
     }
 
     @PutMapping
-    public {{ClassName}}DTO update(@Valid @RequestBody {{ClassName}}DTO dto) {
+    public {{ClassName}}Dto update(@Valid @RequestBody {{ClassName}}Dto dto) {
         return {{className}}Service.update(dto);
     }
 

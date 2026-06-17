@@ -31,14 +31,14 @@ public class ServiceGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(serviceFile))) {
             HashMap<String, Object> serviceContext = new HashMap<>();
 
-            serviceContext.put("Imports" , genericImportsGenerator.generate(entityMetadata, em, hm));
-            serviceContext.put("Paginated" , entityMetadata.isPaginated());
-            serviceContext.put("PackageName", entityMetadata.packageName());
             serviceContext.put("ClassName", entityMetadata.className());
-            serviceContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));
-            serviceContext.put("hasProjection" , entityMetadata.hasProjection());
+            serviceContext.put("PackageName", entityMetadata.packageName());
             serviceContext.put("IdType", entityMetadata.id().type().regularName());
+            serviceContext.put("Imports" , genericImportsGenerator.generate(entityMetadata, em, hm));
+            serviceContext.put("className", entityMetadata.className().substring(0,1).toLowerCase() + entityMetadata.className().substring(1));
             serviceContext.put("Id", entityMetadata.id().name());
+            serviceContext.put("Paginated" , entityMetadata.isPaginated());
+            serviceContext.put("hasProjection" , entityMetadata.hasProjection());
             mustache.execute(writer, serviceContext);
         }
     }

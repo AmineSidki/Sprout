@@ -92,20 +92,20 @@ public class MapperGenerator implements SproutFileGenerator {
                 })
                 .toList());
 
-        DependencyView lastDependency = dependencies.remove(dependencies.size() - 1);
+        DependencyView lastDependency = !dependencies.isEmpty() ? dependencies.remove(dependencies.size() - 1) : null;
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(mapperFile))) {
             HashMap<String, Object> mapperContext = new HashMap<>();
 
-            mapperContext.put("Imports" , imports);
-            mapperContext.put("Dependencies" , dependencies);
-            mapperContext.put("LastDependency", lastDependency);
-            mapperContext.put("PackageName", entityMetadata.packageName());
             mapperContext.put("ClassName", entityMetadata.className());
-            mapperContext.put("hasProjection" , entityMetadata.hasProjection());
+            mapperContext.put("PackageName", entityMetadata.packageName());
             mapperContext.put("IdType", entityMetadata.id().type().regularName());
             mapperContext.put("Fields" , fields);
+            mapperContext.put("Imports" , imports);
             mapperContext.put("Associations" , associations);
+            mapperContext.put("Dependencies" , dependencies);
+            mapperContext.put("LastDependency", lastDependency);
+            mapperContext.put("hasProjection" , entityMetadata.hasProjection());
 
             mustache.execute(writer, mapperContext);
         }

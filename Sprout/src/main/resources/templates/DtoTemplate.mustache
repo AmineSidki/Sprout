@@ -1,4 +1,4 @@
-package {{PackageName}}.{{#isLight}}projection{{/isLight}}{{^isLight}}{{/isLight}};
+package {{PackageName}}.{{#isProjection}}projection{{/isProjection}}{{^isProjection}}dto{{/isProjection}};
 
 import java.io.Serializable;
 {{#Imports}}
@@ -6,9 +6,9 @@ import {{.}};
 {{/Imports}}
 
 /**
-* {{#isLight}}Projection{{/isLight}}{{^isLight}}DTO{{/isLight}} for {@link {{PackageName}}.entity.{{ClassName}} }
+* {{#isLight}}Projection{{/isLight}}{{^isLight}}Dto{{/isLight}} for {@link {{PackageName}}.entity.{{ClassName}} }
 */
-public record {{ClassName}}{{#isLight}}Projection{{/isLight}}{{^isLight}}DTO{{/isLight}} (
+public record {{ClassName}}{{#isLight}}Projection{{/isLight}}{{^isLight}}Dto{{/isLight}} (
 {{#Fields}}
     {{{field.type.regularName}}} {{field.name}}{{^last}},{{/last}}
 {{/Fields}}) implements Serializable {}

@@ -37,7 +37,7 @@ public class GenerationHandler {
                     System.out.println(gen.generationMessage() + em.className());
                 }
             } catch (IOException e) {
-                throw new FileSystemException("Failure in class " + em.className() + "\n" + e);
+                    throw new FileSystemException("Failure in class " + em.className() + "\n" + e);
             } catch (FileSystemException fsE){
                 System.out.println(Logger.getInstance().errorMessage("File generation failed for class " + em.className()));
                 fsE.printStackTrace();

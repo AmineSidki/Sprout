@@ -32,10 +32,10 @@ public class RepositoryGenerator implements SproutFileGenerator {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {
             HashMap<String, Object> repoContext = new HashMap<>();
 
-            repoContext.put("Imports", genericImportsGenerator.generate(entityMetadata, em, hm));
-            repoContext.put("PackageName", entityMetadata.packageName());
             repoContext.put("ClassName", entityMetadata.className());
+            repoContext.put("PackageName", entityMetadata.packageName());
             repoContext.put("IdType", entityMetadata.id().type().regularName());
+            repoContext.put("Imports", genericImportsGenerator.generate(entityMetadata, em, hm));
 
             mustache.execute(writer, repoContext);
         }
