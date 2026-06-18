@@ -2,7 +2,6 @@
 
 Thank you for your interest in Sprout! This document covers everything you need to know to contribute effectively.
 
----
 
 ## Table of Contents
 
@@ -10,9 +9,7 @@ Thank you for your interest in Sprout! This document covers everything you need 
 - [Building Locally](#building-locally)
 - [Running Tests](#running-tests)
 - [Code Conventions](#code-conventions)
-- [Customizing Sprout](#customizing-sprout)
 
----
 
 ## Ways to Contribute
 
@@ -67,7 +64,6 @@ The key abstractions are:
 
 If you want to add a new generated layer (e.g. a new file type), implement `SproutFileGenerator` and wire it up in `GenerationHandlerInitializer`. Follow the existing generator implementations as reference.
 
----
 
 ## Building Locally
 
@@ -89,7 +85,6 @@ mvn clean install
 java -jar target/sprout-<version>.jar --dir path/to/your/project/src/main/java/com/example
 ```
 
----
 
 ## Running Tests
 
@@ -99,7 +94,6 @@ mvn test
 
 The test suite currently covers the parsing layer — `EntityParser` and `HelperParser` — using the fixture entities in `src/main/resources/test-entities/`. These fixtures cover the main JPA association types, different ID types, and Sprout-specific annotations.
 
----
 
 ## Code Conventions
 
@@ -117,8 +111,6 @@ Sprout follows standard Java conventions with a few specifics worth noting:
 
 **Formatting** — no strict formatter is enforced, but keep it consistent with the surrounding code. 4-space indentation, no wildcard imports except where already present.
 
----
-
-## Deep Customization
+## Customization
 
 If Sprout's opinionated defaults don't fit your needs — for example, you want to use ModelMapper instead of MapStruct, or generate a different controller style — the recommended approach is to **fork the repository** and modify it freely. The imports and dependency generation logic lives in the Java layer and cannot be overridden without code changes, so a fork gives you full control over both the templates and the pipeline.
