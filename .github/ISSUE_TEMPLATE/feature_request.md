@@ -1,20 +1,23 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+name: ✨ Feature Request
+about: Suggest a new feature or improvement for Sprout
+title: "[Feature]: "
+labels: enhancement
 assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Which part of Sprout does this affect?
+<!-- CLI / scaffolding commands, Projection generation, Caching generation (Redis / @Cacheable),
+     Mustache templates, Annotations, Documentation, Other -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## What problem does this solve?
+<!-- Describe the use case or pain point. "I'm always frustrated when..." -->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Proposed solution
+<!-- What would you like to happen? Example commands, annotation syntax, or generated output are very helpful here -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## Alternatives considered
+<!-- Any workarounds you're using today, or other approaches you thought about -->
+
+## Checklist
+- [ ] I searched existing issues/discussions to make sure this hasn't already been suggested

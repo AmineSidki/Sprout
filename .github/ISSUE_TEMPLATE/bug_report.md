@@ -1,32 +1,40 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+name: 🐛 Bug Report
+about: Report something that isn't working as expected in Sprout
+title: "[Bug]: "
+labels: bug, triage
 assignees: ''
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## Sprout version
+<!-- Run `sprout --version` or check the release/tag you installed -->
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## Java version
+<!-- e.g. OpenJDK 21.0.2 -->
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## Operating System
+<!-- Windows / macOS / Linux -->
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Command that triggered the issue
+<!-- The exact `sprout` command and flags you ran -->
 
-**Desktop (please complete the following information):**
- - OS: [e.g. Windows]
- - Version [e.g. 22]
+## Relevant annotations involved (if any)
+<!-- e.g. @SproutProjection, @SproutIgnore, @Cacheable / @CacheEvict -->
+
+## Expected behavior
 
 
-**Additional context**
-Add any other context about the problem here.
+## Actual behavior
+
+
+## Stack trace / logs
+```
+<!-- paste any relevant error output here -->
+```
+
+## Additional context
+<!-- Minimal entity/repository setup, project structure, or anything else useful for reproduction -->
+
+## Checklist
+- [ ] I searched existing issues to make sure this isn't a duplicate
+- [ ] I'm using the latest released version of Sprout

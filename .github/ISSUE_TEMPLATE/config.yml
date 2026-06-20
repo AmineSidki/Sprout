@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📋 Contributing Guide
+    url: https://github.com/AmineSidki/Sprout/blob/main/CONTRIBUTING.md
+    about: Read this before opening a PR — setup, conventions, and contribution workflow
+  - name: 💬 Questions & Discussion
+    url: https://github.com/AmineSidki/Sprout/discussions
+    about: Ask usage questions or float an idea before opening a formal feature request
