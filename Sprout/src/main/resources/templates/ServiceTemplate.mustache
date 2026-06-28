@@ -34,7 +34,7 @@ public class {{ClassName}}Service{
     @Transactional(readOnly = true)
     public List<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> findAll() {
         return {{className}}Repository.findAll().stream()
-                .map({{className}}Mapper::to{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}})
+                .map({{className}}Mapper::to{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}})
                 .collect(Collectors.toList());
     }
 
