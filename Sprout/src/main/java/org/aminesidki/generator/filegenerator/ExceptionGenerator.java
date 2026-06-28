@@ -21,7 +21,7 @@ public class ExceptionGenerator implements SproutFileGenerator {
 
     @Override
     public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
-        File exceptionFile = fileCreator.createFile(entityMetadata.className(), "Exception", defDir);
+        File exceptionFile = fileCreator.createFile(entityMetadata.className(), "NotFoundException", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {
             HashMap<String, Object> exceptionContext = new HashMap<>();
