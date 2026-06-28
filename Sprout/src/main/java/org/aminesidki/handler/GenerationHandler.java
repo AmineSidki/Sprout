@@ -6,6 +6,7 @@ import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 import org.aminesidki.util.Logger;
 import picocli.CommandLine;
 
@@ -20,6 +21,7 @@ public class GenerationHandler {
     private final String defaultDir;
     private final Map<String, EntityMetadata> emm;
     private final FileCreator fileCreator;
+    private final Ledger ledger;
 
     private record GeneratorView (SproutFileGenerator generator , Mustache mustache , String generationMessage){};
     private final List<GeneratorView> generatorList = new ArrayList<>();
@@ -33,7 +35,7 @@ public class GenerationHandler {
             if(em.isIgnored()) continue;
             try {
                 for(GeneratorView gen : generatorList){
-                    gen.generator().generate(em , gen.mustache(), defaultDir, fileCreator);
+                    gen.generator().generate(em , gen.mustache(), defaultDir, fileCreator, ledger);
                     System.out.println(gen.generationMessage() + em.className());
                 }
             } catch (IOException e) {

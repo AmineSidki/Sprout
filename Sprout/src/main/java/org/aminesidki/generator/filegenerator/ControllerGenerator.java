@@ -8,6 +8,7 @@ import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,7 +27,7 @@ public class ControllerGenerator implements SproutFileGenerator {
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator, Ledger ledger) throws IOException, FileSystemException {
         File controllerFile = fileCreator.createFile(entityMetadata.className(), "Controller", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {

@@ -5,6 +5,9 @@ import org.aminesidki.exception.FileSystemException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Utility to create components' packages and files, to reduce boilerplate
+ */
 public class FileCreator {
     /**
      * @param name Class name

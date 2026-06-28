@@ -32,4 +32,8 @@ public class Logger {
     public String endMessage(){
         return infoMessage("Shutting down..");
     }
+
+    public String warningMessage(String message) {
+        return CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : " + message);
+    }
 }

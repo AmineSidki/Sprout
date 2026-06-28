@@ -13,6 +13,7 @@ import org.aminesidki.model.FieldMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.model.TypeMetadata;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 import org.aminesidki.util.ParserUtil;
 
 import java.io.BufferedWriter;
@@ -35,7 +36,7 @@ public class MapperGenerator implements SproutFileGenerator {
     public record DependencyView(String type, String name) {};
     public record AssociationView(FieldMetadata field , FieldMetadata id , boolean multiple , String className) {};
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException , FileSystemException{
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator, Ledger ledger) throws IOException, FileSystemException {
         File mapperFile = fileCreator.createFile(entityMetadata.className(), "Mapper", defDir);
 
         List<FieldMetadata> fields = entityMetadata.fields().stream()

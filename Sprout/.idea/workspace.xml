@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ConfigFileGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/configfilegenerator/CacheConfigGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/Ledger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/SproutFileGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/SproutFileGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ControllerGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ControllerGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/DtoGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/DtoGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ExceptionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ExceptionGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/MapperGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/MapperGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/RepositoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/RepositoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/generator/filegenerator/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/GenerationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/handler/GenerationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/EntityMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/model/EntityMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/MainRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/runnable/MainRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aminesidki/util/Logger.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Record" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/resources/templates/DtoTemplate.mustache" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="38Z8XwvBbGuBIAmqjDUf9689huD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EntityParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EntityParserTest.parse_department_sproutLFDFieldsExcludedFromLightFields.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HelperParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HelperParserTest.parse_department_returnsCorrectPackageName.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Sprout [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Sprout [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Sprout [verify].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/aminesidki/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;amine/dev&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/aminesidki/Sprout/Sprout/pom.xml&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.AmineSidki.generator.ImportsGenerator" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/target" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/test-entities" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/test" />
+      <recent name="$PROJECT_DIR$/src/assembly" />
+      <recent name="$PROJECT_DIR$/test-entities/org/AmineSidki/test/entity" />
+      <recent name="$PROJECT_DIR$/target/tpack" />
+      <recent name="$PROJECT_DIR$/target" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.aminesidki.parser" />
+      <recent name="org.AmineSidki.runnable" />
+      <recent name="org.AmineSidki.generator.FileGenerator" />
+      <recent name="org.AmineSidki.generator" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.aminesidki.App" />
+      <module name="Sprout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.aminesidki.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EntityParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sprout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.aminesidki.parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.aminesidki.parser" />
+      <option name="MAIN_CLASS_NAME" value="org.aminesidki.parser.EntityParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.EntityParserTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.25134.95" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.25134.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="82a3f064-6201-49bf-a619-bc9831b4ba4a" name="Changes" comment="" />
+      <created>1768995775404</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768995775404</updated>
+      <workItem from="1768995776975" duration="4365000" />
+      <workItem from="1769161865486" duration="694000" />
+      <workItem from="1769248341734" duration="9520000" />
+      <workItem from="1769513582527" duration="51922000" />
+      <workItem from="1769717147596" duration="4944000" />
+      <workItem from="1770919604621" duration="9939000" />
+      <workItem from="1770930937118" duration="22766000" />
+      <workItem from="1771273279701" duration="12292000" />
+      <workItem from="1771371678632" duration="4329000" />
+      <workItem from="1771409560942" duration="748000" />
+      <workItem from="1771446402744" duration="5087000" />
+      <workItem from="1771457596670" duration="79000" />
+      <workItem from="1771466983795" duration="6000" />
+      <workItem from="1771491786516" duration="309000" />
+      <workItem from="1771669299751" duration="2531000" />
+      <workItem from="1771674052320" duration="12179000" />
+      <workItem from="1771724714692" duration="528000" />
+      <workItem from="1771726593585" duration="123000" />
+      <workItem from="1772324761820" duration="7329000" />
+      <workItem from="1772755219406" duration="4897000" />
+      <workItem from="1772901299182" duration="10807000" />
+      <workItem from="1773489220358" duration="3073000" />
+      <workItem from="1773925991994" duration="47000" />
+      <workItem from="1774112408093" duration="2640000" />
+      <workItem from="1781696584979" duration="10006000" />
+      <workItem from="1781807180170" duration="9915000" />
+      <workItem from="1782318657123" duration="38000" />
+      <workItem from="1782324965875" duration="19000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.bat" />
+    <option featureType="com.intellij.configurationType" implementationName="Application" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Sprout$App.ic" NAME="App Coverage Results" MODIFIED="1769008951333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.AmineSidki.*</FILTER>
+    </SUITE>
+  </component>
+</project>

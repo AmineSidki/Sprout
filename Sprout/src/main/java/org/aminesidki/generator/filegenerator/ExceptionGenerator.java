@@ -6,6 +6,7 @@ import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 public class ExceptionGenerator implements SproutFileGenerator {
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator, Ledger ledger) throws IOException, FileSystemException {
         File exceptionFile = fileCreator.createFile(entityMetadata.className(), "Exception", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {

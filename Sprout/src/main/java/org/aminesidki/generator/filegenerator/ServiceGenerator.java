@@ -8,6 +8,7 @@ import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,7 +26,7 @@ public class ServiceGenerator implements SproutFileGenerator {
     private final Map<String , EntityMetadata> em;
     private final Map<String , HelperMetadata> hm;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException ,  FileSystemException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator, Ledger ledger) throws IOException, FileSystemException {
         File serviceFile = fileCreator.createFile(entityMetadata.className(), "Service", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(serviceFile))) {

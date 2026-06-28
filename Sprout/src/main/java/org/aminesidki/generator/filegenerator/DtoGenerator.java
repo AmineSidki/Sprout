@@ -10,6 +10,7 @@ import org.aminesidki.model.FieldMetadata;
 import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.util.DtoFieldMapper;
 import org.aminesidki.util.FileCreator;
+import org.aminesidki.util.Ledger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,7 +32,7 @@ public class DtoGenerator implements SproutFileGenerator {
 
     private record RecordFieldView(FieldMetadata field , boolean last){} ;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator, Ledger ledger) throws IOException, FileSystemException {
         File dtoFile = fileCreator.createFile(entityMetadata.className(), "Dto", defDir);
 
         File projectionFile = null;

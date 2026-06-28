@@ -49,7 +49,7 @@ public class MainRunnable implements Runnable{
         System.out.println(Logger.getInstance().stepMessage(3, TOTAL_STEPS, "Generating files"));
 
         //Generation pre-processing
-        GenerationHandler generationHandler = new GenerationHandler(defaultDir , entityMetadataMap, new FileCreator());
+        GenerationHandler generationHandler = new GenerationHandler(defaultDir , entityMetadataMap, new FileCreator(), new Ledger());
         GenerationHandlerInitializer initializer = new GenerationHandlerInitializer(entityMetadataMap, helperMetadataMap, generationHandler, partialGenerationFlags);
 
         //Generation
