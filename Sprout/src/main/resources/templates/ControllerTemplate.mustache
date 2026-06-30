@@ -33,8 +33,8 @@ public class {{ClassName}}Controller{
     public {{ClassName}}Dto getById(@PathVariable {{IdType}} id) {
         return {{className}}Service.findById(id);
     }
-
     {{#Paginated}}
+
     @GetMapping("/p")
     public Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> getAllPaginated(Pageable pageable){
         return {{className}}Service.findAllPaginated(pageable);
