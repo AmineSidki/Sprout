@@ -61,7 +61,7 @@ public class MapperGenerator implements SproutFileGenerator {
 
             f = new FieldMetadata(
                     new TypeMetadata((f.association() == Association.ONE_TO_MANY || f.association() == Association.MANY_TO_MANY)?
-                            ParserUtil.extractCollectionGenericType(f.type().regularName().toLowerCase()) : f.type().regularName().toLowerCase(),
+                            ParserUtil.extractCollectionGenericType(f.type().regularName().toLowerCase()) : f.type().regularName().substring(0,1).toLowerCase() + f.type().regularName().substring(1),
                             f.type().fullQualifiedName()),
                     f.name().substring(0,1).toUpperCase() + f.name().substring(1) ,
                     f.association());
@@ -92,8 +92,6 @@ public class MapperGenerator implements SproutFileGenerator {
                 })
                 .toList());
 
-        DependencyView lastDependency = !dependencies.isEmpty() ? dependencies.remove(dependencies.size() - 1) : null;
-
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(mapperFile))) {
             HashMap<String, Object> mapperContext = new HashMap<>();
 
@@ -102,11 +100,9 @@ public class MapperGenerator implements SproutFileGenerator {
             mapperContext.put("IdType", entityMetadata.id().type().regularName());
             mapperContext.put("Fields" , fields);
             mapperContext.put("Imports" , imports);
-            mapperContext.put("hasDependencies", !dependencies.isEmpty());
             mapperContext.put("Associations" , associations);
             mapperContext.put("Dependencies" , dependencies);
-            mapperContext.put("LastDependency", lastDependency);
-            mapperContext.put("hasProjection" , entityMetadata.hasProjection());
+            mapperContext.put("hasProjection" , entityMetadata.h    asProjection());
 
             mustache.execute(writer, mapperContext);
         }

@@ -18,22 +18,9 @@ import {{.}};
 public abstract class {{ClassName}}Mapper {
 
 {{#Dependencies}}
+    @Autowired
     private {{type}} {{name}} ;
 {{/Dependencies}}
-{{#LastDependency}}
-    private {{type}} {{name}} ;
-
-{{/LastDependency}}
-{{#hasDependencies}}
-    public {{ClassName}}Mapper({{#Dependencies}}{{type}} {{name}}, {{/Dependencies}}{{#LastDependency}}{{type}} {{name}}{{/LastDependency}}){
-        {{#Dependencies}}
-        this.{{name}} = {{name}};
-        {{/Dependencies}}
-        {{#LastDependency}}
-        this.{{name}} = {{name}};
-        {{/LastDependency}}
-    }
-{{/hasDependencies}}
     //Map to DTO
     public abstract {{ClassName}}Dto toDto({{ClassName}} entity);
 {{#hasProjection}}
