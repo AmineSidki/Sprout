@@ -18,11 +18,9 @@ public class MapperDependencyGenerator implements SproutDependencyGenerator {
         for (String s : imports) {
             if (s.startsWith(repoPackage)) {
                 String className = s.substring(s.lastIndexOf(".") + 1);
-                String variableName;
+                String variableName = Character.toLowerCase(className.charAt(0)) + className.substring(1);
                 if (className.toLowerCase().endsWith("repository")) {
-                    variableName = className.toLowerCase().replace("repository", "Repo");
-                } else {
-                    variableName = Character.toLowerCase(className.charAt(0)) + className.substring(1);
+                    variableName = variableName.replace("Repository", "Repo");
                 }
 
                 dependencies.add(className + " " + variableName);
