@@ -42,7 +42,7 @@ public class {{ClassName}}Service{
     public {{ClassName}}Dto findById({{IdType}} id) {
         return {{className}}Repository.findById(id)
                 .map({{className}}Mapper::toDto)
-                .orElseThrow(() -> new {{ClassName}}NotFoundException("{{ClassName}} not found with id: " + id));
+                .orElseThrow(() -> new {{ClassName}}Exception("{{ClassName}} not found with id: " + id));
     }
 
     {{#Paginated}}
@@ -60,7 +60,7 @@ public class {{ClassName}}Service{
 
     public {{ClassName}}Dto update({{ClassName}}Dto dto) {
         if (!{{className}}Repository.existsById(dto.{{Id}}())) {
-            throw new {{ClassName}}NotFoundException("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
+            throw new {{ClassName}}Exception("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
         }
 
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
@@ -69,7 +69,7 @@ public class {{ClassName}}Service{
 
     public void delete({{IdType}} id) {
         if (!{{className}}Repository.existsById(id)) {
-            throw new {{ClassName}}NotFoundException("Cannot delete: {{ClassName}} not found with id: " + id);
+            throw new {{ClassName}}Exception("Cannot delete: {{ClassName}} not found with id: " + id);
         }
         {{className}}Repository.deleteById(id);
     }
