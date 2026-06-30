@@ -15,12 +15,13 @@ import org.aminesidki.util.ParserUtil;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Specific entity parsing implementation for <code>SproutParser</code> interface
+ * Specific entity parsing implementation for {@link org.aminesidki.parser.SproutParser} interface
  */
 public class EntityParser implements SproutParser<EntityMetadata>{
 
@@ -39,11 +40,21 @@ public class EntityParser implements SproutParser<EntityMetadata>{
                 .orElseThrow(()-> new ParsingException("No package found !")));
 
         List<FieldDeclaration> fdList =  cu.findAll(FieldDeclaration.class);
-
-        FieldDeclaration idFd = fdList.stream()
+        FieldDeclaration idFd;
+        Optional<FieldDeclaration> optIdFd = fdList.stream()
                 .filter(f -> f.isAnnotationPresent("Id"))
-                .findFirst()
-                .orElseThrow(() -> new ParsingException("No @Id Annotation present in supposed entity "+ entity + "."));
+                .findFirst();
+
+        if(optIdFd.isEmpty()){
+            optIdFd = fdList.stream()
+                    .filter(f -> f.isAnnotationPresent("EmbeddedId"))
+                    .findFirst();
+
+            if(optIdFd.isEmpty()) throw new ParsingException("No @Id or @EmbeddedId Annotation present in supposed entity "+ entity + ".");
+        }
+
+        idFd = optIdFd.get();
+//                .orElseThrow(() -> new ParsingException("No @Id Annotation present in supposed entity "+ entity + "."));
 
         //Check for @SproutCached
         boolean cached = ParserUtil.hasAnnotation(cu, entity, "SproutCached");

@@ -45,23 +45,10 @@ public class ParserUtil {
     }
 
     public static List<FieldMetadata> getFieldMetadata(FieldDeclaration fd) {
-        final String annotations = "OneToOne;OneToMany;ManyToOne;ManyToMany";
-        Association association = Association.DEFAULT;
-
-        for(AnnotationExpr a : fd.getAnnotations())
-            if(annotations.contains(a.getNameAsString())){
-                association = switch (a.getNameAsString()) {
-                    case "OneToOne" -> Association.ONE_TO_ONE;
-                    case "OneToMany" -> Association.ONE_TO_MANY;
-                    case "ManyToOne" -> Association.MANY_TO_ONE;
-                    case "ManyToMany" -> Association.MANY_TO_MANY;
-                    default -> association;
-                };
-            }
-
+        Association association = getAssociation(fd);
         List<FieldMetadata> lfm = new ArrayList<>();
-
         String qualifierName, regularName;
+
         try{
             ResolvedType resolvedType = fd.getVariable(0).getType().resolve();
 
@@ -85,6 +72,23 @@ public class ParserUtil {
         }
 
         return lfm;
+    }
+
+    private static Association getAssociation(FieldDeclaration fd) {
+        final Set<String> annotations = Set.of("OneToOne","OneToMany","ManyToOne","ManyToMany");
+        Association association = Association.DEFAULT;
+
+        for(AnnotationExpr a : fd.getAnnotations())
+            if(annotations.contains(a.getNameAsString())){
+                association = switch (a.getNameAsString()) {
+                    case "OneToOne" -> Association.ONE_TO_ONE;
+                    case "OneToMany" -> Association.ONE_TO_MANY;
+                    case "ManyToOne" -> Association.MANY_TO_ONE;
+                    case "ManyToMany" -> Association.MANY_TO_MANY;
+                    default -> association;
+                };
+            }
+        return association;
     }
 
     public static String extractCollectionGenericType(String collection){

@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.regex.Pattern;
 
 /**
- * Specific helper class parsing implementation for <code>SproutParser</code> interface
+ * Specific helper class parsing implementation for {@link org.aminesidki.parser.SproutParser} interface
  */
 public class HelperParser implements SproutParser<HelperMetadata>{
 
