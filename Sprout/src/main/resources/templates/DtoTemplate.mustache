@@ -6,9 +6,9 @@ import {{.}};
 {{/Imports}}
 
 /**
-* {{#isLight}}Projection{{/isLight}}{{^isLight}}Dto{{/isLight}} for {@link {{PackageName}}.entity.{{ClassName}} }
+* {{#isProjection}}Projection{{/isProjection}}{{^isProjection}}Dto{{/isProjection}} for {@link {{PackageName}}.entity.{{ClassName}} }
 */
-public record {{ClassName}}{{#isLight}}Projection{{/isLight}}{{^isLight}}Dto{{/isLight}} (
+public record {{ClassName}}{{#isProjection}}Projection{{/isProjection}}{{^isProjection}}Dto{{/isProjection}} (
 {{#Fields}}
     {{{field.type.regularName}}} {{field.name}}{{^last}},{{/last}}
 {{/Fields}}) implements Serializable {}
