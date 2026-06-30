@@ -102,7 +102,7 @@ public class MapperGenerator implements SproutFileGenerator {
             mapperContext.put("Imports" , imports);
             mapperContext.put("Associations" , associations);
             mapperContext.put("Dependencies" , dependencies);
-            mapperContext.put("hasProjection" , entityMetadata.h    asProjection());
+            mapperContext.put("hasProjection" , entityMetadata.hasProjection());
 
             mustache.execute(writer, mapperContext);
         }
