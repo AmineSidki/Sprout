@@ -14,6 +14,7 @@ import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.model.TypeMetadata;
 import org.aminesidki.util.FileCreator;
 import org.aminesidki.util.ParserUtil;
+import org.aminesidki.util.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -59,10 +60,9 @@ public class MapperGenerator implements SproutFileGenerator {
                     f.name() ,
                     f.association());
 
-            String camelCaseName = f.type().regularName().substring(0,1).toLowerCase() + f.type().regularName().substring(1);
             f = new FieldMetadata(
-                    new TypeMetadata((f.association() == Association.ONE_TO_MANY || f.association() == Association.MANY_TO_MANY)?
-                            ParserUtil.extractCollectionGenericType(camelCaseName) : camelCaseName,
+                    new TypeMetadata(StringUtils.toCamelCase((f.association() == Association.ONE_TO_MANY || f.association() == Association.MANY_TO_MANY)?
+                            ParserUtil.extractCollectionGenericType(f.type().regularName()) : f.type().regularName()),
                             f.type().fullQualifiedName()),
                     f.name().substring(0,1).toUpperCase() + f.name().substring(1) ,
                     f.association());
