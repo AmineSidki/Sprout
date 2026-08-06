@@ -42,7 +42,7 @@ public class MapperImportsGenerator implements SproutImportsGenerator {
                         imports.add(entity.id().type().fullQualifiedName());
                     }
 
-                    imports.add(entity.packageName() + ".entity." +entity.className());
+                    imports.add(entity.packageName() + ".entity." + entity.className());
                     imports.add(entity.packageName() + ".repository." + entity.className() + "Repository");
                 }else{
                     //if it isn't an entity then it must be a helper

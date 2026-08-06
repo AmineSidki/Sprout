@@ -59,9 +59,10 @@ public class MapperGenerator implements SproutFileGenerator {
                     f.name() ,
                     f.association());
 
+            String camelCaseName = f.type().regularName().substring(0,1).toLowerCase() + f.type().regularName().substring(1);
             f = new FieldMetadata(
                     new TypeMetadata((f.association() == Association.ONE_TO_MANY || f.association() == Association.MANY_TO_MANY)?
-                            ParserUtil.extractCollectionGenericType(f.type().regularName().toLowerCase()) : f.type().regularName().substring(0,1).toLowerCase() + f.type().regularName().substring(1),
+                            ParserUtil.extractCollectionGenericType(camelCaseName) : camelCaseName,
                             f.type().fullQualifiedName()),
                     f.name().substring(0,1).toUpperCase() + f.name().substring(1) ,
                     f.association());
