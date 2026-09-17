@@ -1,21 +1,16 @@
 package org.aminesidki.runnable;
 
-import com.github.javaparser.JavaParser;
-import org.aminesidki.handler.GenerationHandler;
-import org.aminesidki.handler.ParsingHandler;
-import org.aminesidki.provider.JavaParserProvider;
-import org.aminesidki.util.*;
-import org.aminesidki.model.EntityMetadata;
-import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.model.PartialGenerationFlags;
 import picocli.CommandLine;
 
-import java.io.*;
-import java.time.LocalDateTime;
-import java.util.concurrent.ConcurrentHashMap;
-
 @CommandLine.Command(name="default" , description = "Sprout scaffolding engine")
 public class DefaultRunnable implements Runnable{
+
+    @CommandLine.Option(names={"init"})
+    boolean init = false;
+
+    @CommandLine.Option(names={"clean"})
+    boolean clean = false;
 
     @CommandLine.Option(names={"--help" , "-h"})
     boolean help = false;
@@ -41,6 +36,11 @@ public class DefaultRunnable implements Runnable{
             System.exit(0);
         }
 
-        new MainRunnable(defaultDir, partialGenerationFlags).run();
+        if(clean){
+            new CleanRunnable(defaultDir).run();
+            System.exit(0);
+        }
+
+        new MainRunnable(defaultDir, init, partialGenerationFlags).run();
     }
 }

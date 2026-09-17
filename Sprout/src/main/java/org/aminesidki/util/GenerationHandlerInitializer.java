@@ -1,11 +1,13 @@
 package org.aminesidki.util;
 
+import com.github.mustachejava.MustacheFactory;
 import lombok.RequiredArgsConstructor;
 import org.aminesidki.generator.dependencygenerator.MapperDependencyGenerator;
 import org.aminesidki.generator.filegenerator.*;
 import org.aminesidki.generator.importsgenerator.DtoImportsGenerator;
 import org.aminesidki.generator.importsgenerator.GenericImportsGenerator;
 import org.aminesidki.generator.importsgenerator.MapperImportsGenerator;
+import org.aminesidki.generator.onceperpipelinegenerator.ResourceNotFoundExceptionGenerator;
 import org.aminesidki.handler.GenerationHandler;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
@@ -23,6 +25,7 @@ public class GenerationHandlerInitializer {
     private final Map<String , HelperMetadata> hmm;
     private final GenerationHandler handler;
     private final PartialGenerationFlags pGroup;
+    private final MustacheFactory mf;
 
     private void initializePartialGeneration(PartialGenerationFlags pGroup , InitializationResources resources){
         GenericImportsGenerator genericImportsGenerator = new GenericImportsGenerator();
@@ -53,16 +56,15 @@ public class GenerationHandlerInitializer {
                     Logger.getInstance().infoMessage("Generating dto for "));
         }
         if(pGroup.eFlag){
-            handler.add(new ExceptionGenerator(),
+            handler.add(new ResourceNotFoundExceptionGenerator(),
                     resources.exceptionMustache(),
-                    Logger.getInstance().infoMessage("Generating exception for "));
+                    Logger.getInstance().infoMessage("Generating ResourceNotFoundException"));
         }
     }
 
     public void initialize(){
         PartialGenerationFlags flags = pGroup == null ? PartialGenerationFlags.allEnabled() : pGroup;
-        final InitializationResources resources = new InitializationResourcesMapper().map(flags);
+        final InitializationResources resources = new InitializationResourcesMapper(mf).map(flags);
         initializePartialGeneration(flags , resources);
-
     }
 }

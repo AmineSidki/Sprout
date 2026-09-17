@@ -13,7 +13,13 @@ import java.util.Arrays;
  * Resolves the project's root directory to enable <code>JavaParser</code>'s type resolving
  */
 public class ProjectRootDirectoryResolver {
-    public static File calculateProjectRootDirectory(File[] files , JavaParser parser){
+    public record DirectoryPackageView(File directory, String packageName){}
+
+    private static String transformPackageName(String packageName){
+        return packageName.substring(0, packageName.lastIndexOf("."));
+    }
+
+    public static DirectoryPackageView calculateProjectRootDirectory(File[] files , JavaParser parser){
         try{
             //Takes the first file it finds and gets its package
             File firstEntity = Arrays.stream(files)
@@ -36,16 +42,16 @@ public class ProjectRootDirectoryResolver {
                         root = root.getParentFile();
                         if (root == null) {
                             // Safety check: if we hit the file system root, abort and use default
-                            return new File(".");
+                            return new DirectoryPackageView(new File("."), transformPackageName(packageName));
                         }
                     }
                     root = root.getParentFile();
                     if (root == null) {
                         // Safety check: if we hit the file system root, abort and use default
-                        return new File(".");
+                        return new DirectoryPackageView(new File("."), transformPackageName(packageName));
                     }
                 }
-                return root;
+                return new DirectoryPackageView(root, transformPackageName(packageName));
             }
             throw new RuntimeException("An error occurred whilst computing project root directory !");
         }catch (Exception e){

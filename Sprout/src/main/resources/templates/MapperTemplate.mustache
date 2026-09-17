@@ -6,6 +6,8 @@ import {{PackageName}}.projection.{{ClassName}}Projection;
 {{/hasProjection}}
 import {{PackageName}}.dto.{{ClassName}}Dto;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 {{#Imports}}
@@ -15,7 +17,7 @@ import {{.}};
 /**
 * Mapper for {@link {{PackageName}}.entity.{{ClassName}} }
 */
-@Mapper(componentModel = "spring")
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, componentModel = "spring")
 public abstract class {{ClassName}}Mapper {
 
 {{#Dependencies}}
@@ -29,6 +31,9 @@ public abstract class {{ClassName}}Mapper {
 {{/hasProjection}}
     //Map to Entity
     public abstract {{ClassName}} toEntity({{ClassName}}Dto dto);
+
+    // Update entity with Dto
+    public abstract void updateEntityFromDto({{ClassName}}Dto dto, @MappingTarget {{ClassName}} entity);
     {{#Associations}}
 
     public {{#multiple}}List<{{/multiple}}{{className}}{{#multiple}}>{{/multiple}} mapIdTo{{className}}{{#multiple}}s{{/multiple}}({{#multiple}}List<{{/multiple}}{{id.type.regularName}}{{#multiple}}>{{/multiple}} id{{#multiple}}s{{/multiple}}){

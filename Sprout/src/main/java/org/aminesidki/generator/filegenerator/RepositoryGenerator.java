@@ -26,8 +26,8 @@ public class RepositoryGenerator implements SproutFileGenerator {
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException , FileSystemException{
-        File repoFile = fileCreator.createFile(entityMetadata.className(), "Repository", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
+        File repoFile = FileCreator.createFile(entityMetadata.className(), "Repository", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {
             HashMap<String, Object> repoContext = new HashMap<>();

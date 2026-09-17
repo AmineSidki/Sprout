@@ -7,6 +7,8 @@ import {{PackageName}}.service.{{ClassName}}Service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 {{#Paginated}}
 import org.springframework.data.domain.Page;
@@ -25,32 +27,33 @@ public class {{ClassName}}Controller{
     private final {{ClassName}}Service {{className}}Service;
 
     @GetMapping
-    public List<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> getAll() {
-        return {{className}}Service.findAll();
+    public ResponseEntity<List<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}>> getAll() {
+        return ResponseEntity.ok({{className}}Service.findAll());
     }
 
     @GetMapping("/{id}")
-    public {{ClassName}}Dto getById(@PathVariable {{IdType}} id) {
-        return {{className}}Service.findById(id);
+    public ResponseEntity<{{ClassName}}Dto> getById(@PathVariable {{IdType}} id) {
+        return ResponseEntity.ok({{className}}Service.findById(id));
     }
     {{#Paginated}}
 
     @GetMapping("/p")
-    public Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}> getAllPaginated(Pageable pageable){
-        return {{className}}Service.findAllPaginated(pageable);
+    public ResponseEntity<Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}>> getAllPaginated(Pageable pageable){
+        return ResponeEntity.ok({{className}}Service.findAllPaginated(pageable));
     }
     {{/Paginated}}
 
     @PostMapping
-    public {{ClassName}}Dto save(@Valid @RequestBody {{ClassName}}Dto dto) {
-        return {{className}}Service.save(dto);
+    public ResponseEntity<{{ClassName}}Dto> save(@Valid @RequestBody {{ClassName}}Dto dto) {
+        return ResponseEntity.ok({{className}}Service.save(dto));
     }
 
     @PutMapping
-    public {{ClassName}}Dto update(@Valid @RequestBody {{ClassName}}Dto dto) {
-        return {{className}}Service.update(dto);
+    public ResponseEntity<{{ClassName}}Dto> update({{IdType}} id, @Valid @RequestBody {{ClassName}}Dto dto) {
+        return ResponseEntity.ok({{className}}Service.update(id, dto));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable {{IdType}} id) {
         {{className}}Service.delete(id);

@@ -5,7 +5,7 @@ import {{PackageName}}.entity.{{ClassName}};
 import {{PackageName}}.projection.{{ClassName}}Projection;
 {{/hasProjection}}
 import {{PackageName}}.dto.{{ClassName}}Dto;
-import {{PackageName}}.exception.{{ClassName}}Exception;
+import {{PackageName}}.exception.ResourceNotFoundException;
 import {{PackageName}}.mapper.{{ClassName}}Mapper;
 import {{PackageName}}.repository.{{ClassName}}Repository;
 
@@ -40,9 +40,7 @@ public class {{ClassName}}Service{
 
     @Transactional(readOnly = true)
     public {{ClassName}}Dto findById({{IdType}} id) {
-        return {{className}}Repository.findById(id)
-                .map({{className}}Mapper::toDto)
-                .orElseThrow(() -> new {{ClassName}}Exception("{{ClassName}} not found with id: " + id));
+        return {{className}}Mapper.toDto(getElementById(id));
     }
 
     {{#Paginated}}
@@ -55,23 +53,24 @@ public class {{ClassName}}Service{
 
     public {{ClassName}}Dto save({{ClassName}}Dto dto) {
         {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
-        return {{className}}Mapper.toDto({{className}}Repository.save(entity));
+        entity = {{className}}Repository.save(entity);
+        return {{className}}Mapper.toDto(entity);
     }
 
-    public {{ClassName}}Dto update({{ClassName}}Dto dto) {
-        if (!{{className}}Repository.existsById(dto.{{Id}}())) {
-            throw new {{ClassName}}Exception("Cannot update: {{ClassName}} not found with id: " + dto.{{Id}}());
-        }
-
-        {{ClassName}} entity = {{className}}Mapper.toEntity(dto);
-        return {{className}}Mapper.toDto({{className}}Repository.save(entity));
+    public {{ClassName}}Dto update({{IdType}} id, {{ClassName}}Dto dto) {
+        {{ClassName}} entity = getElementById(id);
+        {{className}}Mapper.updateEntityFromDto(dto, entity);
+        entity = {{className}}Repository.save(entity);
+        return {{className}}Mapper.toDto(entity);
     }
 
     public void delete({{IdType}} id) {
-        if (!{{className}}Repository.existsById(id)) {
-            throw new {{ClassName}}Exception("Cannot delete: {{ClassName}} not found with id: " + id);
-        }
-        {{className}}Repository.deleteById(id);
+        {{className}}Repository.deleteById(getElementById(id).getId());
+    }
+
+    private {{ClassName}} getElementById({{IdType}} id){
+        {{ClassName}} entity = {{className}}Repository.findById(id);
+        return entity.orElseThrow(() -> new ResourceNotFoundException("{{ClassName}} not found with id: " + id));
     }
 }
 

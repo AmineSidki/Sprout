@@ -3,16 +3,18 @@ package org.aminesidki.util;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import lombok.RequiredArgsConstructor;
 import org.aminesidki.model.InitializationResources;
 import org.aminesidki.model.PartialGenerationFlags;
 
 /**
  * Maps resources properly depending on the given flags
  */
+@RequiredArgsConstructor
 public class InitializationResourcesMapper {
-    public InitializationResources map(PartialGenerationFlags pGroup){
-        MustacheFactory mf = new DefaultMustacheFactory();
+    private final MustacheFactory mf;
 
+    public InitializationResources map(PartialGenerationFlags pGroup){
         //Compiling templates
         Mustache repoMustache =
                 pGroup.rFlag ?

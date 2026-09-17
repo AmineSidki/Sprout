@@ -26,8 +26,8 @@ public class ControllerGenerator implements SproutFileGenerator {
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
-        File controllerFile = fileCreator.createFile(entityMetadata.className(), "Controller", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
+        File controllerFile = FileCreator.createFile(entityMetadata.className(), "Controller", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {
             HashMap<String, Object> controllerContext = new HashMap<>();

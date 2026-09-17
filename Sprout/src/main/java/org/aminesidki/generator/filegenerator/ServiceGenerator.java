@@ -25,8 +25,8 @@ public class ServiceGenerator implements SproutFileGenerator {
     private final Map<String , EntityMetadata> em;
     private final Map<String , HelperMetadata> hm;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException ,  FileSystemException {
-        File serviceFile = fileCreator.createFile(entityMetadata.className(), "Service", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException ,  FileSystemException {
+        File serviceFile = FileCreator.createFile(entityMetadata.className(), "Service", defDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(serviceFile))) {
             HashMap<String, Object> serviceContext = new HashMap<>();

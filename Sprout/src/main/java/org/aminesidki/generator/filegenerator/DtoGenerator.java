@@ -31,12 +31,12 @@ public class DtoGenerator implements SproutFileGenerator {
 
     private record RecordFieldView(FieldMetadata field , boolean last){} ;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir, FileCreator fileCreator) throws IOException, FileSystemException {
-        File dtoFile = fileCreator.createFile(entityMetadata.className(), "Dto", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
+        File dtoFile = FileCreator.createFile(entityMetadata.className(), "Dto", defDir);
 
         File projectionFile = null;
         if(entityMetadata.hasProjection()){
-            projectionFile = fileCreator.createFile(entityMetadata.className(), "Projection", defDir);
+            projectionFile = FileCreator.createFile(entityMetadata.className(), "Projection", defDir);
         }
 
         List <FieldMetadata> fields = DtoFieldMapper.mapToDtoField(entityMetadata.fields() , persistenceMetadata, helperMetadata);

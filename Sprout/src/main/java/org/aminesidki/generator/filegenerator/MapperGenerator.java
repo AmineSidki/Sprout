@@ -36,8 +36,8 @@ public class MapperGenerator implements SproutFileGenerator {
     public record DependencyView(String type, String name) {};
     public record AssociationView(FieldMetadata field , FieldMetadata id , boolean multiple , String className) {};
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir, FileCreator fileCreator) throws IOException , FileSystemException{
-        File mapperFile = fileCreator.createFile(entityMetadata.className(), "Mapper", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
+        File mapperFile = FileCreator.createFile(entityMetadata.className(), "Mapper", defDir);
 
         List<FieldMetadata> fields = entityMetadata.fields().stream()
                 .filter(f -> f.association().equals(Association.DEFAULT))
