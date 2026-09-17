@@ -39,7 +39,7 @@ public class {{ClassName}}Controller{
 
     @GetMapping("/p")
     public ResponseEntity<Page<{{ClassName}}{{#hasProjection}}Projection{{/hasProjection}}{{^hasProjection}}Dto{{/hasProjection}}>> getAllPaginated(Pageable pageable){
-        return ResponeEntity.ok({{className}}Service.findAllPaginated(pageable));
+        return ResponseEntity.ok({{className}}Service.findAllPaginated(pageable));
     }
     {{/Paginated}}
 
@@ -48,8 +48,8 @@ public class {{ClassName}}Controller{
         return ResponseEntity.ok({{className}}Service.save(dto));
     }
 
-    @PutMapping
-    public ResponseEntity<{{ClassName}}Dto> update({{IdType}} id, @Valid @RequestBody {{ClassName}}Dto dto) {
+    @PutMapping("/{id})
+    public ResponseEntity<{{ClassName}}Dto> update(@PathVariable {{IdType}} id, @Valid @RequestBody {{ClassName}}Dto dto) {
         return ResponseEntity.ok({{className}}Service.update(id, dto));
     }
 

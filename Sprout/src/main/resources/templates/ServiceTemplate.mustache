@@ -69,8 +69,7 @@ public class {{ClassName}}Service{
     }
 
     private {{ClassName}} getElementById({{IdType}} id){
-        {{ClassName}} entity = {{className}}Repository.findById(id);
-        return entity.orElseThrow(() -> new ResourceNotFoundException("{{ClassName}} not found with id: " + id));
+        return {{className}}Repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("{{ClassName}} not found with id: " + id));
     }
 }
 
