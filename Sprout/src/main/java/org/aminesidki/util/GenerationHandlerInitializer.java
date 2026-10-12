@@ -1,6 +1,7 @@
 package org.aminesidki.util;
 
 import com.github.mustachejava.MustacheFactory;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.aminesidki.generator.dependencygenerator.MapperDependencyGenerator;
 import org.aminesidki.generator.filegenerator.*;
@@ -15,64 +16,71 @@ import org.aminesidki.model.HelperMetadata;
 import org.aminesidki.model.InitializationResources;
 import org.aminesidki.model.PartialGenerationFlags;
 
-import java.util.Map;
-
-/**
- * Configures the <code>GenerationHandler</code> class to adapt it for generation
- */
+/** Configures the <code>GenerationHandler</code> class to adapt it for generation */
 @RequiredArgsConstructor
 public class GenerationHandlerInitializer {
-    private final String entityPackageName;
-    private final String defaultDir;
-    private final Map<String , EntityMetadata> emm;
-    private final Map<String , HelperMetadata> hmm;
-    private final GenerationHandler handler;
-    private final PartialGenerationFlags pGroup;
-    private final MustacheFactory mf;
+  private final String entityPackageName;
+  private final String defaultDir;
+  private final Map<String, EntityMetadata> emm;
+  private final Map<String, HelperMetadata> hmm;
+  private final GenerationHandler handler;
+  private final PartialGenerationFlags pGroup;
+  private final MustacheFactory mf;
 
-    private void initializePartialGeneration(PartialGenerationFlags pGroup , InitializationResources resources){
-        GenericImportsGenerator genericImportsGenerator = new GenericImportsGenerator();
+  private void initializePartialGeneration(
+      PartialGenerationFlags pGroup, InitializationResources resources) {
+    GenericImportsGenerator genericImportsGenerator = new GenericImportsGenerator();
 
-        if(pGroup.rFlag){
-            handler.add(new RepositoryGenerator(entityPackageName, defaultDir,genericImportsGenerator, emm, hmm),
-                    resources.repoMustache(),
-                    Logger.getInstance().infoMessage("Generating repository for "));
-        }
-        if(pGroup.sFlag){
-            handler.add(new ServiceGenerator(entityPackageName, defaultDir, genericImportsGenerator, emm, hmm),
-                    resources.serviceMustache(),
-                    Logger.getInstance().infoMessage("Generating service for "));
-        }
-        if(pGroup.cFlag){
-            handler.add(new ControllerGenerator(defaultDir, genericImportsGenerator, emm, hmm),
-                    resources.controllerMustache(),
-                    Logger.getInstance().infoMessage("Generating controller for "));
-        }
-        if(pGroup.mFlag){
-            handler.add( new MapperGenerator(entityPackageName, defaultDir, new MapperImportsGenerator() , new MapperDependencyGenerator(entityPackageName), emm, hmm),
-                    resources.mapperMustache(),
-                    Logger.getInstance().infoMessage("Generating mapper for "));
-        }
-        if(pGroup.dFlag){
-            handler.add(new DtoGenerator(defaultDir, new DtoImportsGenerator(), emm, hmm),
-                    resources.dtoMustache(),
-                    Logger.getInstance().infoMessage("Generating dto for "));
-        }
-        if(pGroup.eFlag){
-            handler.add(new ResourceNotFoundExceptionGenerator(defaultDir),
-                    resources.exceptionMustache(),
-                    Logger.getInstance().infoMessage("Generating ResourceNotFoundException"));
-        }
+    if (pGroup.rFlag) {
+      handler.add(
+          new RepositoryGenerator(entityPackageName, defaultDir, genericImportsGenerator, emm, hmm),
+          resources.repoMustache(),
+          Logger.getInstance().infoMessage("Generating repository for "));
     }
-
-    public void initialize(){
-        PartialGenerationFlags flags = pGroup == null ? PartialGenerationFlags.allEnabled() : pGroup;
-        final InitializationResources resources = new InitializationResourcesMapper(mf).map(flags);
-
-        handler.add(new HelpMdGenerator(defaultDir),
-                resources.helpMdMustache(),
-                null);
-
-        initializePartialGeneration(flags , resources);
+    if (pGroup.sFlag) {
+      handler.add(
+          new ServiceGenerator(entityPackageName, defaultDir, genericImportsGenerator, emm, hmm),
+          resources.serviceMustache(),
+          Logger.getInstance().infoMessage("Generating service for "));
     }
+    if (pGroup.cFlag) {
+      handler.add(
+          new ControllerGenerator(defaultDir, genericImportsGenerator, emm, hmm),
+          resources.controllerMustache(),
+          Logger.getInstance().infoMessage("Generating controller for "));
+    }
+    if (pGroup.mFlag) {
+      handler.add(
+          new MapperGenerator(
+              entityPackageName,
+              defaultDir,
+              new MapperImportsGenerator(),
+              new MapperDependencyGenerator(entityPackageName),
+              emm,
+              hmm),
+          resources.mapperMustache(),
+          Logger.getInstance().infoMessage("Generating mapper for "));
+    }
+    if (pGroup.dFlag) {
+      handler.add(
+          new DtoGenerator(defaultDir, new DtoImportsGenerator(), emm, hmm),
+          resources.dtoMustache(),
+          Logger.getInstance().infoMessage("Generating dto for "));
+    }
+    if (pGroup.eFlag) {
+      handler.add(
+          new ResourceNotFoundExceptionGenerator(defaultDir),
+          resources.exceptionMustache(),
+          Logger.getInstance().infoMessage("Generating ResourceNotFoundException"));
+    }
+  }
+
+  public void initialize() {
+    PartialGenerationFlags flags = pGroup == null ? PartialGenerationFlags.allEnabled() : pGroup;
+    final InitializationResources resources = new InitializationResourcesMapper(mf).map(flags);
+
+    handler.add(new HelpMdGenerator(defaultDir), resources.helpMdMustache(), null);
+
+    initializePartialGeneration(flags, resources);
+  }
 }

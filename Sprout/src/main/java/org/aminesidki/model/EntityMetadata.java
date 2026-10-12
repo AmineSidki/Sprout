@@ -12,13 +12,13 @@ import java.util.List;
  * @param fields list containing the metadata of the fields in the entity
  * @param lightFields list containing (in case entity has a projection) the projection fields
  */
-public record EntityMetadata(String packageName,
-                             String className,
-                             FieldMetadata id,
-                             boolean hasProjection,
-                             boolean isPaginated,
-                             boolean isIgnored,
-                             boolean isCached,
-                             List<FieldMetadata> fields,
-                             List<FieldMetadata> lightFields) {
-}
+public record EntityMetadata(
+    String packageName,
+    String className,
+    FieldMetadata id,
+    boolean hasProjection,
+    boolean isPaginated,
+    boolean isIgnored,
+    boolean isCached,
+    List<FieldMetadata> fields,
+    List<FieldMetadata> lightFields) {}

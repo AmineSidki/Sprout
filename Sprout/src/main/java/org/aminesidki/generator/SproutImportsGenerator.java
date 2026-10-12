@@ -1,14 +1,14 @@
 package org.aminesidki.generator;
 
+import java.util.HashSet;
+import java.util.Map;
 import org.aminesidki.model.EntityMetadata;
 import org.aminesidki.model.HelperMetadata;
 
-import java.util.HashSet;
-import java.util.Map;
-
-/**
- * Generates imports for given entity
- */
+/** Generates imports for given entity */
 public interface SproutImportsGenerator {
-    HashSet<String> generate(EntityMetadata entityMetadata, Map<String, EntityMetadata> persistenceMap , Map<String, HelperMetadata> helperMap );
+  HashSet<String> generate(
+      EntityMetadata entityMetadata,
+      Map<String, EntityMetadata> persistenceMap,
+      Map<String, HelperMetadata> helperMap);
 }

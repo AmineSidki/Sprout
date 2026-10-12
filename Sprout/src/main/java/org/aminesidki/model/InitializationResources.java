@@ -10,11 +10,11 @@ import com.github.mustachejava.Mustache;
  * @param controllerMustache controller template, is defined when needed
  * @param exceptionMustache exception template, is defined when needed
  */
-public record InitializationResources(Mustache repoMustache,
-                                      Mustache dtoMustache,
-                                      Mustache mapperMustache,
-                                      Mustache serviceMustache,
-                                      Mustache controllerMustache,
-                                      Mustache exceptionMustache,
-                                      Mustache helpMdMustache) {
-}
+public record InitializationResources(
+    Mustache repoMustache,
+    Mustache dtoMustache,
+    Mustache mapperMustache,
+    Mustache serviceMustache,
+    Mustache controllerMustache,
+    Mustache exceptionMustache,
+    Mustache helpMdMustache) {}

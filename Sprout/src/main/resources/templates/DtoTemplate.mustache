@@ -5,9 +5,6 @@ import java.io.Serializable;
 import {{.}};
 {{/Imports}}
 
-/**
-* {{#isProjection}}Projection{{/isProjection}}{{^isProjection}}Dto{{/isProjection}} for {@link {{PackageName}}.entity.{{ClassName}} }
-*/
 public record {{ClassName}}{{#isProjection}}Projection{{/isProjection}}{{^isProjection}}Dto{{/isProjection}} (
 {{#Fields}}
     {{{field.type.regularName}}} {{field.name}}{{^last}},{{/last}}

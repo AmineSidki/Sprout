@@ -1,16 +1,6 @@
 package org.aminesidki.generator.filegenerator;
 
 import com.github.mustachejava.Mustache;
-import lombok.RequiredArgsConstructor;
-import org.aminesidki.exception.FileSystemException;
-import org.aminesidki.generator.importsgenerator.DtoImportsGenerator;
-import org.aminesidki.generator.SproutFileGenerator;
-import org.aminesidki.model.EntityMetadata;
-import org.aminesidki.model.FieldMetadata;
-import org.aminesidki.model.HelperMetadata;
-import org.aminesidki.util.DtoFieldMapper;
-import org.aminesidki.util.FileCreator;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -19,67 +9,84 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.aminesidki.exception.FileSystemException;
+import org.aminesidki.generator.SproutFileGenerator;
+import org.aminesidki.generator.importsgenerator.DtoImportsGenerator;
+import org.aminesidki.model.EntityMetadata;
+import org.aminesidki.model.FieldMetadata;
+import org.aminesidki.model.HelperMetadata;
+import org.aminesidki.util.DtoFieldMapper;
+import org.aminesidki.util.FileCreator;
 
-/**
- * Specific implementation for dto classes generation of the <code>SproutFileGenerator</code>
- */
+/** Specific implementation for dto classes generation of the <code>SproutFileGenerator</code> */
 @RequiredArgsConstructor
 public class DtoGenerator implements SproutFileGenerator {
-    private final String defaultDir;
-    private final DtoImportsGenerator dtoImportsGenerator;
-    private final Map<String, EntityMetadata> persistenceMetadata;
-    private final Map <String, HelperMetadata> helperMetadata;
+  private final String defaultDir;
+  private final DtoImportsGenerator dtoImportsGenerator;
+  private final Map<String, EntityMetadata> persistenceMetadata;
+  private final Map<String, HelperMetadata> helperMetadata;
 
-    private record RecordFieldView(FieldMetadata field , boolean last){} ;
+  private record RecordFieldView(FieldMetadata field, boolean last) {}
+  ;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache) throws IOException, FileSystemException {
-        File dtoFile = FileCreator.createFile(entityMetadata.className(), "Dto", defaultDir);
+  public void generate(EntityMetadata entityMetadata, Mustache mustache)
+      throws IOException, FileSystemException {
+    File dtoFile = FileCreator.createFile(entityMetadata.className(), "Dto", defaultDir);
 
-        File projectionFile = null;
-        if(entityMetadata.hasProjection()){
-            projectionFile = FileCreator.createFile(entityMetadata.className(), "Projection", defaultDir);
-        }
-
-        List <FieldMetadata> fields = DtoFieldMapper.mapToDtoField(entityMetadata.fields() , persistenceMetadata, helperMetadata);
-
-
-        //Generating regular DTO
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dtoFile))) {
-            HashMap <String,Object> dtoContext = new HashMap <>();
-
-            HashSet<String> imports = dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
-
-            dtoContext.put("Imports" , imports);
-            dtoContext.put("PackageName", entityMetadata.packageName());
-            dtoContext.put("ClassName", entityMetadata.className());
-            dtoContext.put("IdType", entityMetadata.id().type().regularName());
-            dtoContext.put("Fields", fields.stream()
-                    .map(f -> new RecordFieldView(f, f == fields.get(fields.size() - 1)))
-                    .toList());
-
-            mustache.execute(writer, dtoContext);
-        }
-
-        //In case of projection, generate projection too
-        if(entityMetadata.hasProjection()){
-            List<FieldMetadata> lightFields = DtoFieldMapper.mapToDtoField(entityMetadata.lightFields(), persistenceMetadata, helperMetadata);
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(projectionFile))) {
-                HashMap <String,Object> dtoContext = new HashMap <>();
-
-                HashSet<String> imports = dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
-
-                dtoContext.put("ClassName", entityMetadata.className());
-                dtoContext.put("PackageName", entityMetadata.packageName());
-                dtoContext.put("IdType", entityMetadata.id().type().regularName());
-                dtoContext.put("Imports" , imports);
-                dtoContext.put("isProjection" , true);
-                dtoContext.put("Fields", lightFields.stream()
-                        .map(f -> new RecordFieldView(f, f == lightFields.get(lightFields.size() - 1)))
-                        .toList());
-
-                mustache.execute(writer, dtoContext);
-            }
-        }
+    File projectionFile = null;
+    if (entityMetadata.hasProjection()) {
+      projectionFile = FileCreator.createFile(entityMetadata.className(), "Projection", defaultDir);
     }
+
+    List<FieldMetadata> fields =
+        DtoFieldMapper.mapToDtoField(entityMetadata.fields(), persistenceMetadata, helperMetadata);
+
+    // Generating regular DTO
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(dtoFile))) {
+      HashMap<String, Object> dtoContext = new HashMap<>();
+
+      HashSet<String> imports =
+          dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
+
+      dtoContext.put("Imports", imports);
+      dtoContext.put("PackageName", entityMetadata.packageName());
+      dtoContext.put("ClassName", entityMetadata.className());
+      dtoContext.put("IdType", entityMetadata.id().type().regularName());
+      dtoContext.put(
+          "Fields",
+          fields.stream()
+              .map(f -> new RecordFieldView(f, f == fields.get(fields.size() - 1)))
+              .toList());
+
+      mustache.execute(writer, dtoContext);
+    }
+
+    // In case of projection, generate projection too
+    if (entityMetadata.hasProjection()) {
+      List<FieldMetadata> lightFields =
+          DtoFieldMapper.mapToDtoField(
+              entityMetadata.lightFields(), persistenceMetadata, helperMetadata);
+
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(projectionFile))) {
+        HashMap<String, Object> dtoContext = new HashMap<>();
+
+        HashSet<String> imports =
+            dtoImportsGenerator.generate(entityMetadata, persistenceMetadata, helperMetadata);
+
+        dtoContext.put("ClassName", entityMetadata.className());
+        dtoContext.put("PackageName", entityMetadata.packageName());
+        dtoContext.put("IdType", entityMetadata.id().type().regularName());
+        dtoContext.put("Imports", imports);
+        dtoContext.put("isProjection", true);
+        dtoContext.put(
+            "Fields",
+            lightFields.stream()
+                .map(f -> new RecordFieldView(f, f == lightFields.get(lightFields.size() - 1)))
+                .toList());
+
+        mustache.execute(writer, dtoContext);
+      }
+    }
+  }
 }

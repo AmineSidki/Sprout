@@ -1,9 +1,10 @@
 package org.aminesidki.runnable;
 
-public class HelpRunnable implements Runnable{
-    @Override
-    public void run() {
-        String helpMenu = """
+public class HelpRunnable implements Runnable {
+  @Override
+  public void run() {
+    String helpMenu =
+        """
         ┌──────────────┬───────────┬──────────────────────────────────────────────┐
         │ Flag         │ Shortened │ Effect                                       │
         ├──────────────┼───────────┼──────────────────────────────────────────────┤
@@ -19,6 +20,6 @@ public class HelpRunnable implements Runnable{
         └──────────────┴───────────┴──────────────────────────────────────────────┘
         """;
 
-        System.out.println(helpMenu);
-    }
+    System.out.println(helpMenu);
+  }
 }
