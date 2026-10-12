@@ -25,18 +25,19 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class DtoGenerator implements SproutFileGenerator {
+    private final String defaultDir;
     private final DtoImportsGenerator dtoImportsGenerator;
     private final Map<String, EntityMetadata> persistenceMetadata;
     private final Map <String, HelperMetadata> helperMetadata;
 
     private record RecordFieldView(FieldMetadata field , boolean last){} ;
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
-        File dtoFile = FileCreator.createFile(entityMetadata.className(), "Dto", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache) throws IOException, FileSystemException {
+        File dtoFile = FileCreator.createFile(entityMetadata.className(), "Dto", defaultDir);
 
         File projectionFile = null;
         if(entityMetadata.hasProjection()){
-            projectionFile = FileCreator.createFile(entityMetadata.className(), "Projection", defDir);
+            projectionFile = FileCreator.createFile(entityMetadata.className(), "Projection", defaultDir);
         }
 
         List <FieldMetadata> fields = DtoFieldMapper.mapToDtoField(entityMetadata.fields() , persistenceMetadata, helperMetadata);

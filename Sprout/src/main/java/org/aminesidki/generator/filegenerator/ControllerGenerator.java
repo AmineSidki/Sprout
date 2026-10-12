@@ -21,13 +21,14 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class ControllerGenerator implements SproutFileGenerator {
+    private final String defaultDir;
     private final GenericImportsGenerator genericImportsGenerator;
     private final Map<String , EntityMetadata> em;
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache, String defDir) throws IOException, FileSystemException {
-        File controllerFile = FileCreator.createFile(entityMetadata.className(), "Controller", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache) throws IOException, FileSystemException {
+        File controllerFile = FileCreator.createFile(entityMetadata.className(), "Controller", defaultDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(controllerFile))) {
             HashMap<String, Object> controllerContext = new HashMap<>();

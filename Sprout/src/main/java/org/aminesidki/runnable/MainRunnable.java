@@ -35,14 +35,16 @@ public class MainRunnable implements Runnable{
         System.out.println(Logger.getInstance().stepMessage(1, TOTAL_STEPS, "Computing project root"));
 
         List<String> entityPackageNames = List.of("entity", "entities", "domain", "model", "models");
-
+        String packageName = null;
         File[] files = null;
 
         for(String name : entityPackageNames){
             File entityPackage = new File(defaultDir + File.separator + name);
             files = entityPackage.listFiles();
-
-            if(files != null) break;
+            if(files != null){
+                packageName = name;
+                break;
+            }
         }
 
         if(files == null){
@@ -71,15 +73,15 @@ public class MainRunnable implements Runnable{
 
         //Parsing
         JavaParserProvider javaParserProvider = new JavaParserProvider(calculatedSourceRoot.directory());
-        ParsingHandler parsingHandler = new ParsingHandler(entityMetadataMap, helperMetadataMap, javaParserProvider);
+        ParsingHandler parsingHandler = new ParsingHandler(packageName, entityMetadataMap, helperMetadataMap, javaParserProvider);
         parsingHandler.parse(files);
 
         System.out.println(Logger.getInstance().infoMessage("Successfully parsed project classes"));
         System.out.println(Logger.getInstance().stepMessage(3, TOTAL_STEPS, "Generating files"));
 
         //Generation pre-processing
-        GenerationHandler generationHandler = new GenerationHandler(defaultDir , entityMetadataMap, calculatedSourceRoot.packageName());
-        GenerationHandlerInitializer initializer = new GenerationHandlerInitializer(entityMetadataMap, helperMetadataMap, generationHandler, partialGenerationFlags, mf);
+        GenerationHandler generationHandler = new GenerationHandler(entityMetadataMap, calculatedSourceRoot.packageName());
+        GenerationHandlerInitializer initializer = new GenerationHandlerInitializer(packageName, defaultDir, entityMetadataMap, helperMetadataMap, generationHandler, partialGenerationFlags, mf);
 
         //Generation
         initializer.initialize();

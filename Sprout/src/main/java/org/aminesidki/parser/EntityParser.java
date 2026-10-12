@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class EntityParser implements SproutParser<EntityMetadata>{
 
     @Override
-    public EntityMetadata parse(CompilationUnit cu , String entity) throws FileNotFoundException , ParsingException{
+    public EntityMetadata parse(CompilationUnit cu , String entity, String entityPackageName) throws FileNotFoundException , ParsingException{
 
         String packageName ,idQualifiedName;
         TypeMetadata idType;
@@ -37,7 +37,7 @@ public class EntityParser implements SproutParser<EntityMetadata>{
         //Get the full Package name: com.example.packageName.etc.entity
         packageName = ParserUtil.getPackageName(cu.getPackageDeclaration()
                 .map(PackageDeclaration::getNameAsString)
-                .orElseThrow(()-> new ParsingException("No package found !")));
+                .orElseThrow(()-> new ParsingException("No package found !")), "." + entityPackageName);
 
         List<FieldDeclaration> fdList =  cu.findAll(FieldDeclaration.class);
         FieldDeclaration idFd;

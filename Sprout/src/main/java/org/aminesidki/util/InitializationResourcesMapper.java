@@ -16,6 +16,8 @@ public class InitializationResourcesMapper {
 
     public InitializationResources map(PartialGenerationFlags pGroup){
         //Compiling templates
+        Mustache helpMdMustache = mf.compile("templates/HelpMdTemplate.mustache");
+
         Mustache repoMustache =
                 pGroup.rFlag ?
                         mf.compile("templates/RepositoryTemplate.mustache") : null;
@@ -36,6 +38,6 @@ public class InitializationResourcesMapper {
                         mf.compile("templates/ExceptionTemplate.mustache") : null;
 
         return new InitializationResources(repoMustache, dtoMustache, mapperMustache,
-                serviceMustache, controllerMustache, exceptionMustache);
+                serviceMustache, controllerMustache, exceptionMustache, helpMdMustache);
     }
 }

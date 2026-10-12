@@ -15,5 +15,6 @@ public record InitializationResources(Mustache repoMustache,
                                       Mustache mapperMustache,
                                       Mustache serviceMustache,
                                       Mustache controllerMustache,
-                                      Mustache exceptionMustache) {
+                                      Mustache exceptionMustache,
+                                      Mustache helpMdMustache) {
 }

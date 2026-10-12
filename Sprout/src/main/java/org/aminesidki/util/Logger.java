@@ -25,6 +25,10 @@ public class Logger {
         return CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,red  ERROR|@ --- @|magenta [Sprout]|@ : " + message);
     }
 
+    public String warningMessage(String message){
+        return CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : " + message);
+    }
+
     public String stepMessage(int current, int end, String step){
         return CommandLine.Help.Ansi.AUTO.string("@|bold Pass " + current + "/" + end + " : " + step + " |@ \n");
     }

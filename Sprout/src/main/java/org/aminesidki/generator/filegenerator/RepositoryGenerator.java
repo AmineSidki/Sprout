@@ -21,19 +21,22 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class RepositoryGenerator implements SproutFileGenerator {
+    private final String entityPackageName;
+    private final String defaultDir;
     private final GenericImportsGenerator genericImportsGenerator;
     private final Map<String , EntityMetadata> em;
     private final Map<String , HelperMetadata> hm;
 
     @Override
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
-        File repoFile = FileCreator.createFile(entityMetadata.className(), "Repository", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache) throws IOException , FileSystemException{
+        File repoFile = FileCreator.createFile(entityMetadata.className(), "Repository", defaultDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(repoFile))) {
             HashMap<String, Object> repoContext = new HashMap<>();
 
             repoContext.put("ClassName", entityMetadata.className());
             repoContext.put("PackageName", entityMetadata.packageName());
+            repoContext.put("EntityPackageName", entityPackageName);
             repoContext.put("IdType", entityMetadata.id().type().regularName());
             repoContext.put("Imports", genericImportsGenerator.generate(entityMetadata, em, hm));
 

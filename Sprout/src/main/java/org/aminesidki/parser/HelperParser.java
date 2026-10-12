@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
 public class HelperParser implements SproutParser<HelperMetadata>{
 
     @Override
-    public HelperMetadata parse(CompilationUnit cu , String entity) throws FileNotFoundException, ParsingException {
+    public HelperMetadata parse(CompilationUnit cu , String entity, String entityPackageName) throws FileNotFoundException, ParsingException {
         //Get the full Package name: com.example.packageName.etc.entity
         String packageName = ParserUtil.getPackageName(cu.getPackageDeclaration()
                 .map(PackageDeclaration::getNameAsString)
-                .orElseThrow(()-> new ParsingException("No package found !")));
+                .orElseThrow(()-> new ParsingException("No package found !")),"." + entityPackageName);
 
         String className = entity.replaceAll(Pattern.quote(".java") , "");
         return new HelperMetadata(packageName , className );

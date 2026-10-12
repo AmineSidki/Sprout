@@ -1,0 +1,74 @@
+# Setting up your project
+
+Thanks for using Sprout to generate your application's scaffolding.
+
+The generated code relies on a few libraries. All of them are **required**, so add them before your first build to make sure the project compiles right away.
+
+## Required dependencies
+
+- **Spring Data JPA**: the generated repositories are built on JPA repositories.
+- **Spring Validation**: DTOs are validated with Bean Validation annotations, which the generated controllers use.
+- **Lombok**: cuts boilerplate and keeps the code readable. Its annotations are used in every generated component except the mappers.
+- **MapStruct**: generates the mappers at compile time, which reduces boilerplate and keeps the layers decoupled. Its annotations are used in the generated mappers.
+- **A relational database driver** (PostgreSQL, MySQL, H2, ...): the generated code never references it directly, but Spring Data JPA cannot connect to your database without one.
+
+## Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <optional>true</optional>
+    </dependency>
+    <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+    </dependency>
+    <!-- Example driver: replace with the one matching your database -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+## Annotation processors
+
+Lombok and MapStruct both run at compile time, and they must be registered in the right order. Otherwise the mappers may not see Lombok's generated getters and setters.
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </path>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>${lombok-mapstruct-binding.version}</version>
+            </path>
+            <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </path>
+        </annotationProcessorPaths>
+    </configuration>
+</plugin>
+```

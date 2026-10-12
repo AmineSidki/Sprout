@@ -37,11 +37,17 @@ public class ParserUtil {
         return nullable != null;
     }
 
-    public static String getPackageName(String entityPackageName) {
-        if (entityPackageName.endsWith(".entity")) {
-            return entityPackageName.substring(0, entityPackageName.lastIndexOf(".entity"));
+    /**
+     * Gets the base project package name
+     * @param initialEntityPackageName Package name in the file
+     * @param entityPackageName Package name to take off ; Should be appended with "." in the start
+     * @return The name of the package without the entity subpackage
+     */
+    public static String getPackageName(String initialEntityPackageName, String entityPackageName) {
+        if (initialEntityPackageName.endsWith(entityPackageName)) {
+            return initialEntityPackageName.substring(0, initialEntityPackageName.lastIndexOf(entityPackageName));
         }
-        return entityPackageName;
+        return initialEntityPackageName;
     }
 
     public static List<FieldMetadata> getFieldMetadata(FieldDeclaration fd) {

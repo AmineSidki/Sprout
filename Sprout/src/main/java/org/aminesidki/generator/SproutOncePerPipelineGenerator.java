@@ -9,5 +9,5 @@ import java.io.IOException;
 *   Generates components that only need to be generated once per project
 */
 public interface SproutOncePerPipelineGenerator{
-    void generate(Mustache mustache, String defDir, String packageName) throws IOException, FileSystemException ;
+    void generate(Mustache mustache, String packageName) throws IOException, FileSystemException ;
 }

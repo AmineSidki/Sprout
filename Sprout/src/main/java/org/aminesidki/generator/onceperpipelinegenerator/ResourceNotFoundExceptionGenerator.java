@@ -17,10 +17,11 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class ResourceNotFoundExceptionGenerator implements SproutOncePerPipelineGenerator {
+    private final String defaultDir;
 
     @Override
-    public void generate(Mustache mustache, String defDir, String packageName) throws IOException, FileSystemException {
-        File exceptionFile = FileCreator.createFile("ResourceNotFound", "Exception", defDir);
+    public void generate(Mustache mustache, String packageName) throws IOException, FileSystemException {
+        File exceptionFile = FileCreator.createFile("ResourceNotFound", "Exception", defaultDir);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(exceptionFile))) {
             mustache.execute(writer, Map.of("PackageName", packageName));

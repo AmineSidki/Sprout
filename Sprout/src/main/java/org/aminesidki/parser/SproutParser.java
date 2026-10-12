@@ -10,5 +10,5 @@ import java.io.FileNotFoundException;
  * @param <T> Output of the parsing
  */
 public interface SproutParser<T> {
-    T parse(CompilationUnit cu , String entity) throws FileNotFoundException , ParsingException;
+    T parse(CompilationUnit cu , String entity, String entityPackageName) throws FileNotFoundException , ParsingException;
 }

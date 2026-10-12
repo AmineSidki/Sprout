@@ -21,6 +21,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class ParsingHandler {
+    private final String entityPackageName;
     private final Map<String, EntityMetadata> emm;
     private final Map<String, HelperMetadata> hmm;
     private final JavaParserProvider javaParserProvider;
@@ -45,11 +46,11 @@ public class ParsingHandler {
                         //Parsing AST --> EntityMetadata
                         System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,blue  INFO|@ --- @|magenta [Sprout]|@ : Parsing " + entity.getName()));
                         if(ParserUtil.hasAnnotation(cu, entity.getName(), "Entity")){
-                            EntityMetadata em = entityParser.get().parse(cu , entity.getName());
+                            EntityMetadata em = entityParser.get().parse(cu , entity.getName(), entityPackageName);
                             emm.put(em.className() , em);
                         }else{
                             System.out.println(CommandLine.Help.Ansi.AUTO.string("@|faint " + LocalDateTime.now() + "|@ @|bold,yellow  WARN|@ --- @|magenta [Sprout]|@ : No @Entity annotation in file " + entity.getName()));
-                            HelperMetadata hm = helperParser.get().parse(cu , entity.getName());
+                            HelperMetadata hm = helperParser.get().parse(cu , entity.getName(), entityPackageName);
                             hmm.put(hm.className() , hm);
                         }
                     } catch (ParsingException | FileNotFoundException e){

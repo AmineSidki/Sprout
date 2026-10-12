@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 public class MapperGenerator implements SproutFileGenerator {
+    private final String entityPackageName;
+    private final String defaultDir;
     private final MapperImportsGenerator mapperImportsGenerator;
     private final MapperDependencyGenerator mapperDependencyGen;
     private final Map<String, EntityMetadata> persistenceMap;
@@ -36,8 +38,8 @@ public class MapperGenerator implements SproutFileGenerator {
     public record DependencyView(String type, String name) {};
     public record AssociationView(FieldMetadata field , FieldMetadata id , boolean multiple , String className) {};
 
-    public void generate(EntityMetadata entityMetadata, Mustache mustache , String defDir) throws IOException , FileSystemException{
-        File mapperFile = FileCreator.createFile(entityMetadata.className(), "Mapper", defDir);
+    public void generate(EntityMetadata entityMetadata, Mustache mustache) throws IOException , FileSystemException{
+        File mapperFile = FileCreator.createFile(entityMetadata.className(), "Mapper", defaultDir);
 
         List<FieldMetadata> fields = entityMetadata.fields().stream()
                 .filter(f -> f.association().equals(Association.DEFAULT))
@@ -98,6 +100,7 @@ public class MapperGenerator implements SproutFileGenerator {
 
             mapperContext.put("ClassName", entityMetadata.className());
             mapperContext.put("PackageName", entityMetadata.packageName());
+            mapperContext.put("EntityPackageName", entityPackageName);
             mapperContext.put("IdType", entityMetadata.id().type().regularName());
             mapperContext.put("Fields" , fields);
             mapperContext.put("Imports" , imports);

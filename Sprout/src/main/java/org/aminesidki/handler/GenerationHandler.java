@@ -6,7 +6,6 @@ import org.aminesidki.exception.FileSystemException;
 import org.aminesidki.generator.SproutFileGenerator;
 import org.aminesidki.generator.SproutOncePerPipelineGenerator;
 import org.aminesidki.model.EntityMetadata;
-import org.aminesidki.util.FileCreator;
 import org.aminesidki.util.Logger;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class GenerationHandler {
-    private final String defaultDir;
     private final Map<String, EntityMetadata> emm;
     private final String packageName;
 
@@ -37,8 +35,8 @@ public class GenerationHandler {
     public void generate(){
         for(OncePerPipelineGeneratorView gen : oncePerPipelineGeneratorList){
             try{
-                gen.generator().generate(gen.mustache(), defaultDir,packageName);
-                System.out.println(gen.generationMessage());
+                gen.generator().generate(gen.mustache(), packageName);
+                if(gen.generationMessage != null) System.out.println(gen.generationMessage());
             }catch(IOException e){
                 throw new FileSystemException("Failure while running the following operation : " + gen.generationMessage());
             } catch (FileSystemException fsE) {
@@ -51,7 +49,7 @@ public class GenerationHandler {
             if(em.isIgnored()) continue;
             try {
                 for(FileGeneratorView gen : fileGeneratorList){
-                    gen.generator().generate(em , gen.mustache(), defaultDir);
+                    gen.generator().generate(em , gen.mustache());
                     System.out.println(gen.generationMessage() + em.className());
                 }
             } catch (IOException e) {
