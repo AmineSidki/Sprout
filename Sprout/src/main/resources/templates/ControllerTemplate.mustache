@@ -48,7 +48,7 @@ public class {{ClassName}}Controller{
         return ResponseEntity.ok({{className}}Service.save(dto));
     }
 
-    @PutMapping("/{id})
+    @PutMapping("/{id}")
     public ResponseEntity<{{ClassName}}Dto> update(@PathVariable {{IdType}} id, @Valid @RequestBody {{ClassName}}Dto dto) {
         return ResponseEntity.ok({{className}}Service.update(id, dto));
     }
