@@ -181,7 +181,7 @@ Templates live under `src/main/resources/templates/` and include:
 - `AnnotationTemplate.mustache` (used by `sprout init`)
 - `HelpMdTemplate.mustache`
 
-The templates expect the metadata records produced by the parser (`EntityMetadata`, `FieldMetadata`, `TypeMetadata` and so on). The DTO template doubles as the projection template: the `isLight` flag switches the package, class name suffix and Javadoc header accordingly.
+The templates expect the metadata records produced by the parser (`EntityMetadata`, `FieldMetadata`, `TypeMetadata` and so on). The DTO template doubles as the projection template: the `isProjection` flag switches the package, class name suffix and Javadoc header accordingly.
 
 
 ## Design notes
